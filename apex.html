@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apex Motus — Corporate Holding Company</title>
+  <meta name="description" content="Apex Motus is a corporate holding company building dominant, future‑ready ventures, products, and services." />
+  <meta name="author" content="Apex Motus" />
+  <meta name="theme-color" content="#0a1028" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ========================
+       Brand System — Apex Motus
+       Palette: Trustworthy, Royal, Futuristic, Technological, Psychological, Dominant
+       ======================== */
+    :root {
+      --am-navy: #0a1028;     /* Deep Night Navy (trust, dominance) */
+      --am-ink:  #0f1738;     /* Ink */
+      --am-royal:#1c2ca3;     /* Royal Blue */
+      --am-plum: #3b1c5a;     /* Psychological Violet */
+      --am-cyan: #22d3ee;     /* Tech Cyan */
+      --am-gold: #d4af37;     /* Royal Accent */
+      --am-slate:#94a3b8;     /* Muted text */
+      --am-bg:   #ffffff;
+      --am-card: #f6f8fb;
+      --shadow:  0 10px 30px rgba(10,16,40,.18);
+      --ring:    rgba(34,211,238,.35);
+    }
+    [data-theme="dark"] {
+      --am-bg:   #0a1028;
+      --am-card: #0f1738;
+      --am-slate:#b9c3d6;
+      --shadow:  0 10px 30px rgba(0,0,0,.55);
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--am-bg); color: #e9edf3; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; line-height: 1.6; }
+    body[data-theme="light"] { color: #0e1426; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* Header */
+    header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(180%) blur(8px); background: color-mix(in oklab, var(--am-bg), transparent 12%); border-bottom: 1px solid color-mix(in oklab, var(--am-slate), transparent 70%); }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .brand { display:flex; align-items:center; gap:12px; font-weight: 800; letter-spacing: .3px; }
+    .brand-name { font-family: "Space Grotesk", Inter, sans-serif; font-weight:700; font-size: 20px; }
+    .logo { width: 40px; height: 40px; border-radius: 12px; display:grid; place-items:center; background: radial-gradient(circle at 35% 35%, var(--am-cyan), transparent 55%), linear-gradient(135deg, var(--am-royal), var(--am-plum)); box-shadow: var(--shadow); }
+    .logo svg { width: 26px; height: 26px; display:block; }
+    nav ul { display:flex; gap: 22px; list-style:none; margin:0; padding:0; }
+    .nav a { opacity:.9; font-weight:600; }
+    .nav a:hover { opacity:1; }
+    .actions { display:flex; align-items:center; gap:12px; }
+    .btn { display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius: 12px; border: 1px solid color-mix(in oklab, var(--am-cyan), transparent 65%); background: color-mix(in oklab, var(--am-cyan), var(--am-bg) 92%); font-weight:700; color: inherit; }
+    .btn:hover { border-color: color-mix(in oklab, var(--am-cyan), transparent 35%); }
+    .icon-btn { width: 40px; height: 40px; display:grid; place-items:center; border-radius: 12px; border:1px solid color-mix(in oklab, var(--am-slate), transparent 70%); background: var(--am-card); }
+    .mobile-toggle { display:none; }
+
+    /* Sections & Typography */
+    h1, h2, h3, h4 { font-family: "Space Grotesk", Inter, sans-serif; letter-spacing:.2px; }
+    h1 { font-size: clamp(32px, 5vw, 56px); line-height:1.05; margin:12px 0 16px; font-weight:700; }
+    h2 { font-size: clamp(24px,3.5vw,36px); margin:0; }
+    .eyebrow { color: var(--am-gold); font-weight:800; letter-spacing:.14em; text-transform: uppercase; font-size: 12px; }
+    .lede { font-size: clamp(16px, 2.2vw, 20px); color: var(--am-slate); max-width: 65ch; }
+
+    section { padding: 72px 0; }
+    .section-h { display:flex; align-items:end; justify-content: space-between; gap:24px; margin-bottom: 28px; }
+    .section-h p { color: var(--am-slate); max-width: 60ch; }
+
+    .cards { display:grid; grid-template-columns: repeat(12, minmax(0,1fr)); gap: 16px; }
+    .card { grid-column: span 4; background: var(--am-card); border:1px solid color-mix(in oklab, var(--am-slate), transparent 70%); border-radius: 20px; padding: 20px; box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .15s ease; }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(0,0,0,.12); }
+    .badge { display:inline-block; font-size:12px; font-weight:700; letter-spacing:.04em; padding:6px 10px; border-radius:999px; background: color-mix(in oklab, var(--am-royal), var(--am-bg) 86%); border:1px solid color-mix(in oklab, var(--am-royal), transparent 55%); }
+    .chip { padding:8px 12px; border-radius:999px; background: color-mix(in oklab, var(--am-card), var(--am-cyan) 9%); border:1px dashed color-mix(in oklab, var(--am-cyan), transparent 60%); font-size:13px; }
+    .kpi { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; background: color-mix(in oklab, var(--am-cyan), var(--am-bg) 93%); border:1px solid color-mix(in oklab, var(--am-cyan), transparent 60%); font-weight:700; }
+
+    /* Hero */
+    .hero { position: relative; overflow:hidden; background: linear-gradient(180deg, color-mix(in oklab, var(--am-navy), var(--am-bg) 75%), var(--am-bg)); }
+    .hero .container { display:grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items:center; padding: 80px 20px; }
+    .orb { position:absolute; right:-10vw; top:-10vh; width: 60vw; height:60vw; min-width:520px; pointer-events:none; background: radial-gradient(circle at 30% 40%, color-mix(in oklab, var(--am-cyan), transparent 30%), transparent 60%), radial-gradient(circle at 70% 60%, color-mix(in oklab, var(--am-royal), transparent 30%), transparent 60%); filter: blur(40px) saturate(150%); opacity:.5; }
+
+    /* Timeline */
+    .timeline { position:relative; padding-left: 24px; }
+    .timeline::before { content:""; position:absolute; left:8px; top:0; bottom:0; width:2px; background: color-mix(in oklab, var(--am-slate), transparent 60%); }
+    .t-item { position:relative; margin: 18px 0; padding-left: 18px; }
+    .t-item::before { content:""; position:absolute; left:-3px; top:8px; width:10px; height:10px; border-radius:999px; background: linear-gradient(135deg, var(--am-cyan), var(--am-royal)); box-shadow: 0 0 0 3px color-mix(in oklab, var(--am-cyan), transparent 70%); }
+
+    /* Forms */
+    form { display:grid; gap:14px; }
+    label { font-weight:600; }
+    input, select, textarea { width:100%; padding:12px 14px; border-radius:12px; border:1px solid color-mix(in oklab, var(--am-slate), transparent 65%); background: var(--am-bg); color: inherit; outline: none; }
+    input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 4px var(--ring); border-color: color-mix(in oklab, var(--am-cyan), transparent 35%); }
+
+    /* Router visibility */
+    [data-route] { display:none; }
+    [data-route].active { display:block; }
+
+    /* Grid helpers */
+    @media (max-width: 1024px) { .card { grid-column: span 6; } .hero .container { grid-template-columns: 1fr; } }
+    @media (max-width: 640px)  { .card { grid-column: span 12; } .nav ul { display:none; } .mobile-toggle{ display:inline-grid; } }
+
+    /* Footer */
+    footer { border-top:1px solid color-mix(in oklab, var(--am-slate), transparent 70%); padding: 36px 0 56px; }
+    .foot-grid { display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; }
+    @media (max-width: 880px){ .foot-grid{ grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px){ .foot-grid{ grid-template-columns: 1fr; } }
+  </style>
+  <script>
+    // Theme + Router
+    function setTheme(next){
+      document.body.setAttribute('data-theme', next);
+      try{ localStorage.setItem('am_theme', next); }catch(e){}
+    }
+    (function(){
+      const saved = (typeof localStorage !== 'undefined') ? localStorage.getItem('am_theme') : null;
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(saved || (prefersDark ? 'dark' : 'light'));
+    })();
+
+    function route(){
+      const hash = location.hash.replace(/^#\/?/, '') || 'home';
+      document.querySelectorAll('[data-route]').forEach(sec=>sec.classList.remove('active'));
+      const target = document.querySelector(`[data-route="${hash}"]`) || document.querySelector('[data-route="home"]');
+      if(target) target.classList.add('active');
+      // update nav active state (optional)
+    }
+    window.addEventListener('hashchange', route);
+    window.addEventListener('DOMContentLoaded', route);
+
+    // Contact form handler: sends an email via mailto fallback and POSTs to /api/contact if you wire a backend.
+    async function handleContactSubmit(ev){
+      ev.preventDefault();
+      const fd = new FormData(ev.target);
+      const data = Object.fromEntries(fd.entries());
+
+      // Try POST to your backend (replace with your endpoint)
+      try {
+        await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+        alert('Thanks — message sent. We will be in touch.');
+      } catch (e) {
+        // Fallback to mailto
+        const subject = encodeURIComponent(`[Apex Motus] ${data.topic || 'General Inquiry'} — ${data.name}`);
+        const body = encodeURIComponent(`Name: ${data.name}
+Email: ${data.email}
+Company: ${data.company || ''}
+Topic: ${data.topic}
+
+Message:
+${data.message}`);
+        window.location.href = `mailto:mollodagod@gmail.com?subject=${subject}&body=${body}`;
+      }
+      ev.target.reset();
+    }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Apex Motus",
+    "url": "https://www.apexmotus.example",
+    "description": "Corporate holding company building dominant, future‑ready ventures.",
+    "logo": "https://www.apexmotus.example/logo.png",
+    "brand": {"@type": "Brand", "name": "Apex Motus"},
+    "owns": [
+      {"@type":"Organization","name":"tseboIQ","description":"Skills graph + matching platform in active build."}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#/home" aria-label="Apex Motus Home">
+        <span class="logo" aria-hidden="true">
+          <!-- Minimal Jaguar/Hunter/Tech monogram -->
+          <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" role="img">
+            <path d="M10 28c8-12 20-18 33-14 6 2 9 6 9 10 0 8-7 12-15 12H30" stroke="#e9edf3" stroke-width="3" stroke-linecap="round"/>
+            <path d="M30 36c-6 0-10 3-12 9" stroke="#e9edf3" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="45" cy="22" r="3" fill="#22d3ee"/>
+            <path d="M20 50c10-8 24-8 34-2" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="28" cy="44" r="2" fill="#22d3ee"/>
+            <circle cx="52" cy="48" r="2" fill="#22d3ee"/>
+          </svg>
+        </span>
+        <span class="brand-name">Apex Motus</span>
+      </a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#/home">Home</a></li>
+          <li><a href="#/portfolio">Portfolio</a></li>
+          <li><a href="#/services">Services</a></li>
+          <li><a href="#/subsidiary-tseboiq">tseboIQ</a></li>
+          <li><a href="#/contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="actions">
+        <button class="icon-btn" title="Toggle theme" aria-label="Toggle light/dark" onclick="setTheme(document.body.getAttribute('data-theme')==='dark'?'light':'dark')">🌓</button>
+        <button class="icon-btn mobile-toggle" aria-label="Open menu" onclick="document.querySelector('nav ul').style.display = (document.querySelector('nav ul').style.display==='flex'?'none':'flex')">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ============ HOME (Landing) ============ -->
+    <section data-route="home" class="hero active">
+      <div class="orb" aria-hidden="true"></div>
+      <div class="container">
+        <div>
+          <div class="chip">Corporate Holding Company • Johannesburg, South Africa</div>
+          <div class="eyebrow">Apex Predator Philosophy</div>
+          <h1>We hunt for category leadership — then engineer it to last.</h1>
+          <p class="lede">Apex Motus is a corporate holding company. We design and operate ventures to be the best in their industries: trusted, future‑ready, and technologically dominant. Systems over heroics. Cash‑flow before vanity. Compounding forever.</p>
+          <div class="hero-cta" style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;">
+            <a class="btn" href="#/portfolio">Explore portfolio</a>
+            <a class="btn" style="background:color-mix(in oklab, var(--am-royal), var(--am-bg) 90%)" href="#/thesis">Read our thesis</a>
+          </div>
+        </div>
+        <div>
+          <div class="cards">
+            <div class="card" style="grid-column: span 12;">
+              <div class="kpi">👑 Trust • 🧠 Technology • 🛡️ Discipline • ⚡ Dominance</div>
+            </div>
+            <div class="card"><span class="badge">Corporate</span><h3>Holding Company</h3><p>Structured as a corporate with centralized shared services. Built for stability, speed, and optionality.</p></div>
+            <div class="card"><span class="badge">Automation</span><h3>Operate Lean</h3><p>Documentation, SOPs, and automation that create leverage across all brands.</p></div>
+            <div class="card"><span class="badge">Focus</span><h3>Apex Predator</h3><p>We only build where we can be #1 in the space, not #also‑ran.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THESIS ============ -->
+    <section data-route="thesis" id="thesis">
+      <div class="container">
+        <div class="section-h">
+          <h2>Investment Thesis</h2>
+          <p>We pursue ventures with recurring revenue, strong unit economics, and defensible moats. Our edge is operational design: shared services and software that compound across the portfolio.</p>
+        </div>
+        <div class="timeline">
+          <div class="t-item"><strong>01 • Hunt the right prey.</strong> Problem–solution fit and real distribution before we commit.</div>
+          <div class="t-item"><strong>02 • Systems before scale.</strong> Document, automate, templatize. Reuse across brands.</div>
+          <div class="t-item"><strong>03 • Cash‑flow compounding.</strong> Reinvest steady profits, not hype. Build anti‑fragility.</div>
+          <div class="t-item"><strong>04 • Governance & risk.</strong> Controls that protect the downside while enabling decisive moves.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PORTFOLIO ============ -->
+    <section data-route="portfolio" id="portfolio">
+      <div class="container">
+        <div class="section-h">
+          <h2>Portfolio & Incubations</h2>
+          <p>Public brand pages will appear as ventures move from incubation to growth. We are currently building <strong>tseboIQ</strong>.</p>
+        </div>
+        <div class="cards">
+          <div class="card"><span class="badge">HRTech • In Build</span><h3>tseboIQ</h3><p>Skills graph + matching platform connecting talent and companies with reputation‑weighted references.</p><p><a class="btn" href="#/subsidiary-tseboiq">View details</a></p></div>
+          <div class="card"><span class="badge">Pipeline</span><h3>New Ventures</h3><p>We evaluate opportunities with asymmetric upside and clear distribution advantages.</p></div>
+          <div class="card"><span class="badge">Partnerships</span><h3>Co‑build</h3><p>Have distribution or data? We co‑build where our shared services unlock leadership.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SHARED SERVICES ============ -->
+    <section data-route="services" id="services">
+      <div class="container">
+        <div class="section-h">
+          <h2>Shared Services</h2>
+          <p>Centralized capabilities each subsidiary can plug into for speed, quality, and cost efficiency.</p>
+        </div>
+        <div class="cards">
+          <div class="card"><h3>Engineering</h3><p>Full‑stack web & mobile, DevOps, Azure, data & AI.</p></div>
+          <div class="card"><h3>Growth</h3><p>Brand, performance marketing, content systems, partnerships.</p></div>
+          <div class="card"><h3>Finance</h3><p>Capital allocation, FP&A, treasury, portfolio reporting.</p></div>
+          <div class="card"><h3>People</h3><p>Talent network, contracting, leadership development.</p></div>
+          <div class="card"><h3>Legal & Risk</h3><p>Contracts, IP, compliance, governance.</p></div>
+          <div class="card"><h3>Operations</h3><p>SOPs, automation, vendor management.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SUBSIDIARY DETAIL (tseboIQ) ============ -->
+    <section data-route="subsidiary-tseboiq" id="subsidiary-tseboiq">
+      <div class="container">
+        <div class="section-h">
+          <h2>tseboIQ — Subsidiary Detail</h2>
+          <p>HRTech platform (in build) that maps skills, experience, certifications, and reputation signals to match talent with companies.</p>
+        </div>
+        <div class="cards">
+          <div class="card" style="grid-column: span 6;"><h3>What it solves</h3><p>Signal‑rich matching reduces hiring noise, accelerates placement, and improves retention.</p></div>
+          <div class="card" style="grid-column: span 6;"><h3>Status</h3><p>MVP architecture defined. Matching algorithm includes skills, experience, certifications, and weighted references.</p></div>
+          <div class="card" style="grid-column: span 12;"><h3>Partnerships</h3><p>Open to pilot partners (companies with hiring needs, training providers, and credential issuers).</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section data-route="contact" id="contact">
+      <div class="container">
+        <div class="section-h">
+          <h2>Contact</h2>
+          <p>Use the form below. We respond to relevant partnership and portfolio conversations.</p>
+        </div>
+        <div class="cards">
+          <div class="card" style="grid-column: span 12;">
+            <form onsubmit="handleContactSubmit(event)">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                <div><label for="name">Name</label><input id="name" name="name" required placeholder="Your full name"></div>
+                <div><label for="email">Email</label><input id="email" name="email" type="email" required placeholder="you@example.com"></div>
+                <div><label for="company">Company (optional)</label><input id="company" name="company" placeholder="Your company"></div>
+                <div><label for="topic">Topic</label>
+                  <select id="topic" name="topic" required>
+                    <option value="Partnership">Partnership</option>
+                    <option value="Portfolio Inquiry">Portfolio Inquiry</option>
+                    <option value="General">General</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="6" required placeholder="Keep it concise: problem, traction, unit economics, and your ask."></textarea>
+              </div>
+              <button class="btn" type="submit">Send message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PRIVACY ============ -->
+    <section data-route="privacy" id="privacy">
+      <div class="container">
+        <div class="section-h"><h2>Privacy Policy</h2><p>Last updated: <span id="pp-date"></span></p></div>
+        <div class="cards">
+          <div class="card" style="grid-column: span 12;">
+            <h3>Introduction</h3>
+            <p>Apex Motus ("we", "our", "us") respects your privacy. This Policy explains how we collect, use, disclose, and protect personal information when you interact with our website and services.</p>
+            <h3>Information We Collect</h3>
+            <ul>
+              <li><strong>Provided by you:</strong> name, email, company, and message content submitted via forms.</li>
+              <li><strong>Automatic:</strong> technical data (device, browser, pages visited) via cookies or similar technologies.</li>
+            </ul>
+            <h3>How We Use Information</h3>
+            <ul>
+              <li>To respond to inquiries and provide requested information.</li>
+              <li>To improve, secure, and operate our website and services.</li>
+              <li>To comply with legal obligations and enforce our terms.</li>
+            </ul>
+            <h3>Legal Bases</h3>
+            <p>We process personal data based on legitimate interests, consent (where applicable), and legal obligations.</p>
+            <h3>Sharing</h3>
+            <p>We do not sell personal data. We may share with service providers under contract, professional advisors, or authorities where required by law.</p>
+            <h3>Data Retention</h3>
+            <p>We keep personal data only as long as necessary for the purposes described or as required by law.</p>
+            <h3>Security</h3>
+            <p>We implement reasonable technical and organizational measures to protect data. No method is 100% secure.</p>
+            <h3>Your Rights</h3>
+            <p>Subject to applicable law, you may request access, correction, deletion, or restriction of your data. Contact us via the form.</p>
+            <h3>International Transfers</h3>
+            <p>Where data is transferred across borders, we use appropriate safeguards permitted by law.</p>
+            <h3>Children</h3>
+            <p>Our site is not directed to children under 16 and we do not knowingly collect their data.</p>
+            <h3>Changes</h3>
+            <p>We may update this Policy from time to time. The “Last updated” date will reflect the latest revision.</p>
+            <h3>Contact</h3>
+            <p>To exercise rights or ask questions, use the contact form on this site and select “General”.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TERMS ============ -->
+    <section data-route="terms" id="terms">
+      <div class="container">
+        <div class="section-h"><h2>Terms & Conditions</h2><p>Last updated: <span id="tc-date"></span></p></div>
+        <div class="cards">
+          <div class="card" style="grid-column: span 12;">
+            <h3>Acceptance</h3>
+            <p>By accessing this site, you agree to these Terms. If you do not agree, do not use the site.</p>
+            <h3>Use of Site</h3>
+            <p>You may not misuse the site, attempt to access non‑public areas, or interfere with its operation.</p>
+            <h3>Intellectual Property</h3>
+            <p>All content is owned by Apex Motus or its licensors. No rights are granted except as expressly stated.</p>
+            <h3>Disclaimers</h3>
+            <p>Content is provided “as is” without warranties. We do not guarantee availability, accuracy, or fitness for a particular purpose.</p>
+            <h3>Limitation of Liability</h3>
+            <p>To the maximum extent permitted by law, we are not liable for indirect or consequential damages arising from your use of the site.</p>
+            <h3>Third‑Party Links</h3>
+            <p>Links to other sites are provided for convenience and do not imply endorsement. We are not responsible for their content.</p>
+            <h3>Changes</h3>
+            <p>We may modify these Terms at any time. Continued use constitutes acceptance of changes.</p>
+            <h3>Governing Law</h3>
+            <p>These Terms are governed by the laws of South Africa, without regard to conflict of law principles.</p>
+            <h3>Contact</h3>
+            <p>Questions about these Terms? Use the contact form and select “General”.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="container foot-grid">
+      <div>
+        <div class="brand"><span class="logo"> 
+          <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" role="img">
+            <path d="M10 28c8-12 20-18 33-14 6 2 9 6 9 10 0 8-7 12-15 12H30" stroke="#e9edf3" stroke-width="3" stroke-linecap="round"/>
+            <path d="M30 36c-6 0-10 3-12 9" stroke="#e9edf3" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="45" cy="22" r="3" fill="#22d3ee"/>
+            <path d="M20 50c10-8 24-8 34-2" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="28" cy="44" r="2" fill="#22d3ee"/>
+            <circle cx="52" cy="48" r="2" fill="#22d3ee"/>
+          </svg>
+        </span><span class="brand-name">Apex Motus</span></div>
+        <p style="max-width:50ch">Corporate holding company designing resilient, dominant ventures.</p>
+        <small>© <span id="year"></span> Apex Motus. All rights reserved.</small>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#/thesis">Thesis</a></li>
+          <li><a href="#/portfolio">Portfolio</a></li>
+          <li><a href="#/services">Shared Services</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#/privacy">Privacy Policy</a></li>
+          <li><a href="#/terms">Terms & Conditions</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#/contact">Contact Form</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('pp-date').textContent = new Date().toLocaleDateString();
+    document.getElementById('tc-date').textContent = new Date().toLocaleDateString();
+  </script>
+</body>
+</html>
