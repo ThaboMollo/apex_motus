@@ -10,29 +10,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <span className="w-10 h-10 rounded-xl grid place-items-center bg-gradient-to-br from-royal to-plum shadow-lg">
-                <svg viewBox="0 0 64 64" fill="none" className="w-6 h-6">
-                  <path
-                    d="M10 28c8-12 20-18 33-14 6 2 9 6 9 10 0 8-7 12-15 12H30"
-                    stroke="#e9edf3"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M30 36c-6 0-10 3-12 9"
-                    stroke="#e9edf3"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                  />
-                  <circle cx="45" cy="22" r="3" fill="#22d3ee" />
-                  <path
-                    d="M20 50c10-8 24-8 34-2"
-                    stroke="#22d3ee"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                  <circle cx="28" cy="44" r="2" fill="#22d3ee" />
-                  <circle cx="52" cy="48" r="2" fill="#22d3ee" />
-                </svg>
+                <img src="/apex_motus_icon_no_bg.png" alt="Apex Motus Logo" className="w-8 h-8" />
               </span>
               <span className="font-heading font-bold text-xl">Apex Motus</span>
             </div>
