@@ -1,0 +1,1832 @@
+{
+  "version": "2.10",
+  "children": [
+    {
+      "type": "frame",
+      "id": "wQ1Mq",
+      "x": 0,
+      "y": 0,
+      "name": "Sections 1–2: Hero + About",
+      "width": 1440,
+      "height": 2000,
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "owOvR",
+          "name": "Hero Section",
+          "metadata": {
+            "type": "unsplash",
+            "username": "ivanenko_pictures",
+            "link": "https://unsplash.com/@ivanenko_pictures",
+            "author": "Vladimir Ivanenko"
+          },
+          "width": "fill_container",
+          "height": 900,
+          "fill": [
+            {
+              "type": "image",
+              "opacity": 0.35,
+              "enabled": true,
+              "url": "__last_generated__",
+              "mode": "fill"
+            },
+            "#0a1028"
+          ],
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "twmZR",
+              "x": 0,
+              "y": 0,
+              "name": "nav",
+              "width": 1440,
+              "padding": [
+                32,
+                60
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "YJ7fp",
+                  "name": "logo",
+                  "fill": "#d4af37",
+                  "content": "APEX MOTUS",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 16,
+                  "fontWeight": "600",
+                  "letterSpacing": 4
+                },
+                {
+                  "type": "frame",
+                  "id": "0GlKs",
+                  "name": "navLinks",
+                  "gap": 40,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "FEAvP",
+                      "name": "navAbout",
+                      "fill": "#FFFFFFCC",
+                      "content": "About",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 14,
+                      "letterSpacing": 2
+                    },
+                    {
+                      "type": "text",
+                      "id": "6l18C",
+                      "name": "navFeat",
+                      "fill": "#FFFFFFCC",
+                      "content": "Features",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 14,
+                      "letterSpacing": 2
+                    },
+                    {
+                      "type": "text",
+                      "id": "mfxnB",
+                      "name": "navContact",
+                      "fill": "#FFFFFFCC",
+                      "content": "Contact",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 14,
+                      "letterSpacing": 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hanui",
+              "x": 320,
+              "y": 260,
+              "name": "centerBlock",
+              "width": 800,
+              "layout": "vertical",
+              "gap": 24,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ObIU6",
+                  "name": "heading",
+                  "fill": "#FFFFFF",
+                  "textGrowth": "fixed-width",
+                  "width": 800,
+                  "content": "Talk to Your\nAI Partner",
+                  "lineHeight": 1.05,
+                  "textAlign": "center",
+                  "fontFamily": "Playfair Display",
+                  "fontSize": 72,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "5gVWi",
+                  "name": "sub",
+                  "fill": "#FFFFFFBB",
+                  "textGrowth": "fixed-width",
+                  "width": 600,
+                  "content": "Unlock smarter decisions with a conversational AI built for enterprise consulting.",
+                  "lineHeight": 1.5,
+                  "textAlign": "center",
+                  "fontFamily": "Newsreader",
+                  "fontSize": 20
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "p3Kjx",
+              "x": 410,
+              "y": 590,
+              "name": "inputWrap",
+              "width": 620,
+              "layout": "vertical",
+              "gap": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "X6H1l",
+                  "name": "inputBar",
+                  "width": 620,
+                  "height": 56,
+                  "fill": "#F4F2EF",
+                  "cornerRadius": 999,
+                  "padding": [
+                    0,
+                    28
+                  ],
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "8qPrq",
+                      "name": "placeholder",
+                      "fill": "#4A4A4A",
+                      "content": "Ask me anything…",
+                      "fontFamily": "Newsreader",
+                      "fontSize": 16
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BpiFl",
+                      "name": "sendIcon",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "#0a1028",
+                      "cornerRadius": 999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "path",
+                          "id": "jWyRq",
+                          "name": "arrow",
+                          "geometry": "M7 0l7 7-7 7-1.4-1.4 4.6-4.6h-10.2v-2h10.2l-4.6-4.6z",
+                          "fill": "#FFFFFF",
+                          "width": 14,
+                          "height": 14
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "arSDu",
+                  "name": "chipsRow",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "dTQNq",
+                      "name": "chip1",
+                      "fill": "#FFFFFF1A",
+                      "cornerRadius": 999,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#FFFFFF22"
+                      },
+                      "padding": [
+                        10,
+                        20
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RJcgp",
+                          "name": "chip1t",
+                          "fill": "#FFFFFFCC",
+                          "content": "Analyze my data",
+                          "fontFamily": "Funnel Sans",
+                          "fontSize": 13,
+                          "letterSpacing": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sUWOA",
+                      "name": "chip2",
+                      "fill": "#FFFFFF1A",
+                      "cornerRadius": 999,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#FFFFFF22"
+                      },
+                      "padding": [
+                        10,
+                        20
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QnTD4",
+                          "name": "chip2t",
+                          "fill": "#FFFFFFCC",
+                          "content": "Draft a proposal",
+                          "fontFamily": "Funnel Sans",
+                          "fontSize": 13,
+                          "letterSpacing": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "cx0oF",
+                      "name": "chip3",
+                      "fill": "#FFFFFF1A",
+                      "cornerRadius": 999,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#FFFFFF22"
+                      },
+                      "padding": [
+                        10,
+                        20
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "k3y96",
+                          "name": "chip3t",
+                          "fill": "#FFFFFFCC",
+                          "content": "Summarize insights",
+                          "fontFamily": "Funnel Sans",
+                          "fontSize": 13,
+                          "letterSpacing": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "1QeAr",
+          "name": "About Section",
+          "width": "fill_container",
+          "height": 1100,
+          "fill": "#F4F2EF",
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "id": "szc4N",
+              "x": -80,
+              "y": 120,
+              "name": "bigHead",
+              "fill": "#1A1A1A",
+              "textGrowth": "fixed-width",
+              "width": 1600,
+              "content": "WHAT WE DO",
+              "lineHeight": 1,
+              "textAlign": "center",
+              "fontFamily": "Playfair Display",
+              "fontSize": 180,
+              "fontWeight": "700",
+              "letterSpacing": -2
+            },
+            {
+              "type": "rectangle",
+              "id": "ynpxe",
+              "x": 680,
+              "y": 340,
+              "name": "goldLine",
+              "fill": "#d4af37",
+              "width": 80,
+              "height": 3
+            },
+            {
+              "type": "frame",
+              "id": "8ZOSK",
+              "x": 80,
+              "y": 440,
+              "name": "gridRow",
+              "width": 1280,
+              "gap": 60,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "tOXq7",
+                  "name": "colLeft",
+                  "width": 200,
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "m5Vjv",
+                      "name": "colLabel",
+                      "fill": "#4A4A4A",
+                      "content": "OUR MISSION",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 12,
+                      "letterSpacing": 3
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "98Exp",
+                  "name": "colCenter",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "8vTSL",
+                      "name": "colBody",
+                      "fill": "#1A1A1A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "We partner with forward-thinking organizations to embed artificial intelligence at the core of their strategy. From predictive analytics to natural language automation, our consultants architect bespoke solutions that transform raw data into decisive action — quietly, precisely, and at scale.",
+                      "lineHeight": 1.7,
+                      "fontFamily": "Newsreader",
+                      "fontSize": 18
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "i5aPd",
+                  "name": "colRight",
+                  "width": 200,
+                  "gap": 8,
+                  "justifyContent": "end",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "7CWor",
+                      "name": "ctaText",
+                      "fill": "#4A4A4A",
+                      "content": "Learn more",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 13,
+                      "letterSpacing": 2
+                    },
+                    {
+                      "type": "text",
+                      "id": "IM0es",
+                      "name": "ctaArrow",
+                      "fill": "#4A4A4A",
+                      "content": "→",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 16
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yo8MF",
+              "x": 160,
+              "y": 680,
+              "name": "photoFrame",
+              "metadata": {
+                "type": "unsplash",
+                "username": "maxkhnr",
+                "link": "https://unsplash.com/@maxkhnr",
+                "author": "Maxime Kirschner"
+              },
+              "width": 420,
+              "height": 300,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "https://images.unsplash.com/photo-1699968143070-460ba34808bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzU5OTU5MTd8&ixlib=rb-4.1.0&q=80&w=1080",
+                "mode": "fill"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "BnH79",
+      "x": 1540,
+      "y": 0,
+      "name": "Sections 3–5: Features + Showcase + Contact + Footer",
+      "width": 1440,
+      "height": 3000,
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "AEI4t",
+          "name": "Section 3 — Features",
+          "width": 1440,
+          "height": 920,
+          "fill": "#F4F2EF",
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "id": "6JFJN",
+              "x": 80,
+              "y": 64,
+              "name": "featLabel",
+              "fill": "#4A4A4A",
+              "content": "03 / FEATURES",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 3
+            },
+            {
+              "type": "text",
+              "id": "8Gh1g",
+              "x": -50,
+              "y": 100,
+              "name": "featHeading",
+              "fill": "#1A1A1A",
+              "textGrowth": "fixed-width-height",
+              "width": 1540,
+              "height": 210,
+              "content": "FEATURES",
+              "lineHeight": 1,
+              "textAlign": "center",
+              "fontFamily": "Playfair Display",
+              "fontSize": 190,
+              "fontWeight": "700"
+            },
+            {
+              "type": "rectangle",
+              "id": "6v23K",
+              "x": 80,
+              "y": 330,
+              "name": "goldAccent",
+              "fill": "#d4af37",
+              "width": 56,
+              "height": 2
+            },
+            {
+              "type": "frame",
+              "id": "KAg8g",
+              "x": 80,
+              "y": 370,
+              "name": "grid",
+              "width": 1280,
+              "height": 480,
+              "gap": 56,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "OSVAn",
+                  "name": "col1",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 18,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "q7CUg",
+                      "fill": "#1c2ca3",
+                      "content": "INTELLIGENCE",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 3
+                    },
+                    {
+                      "type": "text",
+                      "id": "1iuiU",
+                      "fill": "#1A1A1A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Adaptive AI Systems",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 26,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ELE2V",
+                      "fill": "#4A4A4A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Our intelligent models learn from every interaction, continuously refining understanding of your business context and objectives to deliver ever-sharper insight.",
+                      "lineHeight": 1.75,
+                      "fontFamily": "Newsreader",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "7hAeg",
+                      "fill": "#0a1028",
+                      "content": "Explore →",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 12,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.5
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "4litn",
+                  "name": "col2",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 18,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "uoJKi",
+                      "fill": "#1c2ca3",
+                      "content": "PRECISION",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 3
+                    },
+                    {
+                      "type": "text",
+                      "id": "tMecu",
+                      "fill": "#1A1A1A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Strategic Data Analysis",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 26,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "vIOeO",
+                      "fill": "#4A4A4A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Transform raw data into decisive clarity. Our analytical frameworks extract meaningful patterns that drive confident, informed decision-making at every level.",
+                      "lineHeight": 1.75,
+                      "fontFamily": "Newsreader",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "yd9zR",
+                      "fill": "#0a1028",
+                      "content": "Explore →",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 12,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.5
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "eI1if",
+                  "name": "col3",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 18,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "psq2n",
+                      "fill": "#1c2ca3",
+                      "content": "PARTNERSHIP",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 3
+                    },
+                    {
+                      "type": "text",
+                      "id": "ZKHHx",
+                      "fill": "#1A1A1A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Human-Centred Consulting",
+                      "fontFamily": "Playfair Display",
+                      "fontSize": 26,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "M3xKa",
+                      "fill": "#4A4A4A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "We integrate seamlessly with your team, aligning AI capability with your strategic vision and ensuring meaningful adoption across every level of your organisation.",
+                      "lineHeight": 1.75,
+                      "fontFamily": "Newsreader",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "rrQWM",
+                      "fill": "#0a1028",
+                      "content": "Explore →",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 12,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.5
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ViC6k",
+          "name": "Section 4 — Product Showcase",
+          "width": 1440,
+          "height": 820,
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "eT0S1",
+              "x": 0,
+              "y": 0,
+              "name": "photoBg",
+              "metadata": {
+                "type": "unsplash",
+                "username": "irislavoie91",
+                "link": "https://unsplash.com/@irislavoie91",
+                "author": "iris lavoie"
+              },
+              "width": 1440,
+              "height": 820,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "https://images.unsplash.com/photo-1712875652475-f91f0adbdc6a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NzU5OTU5NDZ8&ixlib=rb-4.1.0&q=80&w=1080",
+                "mode": "fill"
+              },
+              "layout": "none"
+            },
+            {
+              "type": "rectangle",
+              "id": "ktT7H",
+              "x": 0,
+              "y": 0,
+              "name": "navyOverlay",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#0a1028CC",
+                    "position": 0
+                  },
+                  {
+                    "color": "#0a102866",
+                    "position": 0.5
+                  },
+                  {
+                    "color": "#0a1028EE",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 1440,
+              "height": 820
+            },
+            {
+              "type": "text",
+              "id": "Iof3N",
+              "x": 80,
+              "y": 64,
+              "name": "showcaseTopLabel",
+              "opacity": 0.6,
+              "fill": "#FFFFFF",
+              "content": "04 / PRODUCT SHOWCASE",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 3
+            },
+            {
+              "type": "text",
+              "id": "zlCPi",
+              "x": 280,
+              "y": 240,
+              "name": "showcaseBodyQuote",
+              "fill": "#FFFFFF",
+              "textGrowth": "fixed-width",
+              "width": 880,
+              "content": "A new intelligence layer for your enterprise — where every decision is informed, every strategy sharpened, and every outcome elevated by the power of AI.",
+              "lineHeight": 1.8,
+              "textAlign": "center",
+              "fontFamily": "Newsreader",
+              "fontSize": 20,
+              "fontWeight": "500"
+            },
+            {
+              "type": "rectangle",
+              "id": "wvQvg",
+              "x": 680,
+              "y": 370,
+              "name": "goldDivider",
+              "opacity": 0.8,
+              "fill": "#d4af37",
+              "width": 80,
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "Zllgs",
+              "x": 376,
+              "y": 396,
+              "name": "showcaseNum1",
+              "fill": "#d4af37",
+              "content": "200+",
+              "fontFamily": "Playfair Display",
+              "fontSize": 42,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "E65oA",
+              "x": 376,
+              "y": 452,
+              "name": "showcaseNum1Label",
+              "opacity": 0.7,
+              "fill": "#FFFFFF",
+              "content": "Enterprise Clients",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 2
+            },
+            {
+              "type": "text",
+              "id": "hV3Bs",
+              "x": 640,
+              "y": 396,
+              "name": "showcaseNum2",
+              "fill": "#d4af37",
+              "content": "98%",
+              "fontFamily": "Playfair Display",
+              "fontSize": 42,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "UO3Jx",
+              "x": 640,
+              "y": 452,
+              "name": "showcaseNum2Label",
+              "opacity": 0.7,
+              "fill": "#FFFFFF",
+              "content": "Satisfaction Rate",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 2
+            },
+            {
+              "type": "text",
+              "id": "JBs4b",
+              "x": 900,
+              "y": 396,
+              "name": "showcaseNum3",
+              "fill": "#d4af37",
+              "content": "3×",
+              "fontFamily": "Playfair Display",
+              "fontSize": 42,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "TBKB2",
+              "x": 900,
+              "y": 452,
+              "name": "showcaseNum3Label",
+              "opacity": 0.7,
+              "fill": "#FFFFFF",
+              "content": "Avg. ROI Uplift",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 2
+            },
+            {
+              "type": "text",
+              "id": "k2MMz",
+              "x": -60,
+              "y": 580,
+              "name": "showcaseBigHeading",
+              "opacity": 0.12,
+              "fill": "#FFFFFF",
+              "textGrowth": "fixed-width-height",
+              "width": 1560,
+              "height": 200,
+              "content": "APEX MOTUS",
+              "lineHeight": 1,
+              "textAlign": "center",
+              "fontFamily": "Playfair Display",
+              "fontSize": 170,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "Z7Hps",
+              "x": 580,
+              "y": 700,
+              "name": "showcaseCTA",
+              "width": 280,
+              "height": 52,
+              "fill": "#d4af37",
+              "cornerRadius": 4,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xbxhC",
+                  "fill": "#0a1028",
+                  "content": "REQUEST A DEMO",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 2.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ErLV6",
+          "name": "Section 5 — Contact",
+          "width": 1440,
+          "height": 720,
+          "fill": "#F4F2EF",
+          "layout": "none",
+          "children": [
+            {
+              "type": "text",
+              "id": "S0HEY",
+              "x": 80,
+              "y": 64,
+              "name": "contactLabel",
+              "fill": "#4A4A4A",
+              "content": "05 / CONTACT",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 3
+            },
+            {
+              "type": "text",
+              "id": "zgYQT",
+              "x": -60,
+              "y": 104,
+              "name": "contactHeading",
+              "fill": "#1A1A1A",
+              "textGrowth": "fixed-width-height",
+              "width": 1560,
+              "height": 200,
+              "content": "LET'S TALK",
+              "lineHeight": 1,
+              "textAlign": "center",
+              "fontFamily": "Playfair Display",
+              "fontSize": 185,
+              "fontWeight": "700"
+            },
+            {
+              "type": "rectangle",
+              "id": "uzYl0",
+              "x": 80,
+              "y": 320,
+              "name": "contactGoldBar",
+              "fill": "#d4af37",
+              "width": 56,
+              "height": 2
+            },
+            {
+              "type": "frame",
+              "id": "AqvRZ",
+              "x": 80,
+              "y": 356,
+              "name": "contactGrid",
+              "width": 1280,
+              "height": 300,
+              "gap": 80,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nL3qJ",
+                  "name": "contactLeft",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "RXpx1",
+                      "fill": "#1c2ca3",
+                      "content": "START A CONVERSATION",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 3
+                    },
+                    {
+                      "type": "text",
+                      "id": "XLHiR",
+                      "fill": "#4A4A4A",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Whether you are exploring AI for the first time or scaling an existing programme, we align technology with your ambitions.",
+                      "lineHeight": 1.8,
+                      "fontFamily": "Newsreader",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "hHcYq",
+                      "fill": "#0a1028",
+                      "content": "hello@apexmotus.com",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "HprEn",
+                  "name": "contactRight",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "vYlkh",
+                      "fill": "#4A4A4A",
+                      "content": "YOUR NAME",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 2
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mjhTn",
+                      "name": "nameField",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "#FFFFFF",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": {
+                          "bottom": 2
+                        },
+                        "fill": "#1A1A1A"
+                      },
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "4zx7C",
+                          "layoutPosition": "absolute",
+                          "x": 0,
+                          "y": 0,
+                          "opacity": 0.4,
+                          "fill": "#4A4A4A",
+                          "content": "Full name",
+                          "fontFamily": "Newsreader",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "MjArY",
+                      "fill": "#4A4A4A",
+                      "content": "YOUR EMAIL",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "letterSpacing": 2
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wcj4k",
+                      "name": "emailField",
+                      "width": "fill_container",
+                      "height": 48,
+                      "fill": "#FFFFFF",
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": {
+                          "bottom": 2
+                        },
+                        "fill": "#1A1A1A"
+                      },
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "WQjM3",
+                          "layoutPosition": "absolute",
+                          "x": 0,
+                          "y": 0,
+                          "opacity": 0.4,
+                          "fill": "#4A4A4A",
+                          "content": "email@company.com",
+                          "fontFamily": "Newsreader",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "VmE8D",
+                      "name": "submitBtn",
+                      "width": 220,
+                      "height": 52,
+                      "fill": "#0a1028",
+                      "cornerRadius": 4,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RJpw3",
+                          "fill": "#d4af37",
+                          "content": "SEND MESSAGE",
+                          "fontFamily": "Funnel Sans",
+                          "fontSize": 11,
+                          "fontWeight": "600",
+                          "letterSpacing": 2.5
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "58cPH",
+          "name": "Footer",
+          "width": 1440,
+          "height": 300,
+          "fill": "#0a1028",
+          "layout": "none",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "ZkUxl",
+              "x": 80,
+              "y": 0,
+              "name": "footerTopLine",
+              "opacity": 0.3,
+              "fill": "#d4af37",
+              "width": 1280,
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "M6AbK",
+              "x": 80,
+              "y": 60,
+              "name": "footerBrand",
+              "fill": "#d4af37",
+              "content": "APEX MOTUS",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 18,
+              "fontWeight": "700",
+              "letterSpacing": 3
+            },
+            {
+              "type": "text",
+              "id": "NOT79",
+              "x": 80,
+              "y": 96,
+              "name": "footerTagline",
+              "opacity": 0.5,
+              "fill": "#FFFFFF",
+              "content": "AI Consulting & Strategic Intelligence",
+              "lineHeight": 1.5,
+              "fontFamily": "Newsreader",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "vofFZ",
+              "x": 80,
+              "y": 160,
+              "name": "footerNav",
+              "width": 600,
+              "height": 20,
+              "gap": 48,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "hmLlW",
+                  "opacity": 0.6,
+                  "fill": "#FFFFFF",
+                  "content": "About",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 12,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "text",
+                  "id": "MNlRG",
+                  "opacity": 0.6,
+                  "fill": "#FFFFFF",
+                  "content": "Features",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 12,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "text",
+                  "id": "WHOpg",
+                  "opacity": 0.6,
+                  "fill": "#FFFFFF",
+                  "content": "Case Studies",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 12,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "text",
+                  "id": "a8F6T",
+                  "opacity": 0.6,
+                  "fill": "#FFFFFF",
+                  "content": "Contact",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 12,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1.5
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "id": "Ffo2P",
+              "x": 1280,
+              "y": 60,
+              "name": "footerRoyalAccent",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "#1c2ca366",
+                    "position": 0
+                  },
+                  {
+                    "color": "#1c2ca300",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 80,
+              "height": 80
+            },
+            {
+              "type": "rectangle",
+              "id": "bImew",
+              "x": 80,
+              "y": 230,
+              "name": "footerDivider",
+              "opacity": 0.1,
+              "fill": "#FFFFFF",
+              "width": 1280,
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "GB7rq",
+              "x": 80,
+              "y": 252,
+              "name": "footerCopy",
+              "opacity": 0.35,
+              "fill": "#FFFFFF",
+              "content": "© 2026 Apex Motus. All rights reserved.",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "J1bG7",
+              "x": 1100,
+              "y": 252,
+              "name": "footerRights",
+              "opacity": 0.35,
+              "fill": "#FFFFFF",
+              "content": "Privacy  ·  Terms",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ubSIC",
+      "x": 3200,
+      "y": 0,
+      "name": "Spec Notes",
+      "width": 800,
+      "height": 2000,
+      "layout": "vertical",
+      "gap": 24,
+      "padding": 40,
+      "children": [
+        {
+          "type": "note",
+          "id": "ALpsa",
+          "name": "Sections 1-2 Implementation Spec",
+          "width": 720,
+          "height": 3200,
+          "content": "# APEX MOTUS — Sections 1 & 2 Implementation Spec\n---\n\n## SECTION 1 — HERO (ChatGPT-Style Conversational Landing)\n\n### 1.1 Overall Structure\n\nThe Hero section is a full-width frame (width: 100vw, height: 900px) with absolute positioning (layout: none) for all children. It contains three layers stacked via z-order:\n\n1. Background — Photo fill with dark overlay\n2. Navigation bar — Top-aligned, full-width\n3. Center content block — Heading + subtitle\n4. Input area — Chat bar + suggestion chips\n\n### 1.2 Background Treatment\n\nThe hero frame uses a dual fill stack:\n\n  /* Base layer: dark navy solid */\n  background-color: #0a1028;\n\n  /* Top layer: Unsplash photo, fill mode, 35% opacity */\n  .hero::before {\n    content: '';\n    position: absolute;\n    inset: 0;\n    background-image: url('/images/hero-bg.jpg');\n    background-size: cover;\n    background-position: center;\n    opacity: 0.35;\n    z-index: 0;\n  }\n\n- Photo: Unsplash image by Vladimir Ivanenko, object-fit: cover\n- Overlay opacity: 0.35 — lets the photo texture through while maintaining text legibility\n- Base color: #0a1028 (deep navy-ink) — NOT pure black\n\n### 1.3 Navigation Bar\n\nPositioned at top of hero frame, full width.\n\n- Layout: display: flex; justify-content: space-between; align-items: center\n- Padding: 32px 60px (vertical / horizontal)\n- Width: 1440px (full container)\n- Height: 84px (auto from padding + content)\n\n#### Logo\n- Content: APEX MOTUS\n- Font: Funnel Sans, 600 weight\n- Size: 16px\n- Letter-spacing: 4px\n- Color: #d4af37 (gold accent)\n\n  .nav-logo {\n    font-family: 'Funnel Sans', sans-serif;\n    font-size: 16px;\n    font-weight: 600;\n    letter-spacing: 4px;\n    color: #d4af37;\n  }\n\n#### Nav Links\n- Layout: display: flex; gap: 40px\n- Items: About, Features, Contact\n- Font: Funnel Sans, 400 weight, 14px\n- Letter-spacing: 2px\n- Color: #FFFFFFCC (white at 80% opacity)\n\n  .nav-link {\n    font-family: 'Funnel Sans', sans-serif;\n    font-size: 14px;\n    letter-spacing: 2px;\n    color: rgba(255, 255, 255, 0.8);\n    text-decoration: none;\n  }\n  .nav-link:hover { color: #FFFFFF; }\n\n### 1.4 Center Content Block\n\nAbsolutely positioned within the hero.\n\n- Position: x: 320, y: 260 (centered in 1440px frame)\n- Width: 800px\n- Layout: flex-direction: column; align-items: center; gap: 24px\n\n#### Main Heading\n- Content: Talk to Your (newline) AI Partner\n- Font: Playfair Display, 700 weight\n- Size: 72px\n- Line-height: 1.05 (tight)\n- Color: #FFFFFF (pure white)\n- Text-align: center\n- Width: 800px (textGrowth: fixed-width)\n\n  .hero-heading {\n    font-family: 'Playfair Display', serif;\n    font-size: 72px;\n    font-weight: 700;\n    line-height: 1.05;\n    color: #FFFFFF;\n    text-align: center;\n    max-width: 800px;\n  }\n\n#### Subtitle\n- Content: Unlock smarter decisions with a conversational AI built for enterprise consulting.\n- Font: Newsreader, 400 weight, 20px\n- Line-height: 1.5\n- Color: #FFFFFFBB (white at ~73% opacity)\n- Text-align: center, Width: 600px\n\n  .hero-subtitle {\n    font-family: 'Newsreader', serif;\n    font-size: 20px;\n    line-height: 1.5;\n    color: rgba(255, 255, 255, 0.73);\n    text-align: center;\n    max-width: 600px;\n  }\n\n### 1.5 Chat Input Bar\n\nPositioned absolutely below the center block.\n\n- Position: x: 410, y: 590\n- Width: 620px\n- Layout: flex-direction: column; align-items: center; gap: 20px\n\n#### Input Field\n- Shape: Pill — border-radius: 999px\n- Background: #F4F2EF (warm off-white)\n- Height: 56px, Width: 620px\n- Padding: 0 28px\n- Layout: flex; justify-content: space-between; align-items: center\n\n  .chat-input {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    width: 620px;\n    height: 56px;\n    padding: 0 28px;\n    border-radius: 999px;\n    background: #F4F2EF;\n    border: none;\n  }\n\n#### Placeholder Text\n- Content: Ask me anything…\n- Font: Newsreader, 400 weight, 16px\n- Color: #4A4A4A\n\n#### Send Button (inside input)\n- Shape: Circle, 36px x 36px, border-radius: 999px\n- Background: #0a1028 (same deep navy as hero base)\n- Icon: White arrow path, 14px x 14px, fill: #FFFFFF\n\n  .send-btn {\n    width: 36px; height: 36px;\n    border-radius: 50%;\n    background: #0a1028;\n    display: flex; align-items: center; justify-content: center;\n  }\n  .send-btn svg { width: 14px; height: 14px; fill: #FFFFFF; }\n\n### 1.6 Suggestion Chips\n\n- Layout: display: flex; gap: 12px\n- Items: Analyze my data, Draft a proposal, Summarize insights\n\n#### Individual Chip\n- Shape: Pill — border-radius: 999px\n- Background: #FFFFFF1A (white at 10% opacity)\n- Border: 1px solid #FFFFFF22 (white at 13%)\n- Padding: 10px 20px\n- Font: Funnel Sans, 400 weight, 13px\n- Letter-spacing: 1px\n- Color: #FFFFFFCC (white at 80%)\n\n  .chip {\n    padding: 10px 20px;\n    border-radius: 999px;\n    background: rgba(255, 255, 255, 0.1);\n    border: 1px solid rgba(255, 255, 255, 0.13);\n    font-family: 'Funnel Sans', sans-serif;\n    font-size: 13px;\n    letter-spacing: 1px;\n    color: rgba(255, 255, 255, 0.8);\n  }\n  .chip:hover { background: rgba(255, 255, 255, 0.18); }\n\n### 1.7 Color Palette Summary (Section 1)\n\n- Hero base: #0a1028 — Background solid fill, send button\n- Gold accent: #d4af37 — Logo text\n- White 100%: #FFFFFF — Heading, send icon\n- White 80%: #FFFFFFCC — Nav links, chip text\n- White 73%: #FFFFFFBB — Subtitle\n- White 13%: #FFFFFF22 — Chip border\n- White 10%: #FFFFFF1A — Chip background\n- Off-white: #F4F2EF — Input bar background\n- Dark grey: #4A4A4A — Placeholder text\n\n### 1.8 Animation Spec — Hero to Sticky Nav Transition\n\nOn scroll, the hero section transforms into a compact sticky navigation bar.\n\nTrigger: scroll > hero.offsetHeight - navHeight\nDelay: 100ms after threshold is reached\nDuration: 400ms, ease-out timing\n\n  // Pseudocode: Hero to sticky nav scroll handler\n  const hero = document.querySelector('.hero-section');\n  const nav = document.querySelector('.nav');\n  const DELAY = 100;\n  const DURATION = 400;\n  let timeout = null;\n\n  window.addEventListener('scroll', () => {\n    const scrollY = window.scrollY;\n    const threshold = hero.offsetHeight - nav.offsetHeight;\n    if (scrollY >= threshold) {\n      if (!timeout) {\n        timeout = setTimeout(() => {\n          nav.classList.add('sticky');\n        }, DELAY);\n      }\n    } else {\n      clearTimeout(timeout);\n      timeout = null;\n      nav.classList.remove('sticky');\n    }\n  });\n\n  .nav {\n    position: absolute;\n    top: 0; width: 100%; z-index: 100;\n    transition: all 400ms ease-out;\n  }\n  .nav.sticky {\n    position: fixed; top: 0;\n    background: #0a1028;\n    padding: 16px 60px; /* compressed from 32px */\n    backdrop-filter: blur(12px);\n    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);\n  }\n\nBehavior:\n1. User scrolls past hero bottom edge\n2. After 100ms delay, nav detaches and becomes position: fixed\n3. Nav compresses padding from 32px to 16px vertically\n4. Background gains backdrop-filter: blur(12px) + shadow\n5. Hero content slides up and out of view\n6. Scrolling back up reverses the transition\n\n---\n\n## SECTION 2 — ABOUT (What We Do)\n\n### 2.1 Overall Structure\n\n- Width: fill_container (matches parent = 1440px)\n- Height: 1100px\n- Background: #F4F2EF (warm light grey — maps to CSS var --background in light mode)\n- Layout: none (all children absolutely positioned)\n\n### 2.2 Monumental Bleeding Heading\n\nThe signature design element — a massive heading that intentionally overflows its container.\n\n- Content: WHAT WE DO\n- Font: Playfair Display, 700 weight\n- Size: 180px\n- Line-height: 1.0\n- Letter-spacing: -2px (tight tracking)\n- Color: #1A1A1A (near-black — maps to --card dark mode)\n- Text-align: center\n- Width: 1600px (exceeds 1440px container by 160px)\n- Position: x: -80, y: 120\n- textGrowth: fixed-width\n\nHow the bleed works: The text frame is 1600px wide, positioned at x: -80 within a 1440px parent. This creates a symmetrical 80px overhang on each side. The parent frame does NOT clip overflow, so the text visually bleeds beyond the section edges.\n\n  .about-heading {\n    font-family: 'Playfair Display', serif;\n    font-size: 180px;\n    font-weight: 700;\n    line-height: 1;\n    letter-spacing: -2px;\n    color: #1A1A1A;\n    text-align: center;\n    width: 1600px;\n    position: absolute;\n    left: -80px;\n    top: 120px;\n  }\n\n  /* Alternative: use negative margins */\n  .about-heading-alt {\n    width: 100vw;\n    margin-left: calc(-50vw + 50%);\n    text-align: center;\n  }\n\n  /* IMPORTANT: parent must NOT have overflow: hidden */\n  .about-section { overflow: visible; }\n\nNote: snapshot_layout flags this as 'partially clipped' because the text exceeds parent bounds. This is INTENTIONAL.\n\n### 2.3 Gold Accent Divider\n\n- Shape: Rectangle\n- Width: 80px, Height: 3px\n- Color: #d4af37 (gold — same as logo)\n- Position: x: 680, y: 340 (centered in 1440px)\n\n  .gold-divider {\n    width: 80px; height: 3px;\n    background: #d4af37;\n    position: absolute;\n    left: 680px; top: 340px;\n  }\n\n### 2.4 Three-Column Editorial Grid\n\nPositioned below the heading and divider. Uses flexbox.\n\n- Position: x: 80, y: 440\n- Width: 1280px (1440 - 160px margin)\n- Layout: display: flex; gap: 60px\n\n#### Column 1 — Label (Left)\n- Width: 200px (fixed)\n- Content: OUR MISSION\n- Font: Funnel Sans, 400 weight, 12px\n- Letter-spacing: 3px\n- Color: #4A4A4A\n\n  .col-label {\n    font-family: 'Funnel Sans', sans-serif;\n    font-size: 12px;\n    letter-spacing: 3px;\n    color: #4A4A4A;\n    text-transform: uppercase;\n  }\n\n#### Column 2 — Body (Center)\n- Width: fill_container (flex: 1 — takes remaining space, approx 760px)\n- Content: Full mission statement paragraph\n- Font: Newsreader, 400 weight, 18px\n- Line-height: 1.7 (generous reading rhythm)\n- Color: #1A1A1A\n- textGrowth: fixed-width (wraps within available width)\n\n  .col-body {\n    font-family: 'Newsreader', serif;\n    font-size: 18px;\n    line-height: 1.7;\n    color: #1A1A1A;\n    flex: 1;\n  }\n\n#### Column 3 — CTA (Right)\n- Width: 200px (fixed)\n- Layout: flex; align-items: center; justify-content: flex-end; gap: 8px\n- Text: Learn more + arrow (→)\n- Font: Funnel Sans, 400 weight, 13px / 16px for arrow\n- Letter-spacing: 2px\n- Color: #4A4A4A\n\n  .col-cta {\n    display: flex;\n    align-items: center;\n    justify-content: flex-end;\n    gap: 8px;\n    width: 200px;\n    font-family: 'Funnel Sans', sans-serif;\n    font-size: 13px;\n    letter-spacing: 2px;\n    color: #4A4A4A;\n  }\n  .col-cta:hover { color: #d4af37; }\n\n### 2.5 Inset Photo\n\n- Position: x: 160, y: 680\n- Width: 420px, Height: 300px\n- Fill: Image fill, mode: fill (object-fit: cover)\n- Photo: Unsplash — Maxime Kirschner (architectural/abstract detail)\n\n  .about-photo {\n    position: absolute;\n    left: 160px; top: 680px;\n    width: 420px; height: 300px;\n    object-fit: cover;\n  }\n\nPlacement rationale: The photo sits at the left-third intersection, creating an asymmetric composition. The large whitespace on the right (~860px empty) balances the visual weight of the 180px heading above and gives the section room to breathe.\n\n### 2.6 Whitespace Rationale\n\n- Top margin (y: 120 for heading): 120px breathing room from section top\n- Heading to divider: ~220px gap (340 - 120 = heading height region)\n- Divider to grid: 100px gap (440 - 340)\n- Grid to photo: 240px gap (680 - 440)\n- Right emptiness: ~860px of open space right of the photo — intentional editorial white space\n- Bottom margin: 120px (1100 - 680 - 300 = 120px below photo)\n\nThis generous spacing follows editorial/magazine layout principles where whitespace is a deliberate design element, not wasted space.\n\n### 2.7 Gold Accent Usage Across Both Sections\n\nGold (#d4af37) appears as a consistent brand thread:\n1. Section 1: Logo text\n2. Section 2: Divider line\n3. Later sections: Likely CTA hover states, accent borders\n\nThis color does NOT map to any CSS variable in the design system — store as:\n  :root { --brand-gold: #d4af37; }\n\n### 2.8 Color Palette Summary (Section 2)\n\n- Background: #F4F2EF — CSS var --background (light) — Section fill\n- Near-black: #1A1A1A — CSS var --card (dark mode) — Heading, body text\n- Medium grey: #4A4A4A — Labels, CTA, placeholder\n- Gold: #d4af37 — Use --brand-gold — Divider accent\n\n---\n\n## FONT STACK SUMMARY\n\n- Playfair Display (700): Display headings — Hero H1, About bleeding heading\n- Newsreader (400): Body copy, subtitle, placeholder, input\n- Funnel Sans (400, 600): UI elements — nav, logo, labels, chips, CTAs\n\nGoogle Fonts load:\n  <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Newsreader:wght@400&family=Funnel+Sans:wght@400;600&display=swap' rel='stylesheet'>\n\n---\n\n## IMPLEMENTATION STEPS\n\n### Section 1 — Hero\n1. Create <section> with position: relative; height: 100vh; min-height: 900px; overflow: hidden\n2. Add background image as ::before pseudo-element with opacity: 0.35 over #0a1028 base\n3. Build nav bar with flex layout, logo left, links right, padding: 32px 60px\n4. Center content block: absolutely position at top: 29%; left: 50%; transform: translateX(-50%)\n5. Add heading with Playfair Display 72px/1.05, subtitle with Newsreader 20px/1.5\n6. Build chat input bar: pill shape (border-radius: 999px), #F4F2EF background, 56px height\n7. Place send button inside input: 36px circle, #0a1028, white arrow SVG\n8. Add 3 suggestion chips below input with gap: 12px, glass-morphism style\n9. Implement scroll observer for sticky nav transition (100ms delay, 400ms ease-out)\n10. Add backdrop-filter: blur(12px) and box-shadow to sticky state\n\n### Section 2 — About\n1. Create <section> with position: relative; height: 1100px; background: #F4F2EF; overflow: visible\n2. Add bleeding heading: width: calc(100% + 160px); margin-left: -80px; font-size: 180px\n3. Place gold divider: 80px x 3px, centered horizontally, below heading\n4. Build 3-column grid with flexbox: gap: 60px; padding: 0 80px\n5. Left column (200px fixed): uppercase label OUR MISSION\n6. Center column (flex: 1): body paragraph in Newsreader 18px/1.7\n7. Right column (200px fixed): Learn more → CTA, right-aligned\n8. Place inset photo at left: 160px; top: 680px; width: 420px; height: 300px\n9. Ensure parent has overflow: visible for the bleeding heading effect\n10. Add hover state on CTA: transition color to #d4af37"
+        }
+      ]
+    }
+  ],
+  "themes": {
+    "Mode": [
+      "Light",
+      "Dark"
+    ]
+  },
+  "variables": {
+    "--sidebar": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E7E8E5"
+        },
+        {
+          "value": "#18181b",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--sidebar-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#666666"
+        },
+        {
+          "value": "#fafafa",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--sidebar-primary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#18181b"
+        },
+        {
+          "value": "#18181b",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--sidebar-primary-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#fafafa"
+        },
+        {
+          "value": "#fafafa",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--sidebar-border": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#CBCCC9"
+        },
+        {
+          "value": "#ffffff1a",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--sidebar-accent": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#CBCCC9"
+        },
+        {
+          "value": "#2a2a30",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--sidebar-accent-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#18181b"
+        },
+        {
+          "value": "#fafafa",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--sidebar-ring": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#71717a"
+        },
+        {
+          "value": "#71717a",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--background": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F2F3F0"
+        },
+        {
+          "value": "#111111",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#111111"
+        },
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--card": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF"
+        },
+        {
+          "value": "#1A1A1A",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--card-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#111111"
+        },
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--popover": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF"
+        },
+        {
+          "value": "#1A1A1A",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--popover-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#111111"
+        },
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--primary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FF8400"
+        },
+        {
+          "value": "#FF8400",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--primary-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#111111"
+        },
+        {
+          "value": "#111111",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--secondary": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E7E8E5"
+        },
+        {
+          "value": "#2E2E2E",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--secondary-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#111111"
+        },
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--muted": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F2F3F0"
+        },
+        {
+          "value": "#2E2E2E",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--muted-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#666666"
+        },
+        {
+          "value": "#B8B9B6",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--accent": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F2F3F0"
+        },
+        {
+          "value": "#111111",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--accent-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#111111"
+        },
+        {
+          "value": "#F2F3F0",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--destructive": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#D93C15"
+        },
+        {
+          "value": "#FF5C33",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--border": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#CBCCC9"
+        },
+        {
+          "value": "#2E2E2E",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--input": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#CBCCC9"
+        },
+        {
+          "value": "#2E2E2E",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--ring": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#666666"
+        },
+        {
+          "value": "#666666",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--white": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "--black": {
+      "type": "color",
+      "value": "#000000"
+    },
+    "--font-primary": {
+      "type": "string",
+      "value": "JetBrains Mono"
+    },
+    "--font-secondary": {
+      "type": "string",
+      "value": "Geist"
+    },
+    "--radius-none": {
+      "type": "number",
+      "value": 0
+    },
+    "--radius-pill": {
+      "type": "number",
+      "value": 999
+    },
+    "--color-success": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#DFE6E1"
+        },
+        {
+          "value": "#222924",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--color-success-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#004D1A"
+        },
+        {
+          "value": "#B6FFCE",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--color-warning": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E9E3D8"
+        },
+        {
+          "value": "#291C0F",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--color-warning-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#804200"
+        },
+        {
+          "value": "#FF8400",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--color-error": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E5DCDA"
+        },
+        {
+          "value": "#24100B",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--color-error-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#8C1C00"
+        },
+        {
+          "value": "#FF5C33",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--color-info": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#DFDFE6"
+        },
+        {
+          "value": "#222229",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--color-info-foreground": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#000066"
+        },
+        {
+          "value": "#B2B2FF",
+          "theme": {
+            "Mode": "Dark"
+          }
+        }
+      ]
+    },
+    "--radius-m": {
+      "type": "number",
+      "value": 16
+    }
+  }
+}

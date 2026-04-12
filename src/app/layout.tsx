@@ -1,33 +1,36 @@
-import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Newsreader, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
-const inter = Inter({ 
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-heading",
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({ 
+const newsreader = Newsreader({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-body",
   display: "swap",
+  adjustFontFallback: false,
+  fallback: ["Georgia", "Times New Roman", "serif"],
 });
 
 export const metadata: Metadata = {
-  title: "Apex Motus — Corporate Holding Company",
-  description: "Apex Motus is a corporate holding company building dominant, future‑ready ventures, products, and services.",
+  title: "Apex Motus",
+  description: "Apex Motus landing page",
   authors: [{ name: "Apex Motus" }],
-  themeColor: "#0a1028",
-  keywords: ["corporate holding", "ventures", "technology", "hrtech", "tseboIQ"],
+  keywords: ["apex motus", "business solutions", "ai insights"],
   openGraph: {
-    title: "Apex Motus — Corporate Holding Company",
-    description: "Building dominant, future‑ready ventures, products, and services.",
+    title: "Apex Motus",
+    description: "Apex Motus landing page",
     type: "website",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a1028",
 };
 
 export default function RootLayout({
@@ -36,12 +39,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${newsreader.variable}`}>
       <body className="font-body" data-theme="dark">
         <Providers>
-          <Navbar />
           <main id="top">{children}</main>
-          <Footer />
         </Providers>
       </body>
     </html>
