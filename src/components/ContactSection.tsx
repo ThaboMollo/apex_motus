@@ -7,7 +7,9 @@ export function ContactSection() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitState, setSubmitState] = useState<"idle" | "success" | "error">("idle");
+  const [submitState, setSubmitState] = useState<"idle" | "success" | "error">(
+    "idle",
+  );
   const [submitMessage, setSubmitMessage] = useState("");
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -35,7 +37,9 @@ export function ContactSection() {
 
         if (!response.ok) {
           setSubmitState("error");
-          setSubmitMessage(result.error ?? "We could not send your message. Please try again.");
+          setSubmitMessage(
+            result.error ?? "We could not send your message. Please try again.",
+          );
           return;
         }
 
@@ -74,14 +78,14 @@ export function ContactSection() {
             START A CONVERSATION
           </span>
           <p className="font-body text-[17px] leading-[1.8] text-fg-secondary">
-            Share your goals, and we will schedule a conversation around practical next steps for
-            your business.
+            Share your goals, and we will schedule a conversation around
+            practical next steps for your business.
           </p>
           <a
-            href="mailto:hello@apexmotus.com"
+            href="mailto:apex.motus.inc@gmail.com"
             className="font-caption text-[13px] tracking-[0.1em] text-navy"
           >
-            hello@apexmotus.com
+            apex.motus.inc@gmail.com
           </a>
         </div>
 

@@ -29,7 +29,11 @@ function parsePayload(payload: unknown): ContactPayload | null {
   }
 
   const cast = payload as Partial<ContactPayload>;
-  if (!isNonEmpty(cast.name) || !isNonEmpty(cast.email) || !isNonEmpty(cast.message)) {
+  if (
+    !isNonEmpty(cast.name) ||
+    !isNonEmpty(cast.email) ||
+    !isNonEmpty(cast.message)
+  ) {
     return null;
   }
 
@@ -64,7 +68,10 @@ export async function POST(request: Request) {
   try {
     payload = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid request body." },
+      { status: 400 },
+    );
   }
 
   const parsed = parsePayload(payload);
@@ -81,13 +88,17 @@ export async function POST(request: Request) {
   const resendApiKey = process.env.RESEND_API_KEY;
   if (!resendApiKey) {
     return NextResponse.json(
-      { error: "RESEND_API_KEY is missing. Add it to your environment configuration." },
+      {
+        error:
+          "RESEND_API_KEY is missing. Add it to your environment configuration.",
+      },
       { status: 500 },
     );
   }
 
-  const to = process.env.CONTACT_TO_EMAIL ?? "hello@apexmotus.com";
-  const from = process.env.CONTACT_FROM_EMAIL ?? "Apex Motus <onboarding@resend.dev>";
+  const to = process.env.CONTACT_TO_EMAIL ?? "apex.motus.inc@gmail.com";
+  const from =
+    process.env.CONTACT_FROM_EMAIL ?? "Apex Motus <onboarding@resend.dev>";
   const safeName = escapeHtml(parsed.name);
   const safeEmail = escapeHtml(parsed.email);
   const safeMessage = escapeHtml(parsed.message).replace(/\n/g, "<br />");
@@ -103,7 +114,13 @@ export async function POST(request: Request) {
       to: [to],
       reply_to: parsed.email,
       subject: `New Apex Motus contact request from ${parsed.name}`,
-      text: [`Name: ${parsed.name}`, `Email: ${parsed.email}`, "", "Message:", parsed.message].join("\n"),
+      text: [
+        `Name: ${parsed.name}`,
+        `Email: ${parsed.email}`,
+        "",
+        "Message:",
+        parsed.message,
+      ].join("\n"),
       html: `
         <div>
           <p><strong>Name:</strong> ${safeName}</p>
@@ -125,4 +142,3 @@ export async function POST(request: Request) {
 
   return NextResponse.json({ ok: true });
 }
-
