@@ -16,7 +16,8 @@ const products = [
   },
   {
     name: "ScanYa",
-    description: "Scan, access, and manage assets instantly using QR-powered workflows.",
+    description:
+      "Scan, access, and manage assets instantly using QR-powered workflows.",
     primaryLink: {
       href: "https://scanya.vercel.app/",
       label: "Main Site",
@@ -35,14 +36,18 @@ const products = [
 
 export function ProductShowcaseSection() {
   return (
-    <section id="products" className="border-b border-navy/15 bg-[#ece9e5] py-20 md:py-24">
+    <section
+      id="products"
+      className="border-b border-navy/15 bg-[#ece9e5] py-20 md:py-24"
+    >
       <div className="mx-auto w-full max-w-[1200px] px-6 md:px-10">
         <header className="mx-auto max-w-3xl text-center">
           <h2 className="font-heading text-[clamp(34px,6vw,68px)] font-bold leading-tight text-fg-primary">
             Our Tools. Your Advantage.
           </h2>
           <p className="mt-4 font-body text-[18px] leading-relaxed text-fg-secondary">
-            Real systems designed to improve how your business operates, scales, and performs.
+            Real systems designed to improve how your business operates, scales,
+            and performs.
           </p>
         </header>
 
@@ -58,6 +63,11 @@ export function ProductShowcaseSection() {
             />
           ))}
         </div>
+        <header className="mx-auto max-w-3xl text-center mt-8">
+          <p className="mt-4 font-body text-[18px] leading-relaxed text-fg-secondary">
+            By the way, this is just the beginning
+          </p>
+        </header>
       </div>
     </section>
   );

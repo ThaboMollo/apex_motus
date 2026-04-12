@@ -58,33 +58,30 @@ export function AboutSection() {
   );
 
   return (
-    <section
-      id="about"
-      className="border-b border-slate/20 bg-gradient-to-b from-transparent to-ink/20"
-    >
+    <section id="about" className="border-b border-navy/15 bg-[#f1eeea]">
       <div className="mx-auto flex min-h-[78vh] max-w-7xl items-center px-5 py-20 md:py-28">
         <div className="grid w-full gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           <div>
-            <h2 className="font-heading text-4xl font-bold leading-tight md:text-5xl">
+            <h2 className="font-heading text-4xl font-bold leading-tight text-navy md:text-5xl">
               Who is Apex Motus?
             </h2>
-            <p className="mt-5 max-w-3xl text-xl text-slate">
+            <p className="mt-5 max-w-3xl text-xl text-navy/90">
               Apex Motus empowers businesses to grow faster and scale bigger.
             </p>
-            <p className="mt-4 max-w-3xl text-lg text-slate">
-              We provide tools, business restructuring, hands-on guidance,.
+            <p className="mt-4 max-w-3xl text-lg text-navy/90">
+              We provide tools, business restructuring, hands-on guidance.
             </p>
-            <p className="mt-4 max-w-3xl text-lg text-slate">
+            <p className="mt-4 max-w-3xl text-lg text-navy/90">
               We help businesses identify and eliminate bottlenecks, whether
               technical, procedural, or strategic.
             </p>
-            <p className="mt-8 text-base font-medium text-cyan">
+            <p className="mt-8 text-base font-semibold text-royal">
               Scroll down to discover how we can help your business thrive.
             </p>
           </div>
 
           <div className="self-center">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-silver">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-navy/70">
               Explore How We Work
             </p>
 
@@ -103,10 +100,10 @@ export function AboutSection() {
                     aria-selected={isActive}
                     aria-controls={`capability-panel-${capability.id}`}
                     onClick={() => setActiveId(capability.id)}
-                    className={`rounded-md border px-3 py-2 text-sm font-semibold transition-all ${
+                    className={`rounded-[4px] border px-3 py-2 text-sm font-semibold transition-all ${
                       isActive
-                        ? "border-cyan/60 bg-cyan/15 text-cyan"
-                        : "border-slate/25 text-slate hover:border-cyan/40 hover:text-cyan"
+                        ? "border-royal bg-royal text-white"
+                        : "border-navy/25 bg-white text-navy/85 hover:border-royal hover:text-royal"
                     }`}
                   >
                     {capability.label}
@@ -118,15 +115,15 @@ export function AboutSection() {
             <div
               id={`capability-panel-${activeCapability.id}`}
               role="tabpanel"
-              className="rounded-md border border-slate/25 bg-ink/70 p-6 transition-all duration-200"
+              className="rounded-[4px] border border-navy/30 bg-[#111b45] p-6 text-white shadow-md transition-all duration-200 sm:p-7"
             >
-              <h3 className="font-heading text-2xl font-semibold">
+              <h3 className="font-heading text-2xl font-semibold text-white sm:text-4xl">
                 {activeCapability.title}
               </h3>
-              <p className="mt-3 text-slate">{activeCapability.summary}</p>
+              <p className="mt-3 text-white/95">{activeCapability.summary}</p>
               <ul className="mt-5 space-y-2">
                 {activeCapability.points.map((point) => (
-                  <li key={point} className="text-sm text-silver">
+                  <li key={point} className="text-sm text-white/95">
                     {point}
                   </li>
                 ))}
