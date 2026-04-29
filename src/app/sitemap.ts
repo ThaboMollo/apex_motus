@@ -11,12 +11,12 @@ const routePriorities: Array<{ path: string; priority: number }> = [
   { path: "/terms", priority: 0.4 },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
+const SITE_LAST_MODIFIED = new Date("2025-04-01");
 
+export default function sitemap(): MetadataRoute.Sitemap {
   return routePriorities.map(({ path, priority }) => ({
     url: `${SITE_URL}${path}`,
-    lastModified,
+    lastModified: SITE_LAST_MODIFIED,
     changeFrequency: path === "/" ? "weekly" : "monthly",
     priority,
   }));

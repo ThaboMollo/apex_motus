@@ -25,12 +25,36 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": ["Organization", "LocalBusiness"],
       "@id": `${SITE_URL}/#organization`,
       name: SITE_NAME,
       url: SITE_URL,
-      logo: `${SITE_URL}/apex_motus_logo_no_bg.png`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/apex_motus_logo_no_bg.png`,
+        width: 400,
+        height: 200,
+      },
       email: "apex.motus.inc@gmail.com",
+      description:
+        "Apex Motus is a South African business growth advisory firm that helps businesses remove operational, strategic, and scaling bottlenecks through practical tools, restructuring, and hands-on execution guidance.",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "ZA",
+        addressRegion: "South Africa",
+      },
+      areaServed: {
+        "@type": "Country",
+        name: "South Africa",
+      },
+      knowsAbout: [
+        "Business Growth",
+        "Operational Consulting",
+        "Business Restructuring",
+        "Strategic Advisory",
+        "Execution Support",
+        "SME Growth",
+      ],
     },
     {
       "@type": "WebSite",
@@ -41,6 +65,36 @@ const structuredData = {
         "@id": `${SITE_URL}/#organization`,
       },
       inLanguage: "en-ZA",
+    },
+    {
+      "@type": "Service",
+      "@id": `${SITE_URL}/#service-tools`,
+      name: "Business Growth Tools",
+      description:
+        "Process visibility dashboards, operational workflow tooling, and decision support for leadership teams.",
+      provider: { "@id": `${SITE_URL}/#organization` },
+      areaServed: { "@type": "Country", name: "South Africa" },
+      serviceType: "Business Operations Tooling",
+    },
+    {
+      "@type": "Service",
+      "@id": `${SITE_URL}/#service-restructuring`,
+      name: "Business Restructuring",
+      description:
+        "Role and responsibility redesign, delivery model optimization, and performance governance alignment for scalable operations.",
+      provider: { "@id": `${SITE_URL}/#organization` },
+      areaServed: { "@type": "Country", name: "South Africa" },
+      serviceType: "Business Restructuring Consulting",
+    },
+    {
+      "@type": "Service",
+      "@id": `${SITE_URL}/#service-guidance`,
+      name: "Hands-on Execution Guidance",
+      description:
+        "Technical bottleneck analysis, procedural simplification, and strategic execution support delivered directly with leadership teams.",
+      provider: { "@id": `${SITE_URL}/#organization` },
+      areaServed: { "@type": "Country", name: "South Africa" },
+      serviceType: "Strategic Advisory",
     },
   ],
 };

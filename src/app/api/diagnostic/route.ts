@@ -1,51 +1,17 @@
 import { NextResponse } from "next/server";
+import type { CriticalProblem, DiagnosticResponse, RiskCategory, SeverityLevel, RiskType } from "@/components/hero/types";
 
-const FACT_COUNT = 5;
-const MIN_FACT_CHARS = 8;
-
-type DiagnosticRisk = {
-  title: string;
-  category:
-    | "operations"
-    | "sales"
-    | "team"
-    | "finance"
-    | "technology"
-    | "customer_experience"
-    | "strategy"
-    | "compliance";
-  severity: "low" | "medium" | "high";
-  likelihood_currently_happening: "low" | "medium" | "high";
-  why_it_could_happen: string;
-  current_warning_signs: string[];
-  impact_if_ignored: string;
-  recommended_next_step: string;
-};
-
-type DiagnosticResponse = {
-  business_summary: string;
-  venture_capitalist_view: string;
-  top_5_risks: DiagnosticRisk[];
-  final_assessment: string;
-  call_to_action: string;
-};
+const MIN_TEXT_CHARS = 20;
 
 const diagnosticResponseJsonSchema = {
   type: "object",
   additionalProperties: false,
-  required: [
-    "business_summary",
-    "venture_capitalist_view",
-    "top_5_risks",
-    "final_assessment",
-    "call_to_action",
-  ],
+  required: ["business_context", "strategic_posture", "critical_problems", "closing_directive"],
   properties: {
-    business_summary: { type: "string" },
-    venture_capitalist_view: { type: "string" },
-    final_assessment: { type: "string" },
-    call_to_action: { type: "string" },
-    top_5_risks: {
+    business_context: { type: "string" },
+    strategic_posture: { type: "string" },
+    closing_directive: { type: "string" },
+    critical_problems: {
       type: "array",
       minItems: 5,
       maxItems: 5,
@@ -56,11 +22,10 @@ const diagnosticResponseJsonSchema = {
           "title",
           "category",
           "severity",
-          "likelihood_currently_happening",
-          "why_it_could_happen",
-          "current_warning_signs",
-          "impact_if_ignored",
-          "recommended_next_step",
+          "risk_type",
+          "the_exposure",
+          "ceo_perspective",
+          "mitigating_move",
         ],
         properties: {
           title: { type: "string" },
@@ -78,100 +43,102 @@ const diagnosticResponseJsonSchema = {
             ],
           },
           severity: { type: "string", enum: ["low", "medium", "high"] },
-          likelihood_currently_happening: {
-            type: "string",
-            enum: ["low", "medium", "high"],
-          },
-          why_it_could_happen: { type: "string" },
-          current_warning_signs: {
-            type: "array",
-            minItems: 2,
-            items: { type: "string" },
-          },
-          impact_if_ignored: { type: "string" },
-          recommended_next_step: { type: "string" },
+          risk_type: { type: "string", enum: ["execution", "structural"] },
+          the_exposure: { type: "string" },
+          ceo_perspective: { type: "string" },
+          mitigating_move: { type: "string" },
         },
       },
     },
   },
 } as const;
 
-function normalizeFacts(payload: unknown): string[] | null {
-  if (typeof payload !== "object" || payload === null || !("facts" in payload)) {
+function extractText(payload: unknown): string | null {
+  if (typeof payload !== "object" || payload === null || !("text" in payload)) {
     return null;
   }
-
-  const { facts } = payload as { facts?: unknown };
-  if (!Array.isArray(facts) || facts.length !== FACT_COUNT) {
+  const { text } = payload as { text?: unknown };
+  if (typeof text !== "string" || text.trim().length < MIN_TEXT_CHARS) {
     return null;
   }
-
-  const trimmedFacts = facts.map((fact) => (typeof fact === "string" ? fact.trim() : ""));
-  const allValid = trimmedFacts.every((fact) => fact.length >= MIN_FACT_CHARS);
-  return allValid ? trimmedFacts : null;
+  return text.trim();
 }
 
-function isSeverity(value: unknown): value is "low" | "medium" | "high" {
-  return value === "low" || value === "medium" || value === "high";
+function isSeverity(v: unknown): v is SeverityLevel {
+  return v === "low" || v === "medium" || v === "high";
 }
 
-function isRiskCategory(value: unknown): value is DiagnosticRisk["category"] {
+function isRiskType(v: unknown): v is RiskType {
+  return v === "execution" || v === "structural";
+}
+
+function isRiskCategory(v: unknown): v is RiskCategory {
   return (
-    value === "operations" ||
-    value === "sales" ||
-    value === "team" ||
-    value === "finance" ||
-    value === "technology" ||
-    value === "customer_experience" ||
-    value === "strategy" ||
-    value === "compliance"
+    v === "operations" ||
+    v === "sales" ||
+    v === "team" ||
+    v === "finance" ||
+    v === "technology" ||
+    v === "customer_experience" ||
+    v === "strategy" ||
+    v === "compliance"
   );
 }
 
 function isDiagnosticResponse(data: unknown): data is DiagnosticResponse {
-  if (typeof data !== "object" || data === null) {
-    return false;
-  }
-
-  const candidate = data as Partial<DiagnosticResponse>;
+  if (typeof data !== "object" || data === null) return false;
+  const d = data as Partial<DiagnosticResponse>;
   if (
-    typeof candidate.business_summary !== "string" ||
-    typeof candidate.venture_capitalist_view !== "string" ||
-    typeof candidate.final_assessment !== "string" ||
-    typeof candidate.call_to_action !== "string" ||
-    !Array.isArray(candidate.top_5_risks) ||
-    candidate.top_5_risks.length !== FACT_COUNT
+    typeof d.business_context !== "string" ||
+    typeof d.strategic_posture !== "string" ||
+    typeof d.closing_directive !== "string" ||
+    !Array.isArray(d.critical_problems) ||
+    d.critical_problems.length !== 5
   ) {
     return false;
   }
-
-  return candidate.top_5_risks.every((risk) => {
-    if (typeof risk !== "object" || risk === null) {
-      return false;
-    }
-    const castRisk = risk as Partial<DiagnosticRisk>;
+  return d.critical_problems.every((p) => {
+    if (typeof p !== "object" || p === null) return false;
+    const c = p as Partial<CriticalProblem>;
     return (
-      typeof castRisk.title === "string" &&
-      isRiskCategory(castRisk.category) &&
-      isSeverity(castRisk.severity) &&
-      isSeverity(castRisk.likelihood_currently_happening) &&
-      typeof castRisk.why_it_could_happen === "string" &&
-      Array.isArray(castRisk.current_warning_signs) &&
-      castRisk.current_warning_signs.every((sign) => typeof sign === "string") &&
-      typeof castRisk.impact_if_ignored === "string" &&
-      typeof castRisk.recommended_next_step === "string"
+      typeof c.title === "string" &&
+      isRiskCategory(c.category) &&
+      isSeverity(c.severity) &&
+      isRiskType(c.risk_type) &&
+      typeof c.the_exposure === "string" &&
+      typeof c.ceo_perspective === "string" &&
+      typeof c.mitigating_move === "string"
     );
   });
 }
 
+const SYSTEM_PROMPT = `You are a veteran Fortune 500 CEO and Strategic Consultant with 30 years of experience scaling companies and navigating market disruptions. Your tone is clinical, decisive, and focused on long-term enterprise value.
+
+You will receive a free-form description of a business written by its owner or leadership team. It may be a list of facts, a paragraph, or a mix. Extract all relevant context.
+
+Analysis Framework:
+1. Identify the Friction — where do these facts create immediate operational or financial bottlenecks?
+2. Predict the Blind Spots — what second-order consequences are invisible to most founders but obvious to a seasoned enterprise leader?
+3. Risk Mapping — classify each threat as either an Execution Risk (internal, within the business's control) or a Structural Risk (external — market, regulatory, or competitive forces).
+
+Output exactly 5 Critical Problems — current vulnerabilities or near-term predicted threats. For each problem provide:
+- The Exposure: why this specific combination of business facts creates this vulnerability.
+- The CEO Perspective: one sentence only — a hard, unfiltered truth about the problem.
+- The Mitigating Move: one high-level strategic action to neutralize or contain the threat.
+
+Be concrete. Do not hedge. Name the actual risk plainly.
+Return valid JSON matching the provided schema exactly. No markdown, no prose outside the JSON.`;
+
+function buildUserPrompt(text: string): string {
+  return `Here is what I know about this business:\n\n${text}\n\nPerform the strategic audit. Identify the 5 most critical problems this business is either facing now or will face within the next 12 months.`;
+}
+
 export async function POST(request: Request) {
-  const facts = normalizeFacts(await request.json());
-  if (!facts) {
+  const body = await request.json().catch(() => null);
+  const text = extractText(body);
+  if (!text) {
     return NextResponse.json(
-      {
-        error:
-          "Provide exactly 5 facts. Each fact must be at least 8 characters after trimming whitespace.",
-      },
+      { error: `Provide a text description of at least ${MIN_TEXT_CHARS} characters.` },
       { status: 400 },
     );
   }
@@ -186,20 +153,6 @@ export async function POST(request: Request) {
 
   const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
 
-  const systemPrompt = [
-    "You are a senior business diagnostic assistant.",
-    "Analyze the supplied 5 business facts and identify the top 5 risks.",
-    "You must return exactly 5 risks and strictly follow the JSON schema.",
-    "Be concrete, strategic, and concise.",
-  ].join(" ");
-
-  const userPrompt = [
-    "Business facts:",
-    ...facts.map((fact, index) => `${index + 1}. ${fact}`),
-    "",
-    "Return a strategic diagnostic response.",
-  ].join("\n");
-
   const openAIResponse = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -210,8 +163,8 @@ export async function POST(request: Request) {
       model,
       temperature: 0.4,
       messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userPrompt },
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: buildUserPrompt(text) },
       ],
       response_format: {
         type: "json_schema",
