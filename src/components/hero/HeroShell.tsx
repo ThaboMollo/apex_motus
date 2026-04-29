@@ -3,39 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { HeroCollapsedNav } from "./HeroCollapsedNav";
 import { HeroViewport } from "./HeroViewport";
-import { HeroPhase } from "./types";
+import { HeroPhase, DiagnosticResponse } from "./types";
 
 const COLLAPSE_DELAY_MS = 100;
 const COLLAPSE_TRIGGER_PX = 10;
-const FACT_COUNT = 5;
-const MIN_FACT_CHARS = 8;
-
-type DiagnosticRisk = {
-  title: string;
-  category:
-    | "operations"
-    | "sales"
-    | "team"
-    | "finance"
-    | "technology"
-    | "customer_experience"
-    | "strategy"
-    | "compliance";
-  severity: "low" | "medium" | "high";
-  likelihood_currently_happening: "low" | "medium" | "high";
-  why_it_could_happen: string;
-  current_warning_signs: string[];
-  impact_if_ignored: string;
-  recommended_next_step: string;
-};
-
-type DiagnosticResponse = {
-  business_summary: string;
-  venture_capitalist_view: string;
-  top_5_risks: DiagnosticRisk[];
-  final_assessment: string;
-  call_to_action: string;
-};
+const MIN_TEXT_CHARS = 20;
 
 export function HeroShell() {
   const [phase, setPhase] = useState<HeroPhase>("expanded");
@@ -116,33 +88,13 @@ export function HeroShell() {
     collapseToSection("about");
   };
 
-  const normalizeFact = (fact: string, index: number) => {
-    const trimmed = fact.trim();
-    if (trimmed.length >= MIN_FACT_CHARS) {
-      return trimmed;
-    }
-    if (trimmed.length > 0) {
-      return `Fact ${index + 1}: ${trimmed}`;
-    }
-    return `Fact ${index + 1}: Additional context was not provided.`;
-  };
-
   const handleAnalyzeBusiness = async () => {
-    const input = composerText.trim();
-    if (!input) {
-      setAnalysisError("Please add your business facts before analyzing.");
+    const text = composerText.trim();
+    if (text.length < MIN_TEXT_CHARS) {
+      setAnalysisError("Please describe your business a bit more before analysing.");
       setDiagnosticResult(null);
       return;
     }
-
-    const chunks = input
-      .split(/\r?\n|;|,|\.(?=\s|$)|\?(?=\s|$)|!(?=\s|$)/)
-      .map((part) => part.trim())
-      .filter((part) => part.length > 0);
-
-    const normalizedFacts = Array.from({ length: FACT_COUNT }, (_, index) =>
-      normalizeFact(chunks[index] ?? "", index),
-    );
 
     setAnalysisError("");
     setIsAnalyzing(true);
@@ -152,7 +104,7 @@ export function HeroShell() {
       const response = await fetch("/api/diagnostic", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ facts: normalizedFacts }),
+        body: JSON.stringify({ text }),
       });
 
       const payload = (await response.json()) as
@@ -163,14 +115,14 @@ export function HeroShell() {
         setAnalysisError(
           "error" in payload && typeof payload.error === "string"
             ? payload.error
-            : "Unable to analyze the business right now.",
+            : "Unable to analyse the business right now.",
         );
         return;
       }
 
       setDiagnosticResult(payload as DiagnosticResponse);
     } catch {
-      setAnalysisError("Network error while analyzing your business facts.");
+      setAnalysisError("Network error while analysing your business.");
     } finally {
       setIsAnalyzing(false);
     }
@@ -179,6 +131,9 @@ export function HeroShell() {
   return (
     <section className={`hero-shell hero-${phase}`} aria-label="Hero">
       <div className="absolute inset-0 bg-surface-dark" />
+      <div className="blob blob-1" />
+      <div className="blob blob-2" />
+      <div className="blob blob-3" />
 
       <HeroCollapsedNav onTalkToUs={handleTalkToUs} />
       <HeroViewport
