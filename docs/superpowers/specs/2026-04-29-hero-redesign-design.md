@@ -148,10 +148,112 @@ Line 2 (gold): If none of our 5 problems are accurate — coffee's on us.
 ## What Does Not Change
 
 - `HeroShell` — collapse/scroll logic unchanged
-- `HeroCollapsedNav` — navbar unchanged  
-- Diagnostic API call (`/api/diagnostic`) — unchanged
-- Diagnostic result rendering in `HeroViewport` — unchanged
+- `HeroCollapsedNav` — navbar unchanged
 - `HeroPhase` types — unchanged
+
+---
+
+## Diagnostic Prompt Redesign
+
+### Input contract change
+
+| | Old | New |
+|---|---|---|
+| Request body | `{ facts: string[] }` (exactly 5 pre-split strings) | `{ text: string }` (raw free-form textarea content) |
+| Validation | Exactly 5 items, each ≥ 8 chars | `text.trim().length >= 20` |
+| Client-side splitting | `HeroShell` splits on punctuation | Removed — AI extracts context from prose |
+
+### New TypeScript types
+
+```ts
+type CriticalProblem = {
+  title: string;
+  category: "operations" | "sales" | "team" | "finance" | "technology" | "customer_experience" | "strategy" | "compliance";
+  severity: "low" | "medium" | "high";
+  risk_type: "execution" | "structural";
+  the_exposure: string;
+  ceo_perspective: string;
+  mitigating_move: string;
+};
+
+type DiagnosticResponse = {
+  business_context: string;
+  strategic_posture: string;
+  critical_problems: CriticalProblem[];
+  closing_directive: string;
+};
+```
+
+### System prompt (CEO persona)
+
+```
+You are a veteran Fortune 500 CEO and Strategic Consultant with 30 years of experience
+scaling companies and navigating market disruptions. Your tone is clinical, decisive,
+and focused on long-term enterprise value.
+
+You will receive a free-form description of a business written by its owner or leadership
+team. It may be a list of facts, a paragraph, or a mix. Extract all relevant context.
+
+Analysis Framework:
+1. Identify the Friction — where do these facts create immediate operational or financial bottlenecks?
+2. Predict the Blind Spots — what second-order consequences are invisible to most founders
+   but obvious to a seasoned enterprise leader?
+3. Risk Mapping — classify each threat as either an Execution Risk (internal, within the
+   business's control) or a Structural Risk (external — market, regulatory, or competitive forces).
+
+Output exactly 5 Critical Problems — current vulnerabilities or near-term predicted threats.
+For each problem provide:
+- The Exposure: why this specific combination of business facts creates this vulnerability.
+- The CEO Perspective: one sentence only — a hard, unfiltered truth about the problem.
+- The Mitigating Move: one high-level strategic action to neutralize or contain the threat.
+
+Be concrete. Do not hedge. Name the actual risk plainly.
+Return valid JSON matching the provided schema exactly. No markdown, no prose outside the JSON.
+```
+
+### User prompt (assembled from textarea input)
+
+```
+Here is what I know about this business:
+
+{text}
+
+Perform the strategic audit. Identify the 5 most critical problems this business is either
+facing now or will face within the next 12 months.
+```
+
+### New JSON schema (replaces existing)
+
+Fields changed:
+- `business_summary` → `business_context`
+- `venture_capitalist_view` → `strategic_posture`
+- `top_5_risks` → `critical_problems`
+- Per-problem: `why_it_could_happen` → `the_exposure`, add `ceo_perspective`, `recommended_next_step` → `mitigating_move`
+- Added `risk_type: "execution" | "structural"` per problem
+- Removed: `current_warning_signs`, `likelihood_currently_happening`, `impact_if_ignored`
+- `final_assessment` + `call_to_action` → merged into `closing_directive`
+
+### HeroViewport result rendering changes
+
+| Old field | New field | Display label |
+|---|---|---|
+| `business_summary` | `business_context` | Business Context |
+| `venture_capitalist_view` | `strategic_posture` | Strategic Posture |
+| `top_5_risks[].title` | `critical_problems[].title` | Problem title |
+| `top_5_risks[].why_it_could_happen` | `critical_problems[].the_exposure` | The Exposure |
+| _(new)_ | `critical_problems[].ceo_perspective` | CEO Perspective |
+| `top_5_risks[].recommended_next_step` | `critical_problems[].mitigating_move` | Mitigating Move |
+| `final_assessment` + `call_to_action` | `closing_directive` | Closing Directive |
+
+Keep: `category` badge, `severity` badge, `risk_type` badge (new — shows "Execution Risk" or "Structural Risk").
+
+### Files affected by prompt redesign
+
+| File | Change |
+|---|---|
+| `src/app/api/diagnostic/route.ts` | New prompts, new schema, new input validation (`text` not `facts`) |
+| `src/components/hero/HeroShell.tsx` | Send `{ text: composerText }`, remove fact-splitting logic, update types |
+| `src/components/hero/HeroViewport.tsx` | Update result rendering to new field names + new `risk_type` badge |
 
 ---
 
