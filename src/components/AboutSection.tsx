@@ -63,20 +63,16 @@ export function AboutSection() {
         <div className="grid w-full gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           <div>
             <h2 className="font-heading text-4xl font-bold leading-tight text-navy md:text-5xl">
-              Who is Apex Motus?
+              We remove what&rsquo;s blocking your growth.
             </h2>
             <p className="mt-5 max-w-3xl text-xl text-navy/90">
-              Apex Motus empowers businesses to grow faster and scale bigger.
+              Apex Motus is a South African business growth advisory firm. We work
+              directly with leadership teams to identify and eliminate the operational,
+              strategic, and scaling bottlenecks that slow businesses down.
             </p>
             <p className="mt-4 max-w-3xl text-lg text-navy/90">
-              We provide tools, business restructuring, hands-on guidance.
-            </p>
-            <p className="mt-4 max-w-3xl text-lg text-navy/90">
-              We help businesses identify and eliminate bottlenecks, whether
-              technical, procedural, or strategic.
-            </p>
-            <p className="mt-8 text-base font-semibold text-royal">
-              Scroll down to discover how we can help your business thrive.
+              We bring practical tools, structural redesign, and hands-on execution
+              support — not slide decks and generic frameworks.
             </p>
           </div>
 

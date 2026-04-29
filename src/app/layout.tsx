@@ -21,7 +21,7 @@ const newsreader = Newsreader({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Apex Motus | Business Growth Tools and Advisory",
+    default: "Apex Motus | Business Growth Advisory — South Africa",
     template: "%s | Apex Motus",
   },
   description: SITE_DESCRIPTION,
@@ -32,11 +32,14 @@ export const metadata: Metadata = {
   category: "business",
   keywords: [
     "Apex Motus",
-    "business growth",
-    "business restructuring",
+    "business growth South Africa",
+    "business restructuring South Africa",
     "operations consulting",
-    "business tools",
+    "business advisory South Africa",
     "strategic advisory",
+    "SME growth",
+    "business bottleneck removal",
+    "execution advisory",
   ],
   alternates: {
     canonical: "/",
@@ -53,7 +56,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Apex Motus | Business Growth Tools and Advisory",
+    title: "Apex Motus | Business Growth Advisory — South Africa",
     description: SITE_DESCRIPTION,
     type: "website",
     siteName: SITE_NAME,
@@ -62,13 +65,15 @@ export const metadata: Metadata = {
     images: [
       {
         url: DEFAULT_OG_IMAGE_PATH,
-        alt: "Apex Motus logo",
+        width: 1200,
+        height: 630,
+        alt: "Apex Motus — Business Growth Advisory, South Africa",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Apex Motus | Business Growth Tools and Advisory",
+    title: "Apex Motus | Business Growth Advisory — South Africa",
     description: SITE_DESCRIPTION,
     images: [DEFAULT_OG_IMAGE_PATH],
   },
@@ -92,7 +97,7 @@ export default function RootLayout({
     <html lang="en" className={`${playfair.variable} ${newsreader.variable}`}>
       <body className="font-body" data-theme="dark">
         <Providers>
-          <main id="top">{children}</main>
+          <div id="top">{children}</div>
         </Providers>
       </body>
     </html>
