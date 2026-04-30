@@ -137,21 +137,16 @@ export async function POST(request: Request) {
 
   let anthropicResponse;
   try {
-    anthropicResponse = await client.messages.create({
+    anthropicResponse = await client.beta.messages.create({
       model: "claude-opus-4-7",
       max_tokens: 4096,
       thinking: { type: "adaptive" },
       system: SYSTEM_PROMPT,
       messages: [{ role: "user", content: text }],
-      // @ts-expect-error – output_config is a newer field not yet in the SDK types
       output_config: {
         format: {
           type: "json_schema",
-          json_schema: {
-            name: "diagnostic_response",
-            strict: true,
-            schema: diagnosticResponseJsonSchema,
-          },
+          schema: diagnosticResponseJsonSchema,
         },
       },
     });
