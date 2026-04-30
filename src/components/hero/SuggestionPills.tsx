@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HERO_SUGGESTIONS } from "./suggestions";
 
 type SuggestionPillsProps = {
@@ -18,8 +18,13 @@ function sampleFour(pool: string[]): string[] {
 }
 
 export function SuggestionPills({ currentValue, onSelect }: SuggestionPillsProps) {
-  const pills = useMemo(() => sampleFour(HERO_SUGGESTIONS), []);
+  const [pills, setPills] = useState<string[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // Defer random selection to the client to avoid SSR/hydration mismatch
+  useEffect(() => {
+    setPills(sampleFour(HERO_SUGGESTIONS));
+  }, []);
 
   const handleClick = (suggestion: string) => {
     let next: string;

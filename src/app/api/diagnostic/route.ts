@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import Anthropic from "@anthropic-ai/sdk";
 import type { CriticalProblem, DiagnosticResponse, RiskCategory, SeverityLevel, RiskType } from "@/components/hero/types";
 
 const MIN_TEXT_CHARS = 20;
@@ -112,26 +113,7 @@ function isDiagnosticResponse(data: unknown): data is DiagnosticResponse {
   });
 }
 
-const SYSTEM_PROMPT = `You are a veteran Fortune 500 CEO and Strategic Consultant with 30 years of experience scaling companies and navigating market disruptions. Your tone is clinical, decisive, and focused on long-term enterprise value.
-
-You will receive a free-form description of a business written by its owner or leadership team. It may be a list of facts, a paragraph, or a mix. Extract all relevant context.
-
-Analysis Framework:
-1. Identify the Friction — where do these facts create immediate operational or financial bottlenecks?
-2. Predict the Blind Spots — what second-order consequences are invisible to most founders but obvious to a seasoned enterprise leader?
-3. Risk Mapping — classify each threat as either an Execution Risk (internal, within the business's control) or a Structural Risk (external — market, regulatory, or competitive forces).
-
-Output exactly 5 Critical Problems — current vulnerabilities or near-term predicted threats. For each problem provide:
-- The Exposure: why this specific combination of business facts creates this vulnerability.
-- The CEO Perspective: one sentence only — a hard, unfiltered truth about the problem.
-- The Mitigating Move: one high-level strategic action to neutralize or contain the threat.
-
-Be concrete. Do not hedge. Name the actual risk plainly.
-Return valid JSON matching the provided schema exactly. No markdown, no prose outside the JSON.`;
-
-function buildUserPrompt(text: string): string {
-  return `Here is what I know about this business:\n\n${text}\n\nPerform the strategic audit. Identify the 5 most critical problems this business is either facing now or will face within the next 12 months.`;
-}
+const SYSTEM_PROMPT = `Return valid JSON matching the provided schema exactly. No markdown, no prose outside the JSON.`;
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
@@ -143,56 +125,50 @@ export async function POST(request: Request) {
     );
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
-      { error: "OPENAI_API_KEY is missing. Add it to your environment configuration." },
+      { error: "ANTHROPIC_API_KEY is missing. Add it to your environment configuration." },
       { status: 500 },
     );
   }
 
-  const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
+  const client = new Anthropic({ apiKey });
 
-  const openAIResponse = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0.4,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: buildUserPrompt(text) },
-      ],
-      response_format: {
-        type: "json_schema",
-        json_schema: {
-          name: "diagnostic_response",
-          strict: true,
-          schema: diagnosticResponseJsonSchema,
+  let anthropicResponse;
+  try {
+    anthropicResponse = await client.messages.create({
+      model: "claude-opus-4-7",
+      max_tokens: 4096,
+      thinking: { type: "adaptive" },
+      system: SYSTEM_PROMPT,
+      messages: [{ role: "user", content: text }],
+      // @ts-expect-error – output_config is a newer field not yet in the SDK types
+      output_config: {
+        format: {
+          type: "json_schema",
+          json_schema: {
+            name: "diagnostic_response",
+            strict: true,
+            schema: diagnosticResponseJsonSchema,
+          },
         },
       },
-    }),
-  });
-
-  if (!openAIResponse.ok) {
-    const errorBody = await openAIResponse.text();
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
-      { error: "OpenAI request failed", details: errorBody },
-      { status: openAIResponse.status },
+      { error: "Anthropic request failed", details: message },
+      { status: 502 },
     );
   }
 
-  const completion = (await openAIResponse.json()) as {
-    choices?: Array<{ message?: { content?: string } }>;
-  };
+  const textBlock = anthropicResponse.content.find((b) => b.type === "text");
+  const content = textBlock && "text" in textBlock ? textBlock.text : undefined;
 
-  const content = completion.choices?.[0]?.message?.content;
   if (typeof content !== "string") {
     return NextResponse.json(
-      { error: "OpenAI returned an unexpected response format." },
+      { error: "Anthropic returned an unexpected response format." },
       { status: 502 },
     );
   }
@@ -202,14 +178,14 @@ export async function POST(request: Request) {
     parsed = JSON.parse(content);
   } catch {
     return NextResponse.json(
-      { error: "OpenAI response was not valid JSON.", details: content },
+      { error: "Anthropic response was not valid JSON.", details: content },
       { status: 502 },
     );
   }
 
   if (!isDiagnosticResponse(parsed)) {
     return NextResponse.json(
-      { error: "OpenAI response did not match required diagnostic schema.", details: parsed },
+      { error: "Anthropic response did not match required diagnostic schema.", details: parsed },
       { status: 502 },
     );
   }

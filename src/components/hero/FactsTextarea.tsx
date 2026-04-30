@@ -45,7 +45,7 @@ export function FactsTextarea({ value, onChange, onSubmit, isLoading }: FactsTex
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Start with your first fact — e.g. We rely on referrals for most new clients…"
-        className="w-full resize-none overflow-y-auto bg-transparent font-body text-[15px] leading-relaxed text-white/88 placeholder:italic placeholder:text-white/25 focus:outline-none"
+        className="w-full resize-none overflow-y-auto bg-transparent font-body text-[15px] leading-relaxed text-gold placeholder:italic placeholder:text-white/25 focus:outline-none"
         style={{ maxHeight: "200px" }}
         disabled={isLoading}
       />
