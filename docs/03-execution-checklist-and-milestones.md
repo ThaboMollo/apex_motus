@@ -5,7 +5,7 @@
 - [ ] Confirm branch strategy for rebuild.
 - [ ] Confirm exact theming assets/tokens to preserve.
 - [ ] Add/update `.env.local.example` with required variables:
-  - [ ] `OPENAI_API_KEY`
+  - [ ] `NEXT_ANTHROPIC_API_KEY`
   - [ ] `OPENAI_MODEL` (default selected model)
   - [ ] `RESEND_API_KEY`
   - [ ] `LEAD_INBOX_EMAIL`

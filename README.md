@@ -1,6 +1,6 @@
 # Apex Motus — Corporate Holding Company
 
-A production-grade Next.js 14 application built with Material Tailwind, designed for static deployment on Netlify.
+A production-grade Next.js 14 application built with Material Tailwind, deployed on Netlify with serverless route handlers for contact email and AI diagnostics.
 
 ## 🏗️ Tech Stack
 
@@ -8,8 +8,9 @@ A production-grade Next.js 14 application built with Material Tailwind, designed
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS + Material Tailwind React
 - **Fonts**: Space Grotesk (headings), Inter (body)
-- **Deployment**: Netlify (Static Export)
-- **Form Handling**: Netlify Forms
+- **Deployment**: Netlify + Next.js runtime
+- **Form Handling**: EmailJS (server-side REST API)
+- **AI**: OpenAI Responses API
 
 ## 🎨 Brand Colors
 
@@ -42,18 +43,21 @@ yarn start
 1. Connect your repository to Netlify
 2. Configure build settings:
    - **Build command**: `yarn build`
-   - **Publish directory**: `out`
-3. Enable Netlify Forms in your site settings
+   - **Publish directory**: `.next`
+3. Add the environment variables listed below
 4. Deploy!
 
 ### Contact Form
 
-The contact form is configured to work with Netlify Forms automatically. No backend required.
+The contact form posts to `/api/contact`, which validates the payload and sends email through the EmailJS REST API.
 
 To test the form locally:
-1. Build the site: `yarn build`
-2. Serve the `out` directory with a static server
-3. Submit the form - it will be captured by Netlify on deployment
+1. Add `EMAILJS_SERVICE_ID`, `EMAILJS_TEMPLATE_ID`, `EMAILJS_PUBLIC_KEY`, and `EMAILJS_PRIVATE_KEY` to `.env.local`
+2. In the EmailJS dashboard, enable **Account → Security → "Allow EmailJS API for non-browser applications"** (required for server-side calls)
+3. Run `yarn dev`
+4. Submit either contact form
+
+The recipient ("To Email") and "Reply To" addresses are configured in the EmailJS template settings (e.g. set Reply To to `{{email_address}}`), not in code.
 
 ## 📁 Project Structure
 
@@ -83,12 +87,13 @@ apex-motus/
 
 ## 🎯 Features
 
-- ✅ Fully static site (SSG)
+- ✅ Next.js App Router site
 - ✅ SEO optimized with metadata
 - ✅ Responsive design (mobile-first)
 - ✅ Dark theme by default with theme toggle
 - ✅ Material Tailwind components
-- ✅ Netlify Forms integration
+- ✅ EmailJS contact email delivery
+- ✅ OpenAI-powered hero diagnostic
 - ✅ TypeScript for type safety
 - ✅ Optimized fonts (Google Fonts)
 - ✅ Accessibility compliant
@@ -100,7 +105,16 @@ apex-motus/
 Create a `.env.local` file for local development:
 
 ```env
-# Add any environment variables here
+NEXT_PUBLIC_SITE_URL=https://www.apexmotus.com
+
+OPEN_AI_API=sk-...
+OPENAI_MODEL=gpt-5.4-mini
+
+EMAILJS_SERVICE_ID=service_...
+EMAILJS_PUBLIC_KEY=...
+EMAILJS_PRIVATE_KEY=...
+EMAILJS_TEMPLATE_ID=template_...              # contact form
+EMAILJS_DIAGNOSTIC_TEMPLATE_ID=template_...   # hero diagnostic
 ```
 
 ### Theme Customization

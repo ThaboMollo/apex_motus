@@ -12,24 +12,25 @@
 
 ## File Map
 
-| Status | File | Purpose |
-|---|---|---|
-| Modify | `src/components/hero/types.ts` | Add `CriticalProblem`, `DiagnosticResponse`, `RiskCategory`, `SeverityLevel`, `RiskType` |
-| Create | `src/components/hero/suggestions.ts` | 50-item `HERO_SUGGESTIONS` pool |
-| Modify | `src/app/globals.css` | Add aurora blob CSS (`.blob`, `@keyframes drift`, `@keyframes blink`) |
-| Create | `src/components/hero/FactsTextarea.tsx` | Auto-growing textarea with send button and fact counter |
-| Create | `src/components/hero/SuggestionPills.tsx` | 4 randomly sampled suggestion pills |
-| Modify | `src/app/api/diagnostic/route.ts` | CEO persona prompt, new JSON schema, `text` input |
-| Modify | `src/components/hero/HeroShell.tsx` | Remove fact-splitting, send `{text}`, update types, add blob divs |
-| Modify | `src/components/hero/HeroViewport.tsx` | Typewriter, swap components, update result rendering |
-| Delete | `src/components/hero/ChatInput.tsx` | Replaced by `FactsTextarea` |
-| Delete | `src/components/hero/SuggestionChips.tsx` | Replaced by `SuggestionPills` |
+| Status | File                                      | Purpose                                                                                  |
+| ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Modify | `src/components/hero/types.ts`            | Add `CriticalProblem`, `DiagnosticResponse`, `RiskCategory`, `SeverityLevel`, `RiskType` |
+| Create | `src/components/hero/suggestions.ts`      | 50-item `HERO_SUGGESTIONS` pool                                                          |
+| Modify | `src/app/globals.css`                     | Add aurora blob CSS (`.blob`, `@keyframes drift`, `@keyframes blink`)                    |
+| Create | `src/components/hero/FactsTextarea.tsx`   | Auto-growing textarea with send button and fact counter                                  |
+| Create | `src/components/hero/SuggestionPills.tsx` | 4 randomly sampled suggestion pills                                                      |
+| Modify | `src/app/api/diagnostic/route.ts`         | CEO persona prompt, new JSON schema, `text` input                                        |
+| Modify | `src/components/hero/HeroShell.tsx`       | Remove fact-splitting, send `{text}`, update types, add blob divs                        |
+| Modify | `src/components/hero/HeroViewport.tsx`    | Typewriter, swap components, update result rendering                                     |
+| Delete | `src/components/hero/ChatInput.tsx`       | Replaced by `FactsTextarea`                                                              |
+| Delete | `src/components/hero/SuggestionChips.tsx` | Replaced by `SuggestionPills`                                                            |
 
 ---
 
 ### Task 1: Centralize Types in `types.ts`
 
 **Files:**
+
 - Modify: `src/components/hero/types.ts`
 
 - [ ] **Step 1: Replace `types.ts` with the full shared type set**
@@ -86,6 +87,7 @@ git commit -m "feat: add diagnostic types to shared types.ts"
 ### Task 2: Create the Suggestions Pool
 
 **Files:**
+
 - Create: `src/components/hero/suggestions.ts`
 
 - [ ] **Step 1: Create the file with the 50-item pool**
@@ -157,6 +159,7 @@ git commit -m "feat: add 50-item hero suggestions pool"
 ### Task 3: Add Aurora CSS to `globals.css`
 
 **Files:**
+
 - Modify: `src/app/globals.css`
 
 - [ ] **Step 1: Append aurora blob styles to the end of `globals.css`**
@@ -166,23 +169,49 @@ Add these styles at the end of the file (before any closing braces if applicable
 ```css
 /* ── Aurora background blobs ─────────────────────────── */
 @keyframes drift1 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  33%      { transform: translate(40px,-30px) scale(1.08); }
-  66%      { transform: translate(-25px,45px) scale(0.95); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(40px, -30px) scale(1.08);
+  }
+  66% {
+    transform: translate(-25px, 45px) scale(0.95);
+  }
 }
 @keyframes drift2 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  33%      { transform: translate(-50px,35px) scale(1.12); }
-  66%      { transform: translate(30px,-20px) scale(0.93); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-50px, 35px) scale(1.12);
+  }
+  66% {
+    transform: translate(30px, -20px) scale(0.93);
+  }
 }
 @keyframes drift3 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  33%      { transform: translate(20px,50px) scale(0.97); }
-  66%      { transform: translate(-40px,-30px) scale(1.06); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(20px, 50px) scale(0.97);
+  }
+  66% {
+    transform: translate(-40px, -30px) scale(1.06);
+  }
 }
 @keyframes blink {
-  0%,100% { opacity: 1; }
-  50%     { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .blob {
@@ -194,7 +223,11 @@ Add these styles at the end of the file (before any closing braces if applicable
 .blob-1 {
   width: 520px;
   height: 380px;
-  background: radial-gradient(ellipse, rgba(28,44,163,0.55) 0%, transparent 70%);
+  background: radial-gradient(
+    ellipse,
+    rgba(28, 44, 163, 0.55) 0%,
+    transparent 70%
+  );
   top: -10%;
   left: -8%;
   animation: drift1 14s ease-in-out infinite;
@@ -202,7 +235,11 @@ Add these styles at the end of the file (before any closing braces if applicable
 .blob-2 {
   width: 460px;
   height: 340px;
-  background: radial-gradient(ellipse, rgba(100,40,160,0.45) 0%, transparent 70%);
+  background: radial-gradient(
+    ellipse,
+    rgba(100, 40, 160, 0.45) 0%,
+    transparent 70%
+  );
   bottom: -5%;
   right: -6%;
   animation: drift2 18s ease-in-out infinite;
@@ -210,14 +247,20 @@ Add these styles at the end of the file (before any closing braces if applicable
 .blob-3 {
   width: 340px;
   height: 300px;
-  background: radial-gradient(ellipse, rgba(212,175,55,0.12) 0%, transparent 70%);
+  background: radial-gradient(
+    ellipse,
+    rgba(212, 175, 55, 0.12) 0%,
+    transparent 70%
+  );
   top: 30%;
   right: 10%;
   animation: drift3 22s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .blob { animation: none; }
+  .blob {
+    animation: none;
+  }
 }
 ```
 
@@ -233,6 +276,7 @@ git commit -m "feat: add aurora blob CSS keyframes and blob styles"
 ### Task 4: Create `FactsTextarea`
 
 **Files:**
+
 - Create: `src/components/hero/FactsTextarea.tsx`
 
 - [ ] **Step 1: Create the component**
@@ -256,7 +300,12 @@ function countFacts(text: string): number {
     .filter((s) => s.length > 4).length;
 }
 
-export function FactsTextarea({ value, onChange, onSubmit, isLoading }: FactsTextareaProps) {
+export function FactsTextarea({
+  value,
+  onChange,
+  onSubmit,
+  isLoading,
+}: FactsTextareaProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -293,7 +342,9 @@ export function FactsTextarea({ value, onChange, onSubmit, isLoading }: FactsTex
         <span
           className={`font-caption text-[11px] ${factCount > 0 ? "text-gold" : "text-white/30"}`}
         >
-          {factCount === 0 ? "0 facts detected" : `${factCount} fact${factCount === 1 ? "" : "s"} detected`}
+          {factCount === 0
+            ? "0 facts detected"
+            : `${factCount} fact${factCount === 1 ? "" : "s"} detected`}
         </span>
         <button
           type="button"
@@ -327,6 +378,7 @@ git commit -m "feat: add FactsTextarea component with auto-grow and fact counter
 ### Task 5: Create `SuggestionPills`
 
 **Files:**
+
 - Create: `src/components/hero/SuggestionPills.tsx`
 
 - [ ] **Step 1: Create the component**
@@ -351,7 +403,10 @@ function sampleFour(pool: string[]): string[] {
   return copy.slice(0, 4);
 }
 
-export function SuggestionPills({ currentValue, onSelect }: SuggestionPillsProps) {
+export function SuggestionPills({
+  currentValue,
+  onSelect,
+}: SuggestionPillsProps) {
   const pills = useMemo(() => sampleFour(HERO_SUGGESTIONS), []);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -369,7 +424,8 @@ export function SuggestionPills({ currentValue, onSelect }: SuggestionPillsProps
 
     // focus the textarea after appending
     if (!textareaRef.current) {
-      textareaRef.current = document.querySelector<HTMLTextAreaElement>("textarea");
+      textareaRef.current =
+        document.querySelector<HTMLTextAreaElement>("textarea");
     }
     textareaRef.current?.focus();
   };
@@ -409,20 +465,32 @@ git commit -m "feat: add SuggestionPills component with Fisher-Yates random samp
 ### Task 6: Rewrite the Diagnostic API Route
 
 **Files:**
+
 - Modify: `src/app/api/diagnostic/route.ts`
 
 - [ ] **Step 1: Rewrite `route.ts` with the CEO persona and new schema**
 
 ```typescript
 import { NextResponse } from "next/server";
-import type { CriticalProblem, DiagnosticResponse, RiskCategory, SeverityLevel, RiskType } from "@/components/hero/types";
+import type {
+  CriticalProblem,
+  DiagnosticResponse,
+  RiskCategory,
+  SeverityLevel,
+  RiskType,
+} from "@/components/hero/types";
 
 const MIN_TEXT_CHARS = 20;
 
 const diagnosticResponseJsonSchema = {
   type: "object",
   additionalProperties: false,
-  required: ["business_context", "strategic_posture", "critical_problems", "closing_directive"],
+  required: [
+    "business_context",
+    "strategic_posture",
+    "critical_problems",
+    "closing_directive",
+  ],
   properties: {
     business_context: { type: "string" },
     strategic_posture: { type: "string" },
@@ -554,44 +622,52 @@ export async function POST(request: Request) {
   const text = extractText(body);
   if (!text) {
     return NextResponse.json(
-      { error: `Provide a text description of at least ${MIN_TEXT_CHARS} characters.` },
+      {
+        error: `Provide a text description of at least ${MIN_TEXT_CHARS} characters.`,
+      },
       { status: 400 },
     );
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.NEXT_ANTHROPIC_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
-      { error: "OPENAI_API_KEY is missing. Add it to your environment configuration." },
+      {
+        error:
+          "NEXT_ANTHROPIC_API_KEY is missing. Add it to your environment configuration.",
+      },
       { status: 500 },
     );
   }
 
   const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
 
-  const openAIResponse = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0.4,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: buildUserPrompt(text) },
-      ],
-      response_format: {
-        type: "json_schema",
-        json_schema: {
-          name: "diagnostic_response",
-          strict: true,
-          schema: diagnosticResponseJsonSchema,
-        },
+  const openAIResponse = await fetch(
+    "https://api.openai.com/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
       },
-    }),
-  });
+      body: JSON.stringify({
+        model,
+        temperature: 0.4,
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          { role: "user", content: buildUserPrompt(text) },
+        ],
+        response_format: {
+          type: "json_schema",
+          json_schema: {
+            name: "diagnostic_response",
+            strict: true,
+            schema: diagnosticResponseJsonSchema,
+          },
+        },
+      }),
+    },
+  );
 
   if (!openAIResponse.ok) {
     const errorBody = await openAIResponse.text();
@@ -625,7 +701,10 @@ export async function POST(request: Request) {
 
   if (!isDiagnosticResponse(parsed)) {
     return NextResponse.json(
-      { error: "OpenAI response did not match required diagnostic schema.", details: parsed },
+      {
+        error: "OpenAI response did not match required diagnostic schema.",
+        details: parsed,
+      },
       { status: 502 },
     );
   }
@@ -652,6 +731,7 @@ git commit -m "feat: rewrite diagnostic API with CEO persona and new JSON schema
 ### Task 7: Update `HeroShell`
 
 **Files:**
+
 - Modify: `src/components/hero/HeroShell.tsx`
 
 - [ ] **Step 1: Rewrite `HeroShell.tsx`**
@@ -675,7 +755,8 @@ export function HeroShell() {
   const [composerText, setComposerText] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisError, setAnalysisError] = useState("");
-  const [diagnosticResult, setDiagnosticResult] = useState<DiagnosticResponse | null>(null);
+  const [diagnosticResult, setDiagnosticResult] =
+    useState<DiagnosticResponse | null>(null);
   const timerRef = useRef<number | null>(null);
   const phaseRef = useRef<HeroPhase>("expanded");
 
@@ -752,7 +833,9 @@ export function HeroShell() {
   const handleAnalyzeBusiness = async () => {
     const text = composerText.trim();
     if (text.length < MIN_TEXT_CHARS) {
-      setAnalysisError("Please describe your business a bit more before analysing.");
+      setAnalysisError(
+        "Please describe your business a bit more before analysing.",
+      );
       setDiagnosticResult(null);
       return;
     }
@@ -829,6 +912,7 @@ git commit -m "feat: update HeroShell to send free-form text and add aurora blob
 ### Task 8: Rewrite `HeroViewport`
 
 **Files:**
+
 - Modify: `src/components/hero/HeroViewport.tsx`
 
 - [ ] **Step 1: Rewrite `HeroViewport.tsx` with typewriter, new components, and new result rendering**
@@ -841,7 +925,8 @@ import { FactsTextarea } from "./FactsTextarea";
 import { SuggestionPills } from "./SuggestionPills";
 import { CriticalProblem, DiagnosticResponse } from "./types";
 
-const HEADLINE = "Give me 5 facts about your business, and I'll give you 5 potential problems.";
+const HEADLINE =
+  "Give me 5 facts about your business, and I'll give you 5 potential problems.";
 const TYPEWRITER_INTERVAL_MS = 38;
 
 type HeroViewportProps = {
@@ -856,12 +941,14 @@ type HeroViewportProps = {
 
 function levelBadgeClass(level: "low" | "medium" | "high") {
   if (level === "high") return "border-red-300/40 bg-red-300/20 text-red-100";
-  if (level === "medium") return "border-yellow-300/40 bg-yellow-300/20 text-yellow-100";
+  if (level === "medium")
+    return "border-yellow-300/40 bg-yellow-300/20 text-yellow-100";
   return "border-emerald-300/40 bg-emerald-300/20 text-emerald-100";
 }
 
 function riskTypeBadgeClass(riskType: "execution" | "structural") {
-  if (riskType === "structural") return "border-purple-300/40 bg-purple-300/10 text-purple-200";
+  if (riskType === "structural")
+    return "border-purple-300/40 bg-purple-300/10 text-purple-200";
   return "border-sky-300/40 bg-sky-300/10 text-sky-200";
 }
 
@@ -881,7 +968,9 @@ function ProblemCard({ problem }: { problem: CriticalProblem }) {
         <span
           className={`rounded-[4px] border px-2 py-0.5 font-caption text-[10px] uppercase tracking-[0.14em] ${riskTypeBadgeClass(problem.risk_type)}`}
         >
-          {problem.risk_type === "execution" ? "Execution Risk" : "Structural Risk"}
+          {problem.risk_type === "execution"
+            ? "Execution Risk"
+            : "Structural Risk"}
         </span>
       </div>
 
@@ -949,7 +1038,8 @@ export function HeroViewport({
 
         <div className="mt-4 max-w-2xl text-center">
           <p className="font-body text-[16px] leading-relaxed text-white/65 sm:text-[18px]">
-            We help South African businesses remove what&rsquo;s slowing them down.
+            We help South African businesses remove what&rsquo;s slowing them
+            down.
           </p>
           <p className="mt-1 font-body text-[15px] leading-relaxed text-gold/80">
             If none of our 5 problems are accurate &mdash; coffee&rsquo;s on us.
@@ -965,7 +1055,10 @@ export function HeroViewport({
           />
         </div>
 
-        <SuggestionPills currentValue={composerText} onSelect={onComposerTextChange} />
+        <SuggestionPills
+          currentValue={composerText}
+          onSelect={onComposerTextChange}
+        />
 
         {isAnalyzing ? (
           <p className="mt-3 text-center font-body text-[15px] text-gold">
@@ -1005,7 +1098,10 @@ export function HeroViewport({
               </h3>
               <div className="space-y-3">
                 {diagnosticResult.critical_problems.map((problem, index) => (
-                  <ProblemCard key={`${problem.title}-${index}`} problem={problem} />
+                  <ProblemCard
+                    key={`${problem.title}-${index}`}
+                    problem={problem}
+                  />
                 ))}
               </div>
             </div>
@@ -1052,6 +1148,7 @@ git commit -m "feat: rewrite HeroViewport with typewriter, FactsTextarea, Sugges
 ### Task 9: Delete Old Components
 
 **Files:**
+
 - Delete: `src/components/hero/ChatInput.tsx`
 - Delete: `src/components/hero/SuggestionChips.tsx`
 
@@ -1087,26 +1184,26 @@ git commit -m "chore: delete ChatInput and SuggestionChips (replaced by FactsTex
 
 **Spec coverage check:**
 
-| Spec requirement | Covered in task |
-|---|---|
-| Aurora background — 3 CSS blob divs, no JS | Task 3 (CSS) + Task 7 (JSX) |
-| Typewriter headline at 38ms/char, blinking cursor | Task 8 |
-| Eyebrow line copy above h1 | Task 8 |
-| Tagline — two lines below h1 | Task 8 |
-| `FactsTextarea` — auto-grow, max 200px, send inside | Task 4 |
-| Fact counter (splits on `.`, `\n`, etc.) | Task 4 |
-| Cmd/Ctrl+Enter submit | Task 4 |
-| Send button disabled when `< 20 chars` or loading | Task 4 |
-| `SuggestionPills` — 4 from 50-item pool, Fisher-Yates | Task 5 |
-| Click pill appends with smart separator logic | Task 5 |
-| 50-item suggestions pool | Task 2 |
-| API accepts `{ text }` not `{ facts[] }` | Task 6 |
-| Validation: `text.trim().length >= 20` | Task 6 |
-| CEO persona system prompt | Task 6 |
-| New JSON schema: `the_exposure`, `ceo_perspective`, `mitigating_move` | Task 6 |
-| `risk_type: "execution" | "structural"` badge | Task 8 |
-| Result rendering: new field names | Task 8 |
-| Delete `ChatInput.tsx` and `SuggestionChips.tsx` | Task 9 |
-| Types centralized in `types.ts` | Task 1 |
+| Spec requirement                                                      | Covered in task             |
+| --------------------------------------------------------------------- | --------------------------- | ------ |
+| Aurora background — 3 CSS blob divs, no JS                            | Task 3 (CSS) + Task 7 (JSX) |
+| Typewriter headline at 38ms/char, blinking cursor                     | Task 8                      |
+| Eyebrow line copy above h1                                            | Task 8                      |
+| Tagline — two lines below h1                                          | Task 8                      |
+| `FactsTextarea` — auto-grow, max 200px, send inside                   | Task 4                      |
+| Fact counter (splits on `.`, `\n`, etc.)                              | Task 4                      |
+| Cmd/Ctrl+Enter submit                                                 | Task 4                      |
+| Send button disabled when `< 20 chars` or loading                     | Task 4                      |
+| `SuggestionPills` — 4 from 50-item pool, Fisher-Yates                 | Task 5                      |
+| Click pill appends with smart separator logic                         | Task 5                      |
+| 50-item suggestions pool                                              | Task 2                      |
+| API accepts `{ text }` not `{ facts[] }`                              | Task 6                      |
+| Validation: `text.trim().length >= 20`                                | Task 6                      |
+| CEO persona system prompt                                             | Task 6                      |
+| New JSON schema: `the_exposure`, `ceo_perspective`, `mitigating_move` | Task 6                      |
+| `risk_type: "execution"                                               | "structural"` badge         | Task 8 |
+| Result rendering: new field names                                     | Task 8                      |
+| Delete `ChatInput.tsx` and `SuggestionChips.tsx`                      | Task 9                      |
+| Types centralized in `types.ts`                                       | Task 1                      |
 
 **Type consistency check:** `DiagnosticResponse` and `CriticalProblem` are imported from `types.ts` in `HeroShell`, `HeroViewport`, and `route.ts` — no duplication. All field names (`the_exposure`, `ceo_perspective`, `mitigating_move`, `business_context`, `strategic_posture`, `closing_directive`, `critical_problems`) are consistent across schema, type guard, TypeScript types, and JSX rendering.

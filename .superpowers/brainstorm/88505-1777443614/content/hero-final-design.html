@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero Final Design</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0f1e;
+    font-family: Georgia, 'Times New Roman', serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ─── AURORA BACKGROUND ─── */
+  .aurora-bg {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.6;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .blob-1 {
+    width: 600px; height: 400px;
+    background: radial-gradient(circle, rgba(28,44,163,0.55) 0%, transparent 70%);
+    top: -100px; left: -100px;
+    animation-duration: 14s;
+  }
+  .blob-2 {
+    width: 500px; height: 350px;
+    background: radial-gradient(circle, rgba(90,30,150,0.4) 0%, transparent 70%);
+    bottom: -80px; right: -80px;
+    animation-duration: 18s;
+    animation-delay: -5s;
+  }
+  .blob-3 {
+    width: 300px; height: 250px;
+    background: radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 70%);
+    top: 40%; left: 55%;
+    animation-duration: 22s;
+    animation-delay: -9s;
+  }
+  @keyframes drift {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(40px, 30px) scale(1.05); }
+    66% { transform: translate(-20px, 50px) scale(0.97); }
+    100% { transform: translate(60px, -20px) scale(1.03); }
+  }
+
+  /* ─── NAVBAR ─── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    z-index: 10;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .nav.scrolled {
+    background: rgba(10,16,40,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212,175,55,0.18);
+  }
+  .nav-brand {
+    font-family: -apple-system, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #d4af37;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-family: -apple-system, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta {
+    font-family: -apple-system, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #d4af37;
+    border: 1px solid rgba(212,175,55,0.4);
+    border-radius: 4px;
+    padding: 6px 14px;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .nav-cta:hover { background: rgba(212,175,55,0.1); }
+
+  /* ─── HERO BODY ─── */
+  .hero-body {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 760px;
+    padding: 120px 24px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .eyebrow {
+    font-family: -apple-system, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(212,175,55,0.72);
+    margin-bottom: 20px;
+  }
+
+  .headline {
+    font-family: Georgia, serif;
+    font-size: clamp(28px, 5vw, 58px);
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    line-height: 1.2;
+    max-width: 640px;
+    min-height: 80px;
+  }
+  .tw-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 0.85em;
+    background: #d4af37;
+    vertical-align: middle;
+    margin-left: 2px;
+    animation: blink 0.85s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .tagline {
+    font-family: -apple-system, sans-serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+    margin-top: 14px;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+  .tagline em {
+    font-style: normal;
+    color: rgba(212,175,55,0.7);
+  }
+
+  /* ─── INPUT BOX ─── */
+  .input-box {
+    width: 100%;
+    max-width: 680px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(212,175,55,0.28);
+    border-radius: 16px;
+    padding: 16px 16px 10px 20px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 0 0 rgba(212,175,55,0);
+  }
+  .input-box:focus-within {
+    border-color: rgba(212,175,55,0.55);
+    box-shadow: 0 0 30px rgba(212,175,55,0.07);
+  }
+  .input-box textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: -apple-system, sans-serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.6;
+    min-height: 44px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .input-box textarea::placeholder {
+    color: rgba(255,255,255,0.25);
+    font-style: italic;
+  }
+  .input-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .fact-count {
+    font-family: -apple-system, sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.22);
+  }
+  .fact-count.active { color: rgba(212,175,55,0.6); }
+  .send-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #d4af37;
+    color: #0a1028;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-family: -apple-system, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 0 16px rgba(212,175,55,0.35);
+    transition: opacity 0.15s, box-shadow 0.2s;
+  }
+  .send-btn:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+  .send-btn:not(:disabled):hover { box-shadow: 0 0 24px rgba(212,175,55,0.55); }
+
+  /* ─── SUGGESTION PILLS ─��─ */
+  .pills-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 16px;
+    max-width: 680px;
+  }
+  .pill {
+    font-family: -apple-system, sans-serif;
+    font-size: 12px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 5px 14px;
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    user-select: none;
+  }
+  .pill:hover {
+    border-color: rgba(212,175,55,0.45);
+    color: rgba(212,175,55,0.9);
+    background: rgba(212,175,55,0.05);
+  }
+
+  /* ─── SCROLL HINT ─── */
+  .scroll-hint {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    z-index: 5;
+    opacity: 0.4;
+  }
+  .scroll-hint span {
+    font-family: -apple-system, sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  .scroll-arrow {
+    width: 20px;
+    height: 20px;
+    border-right: 1px solid rgba(255,255,255,0.5);
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+    transform: rotate(45deg);
+    animation: bounce 1.6s ease-in-out infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(4px)} }
+
+  /* ─── ANNOTATION LAYER ─── */
+  .annotation {
+    position: fixed;
+    background: rgba(212,175,55,0.9);
+    color: #000;
+    font-family: -apple-system, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 20;
+  }
+  .annotation::after {
+    content: '';
+    position: absolute;
+    border: 5px solid transparent;
+  }
+  .ann-right::after { border-left-color: rgba(212,175,55,0.9); left: 100%; top: 50%; transform: translateY(-50%); }
+  .ann-left::after { border-right-color: rgba(212,175,55,0.9); right: 100%; top: 50%; transform: translateY(-50%); }
+  .ann-bottom::after { border-top-color: rgba(212,175,55,0.9); top: 100%; left: 50%; transform: translateX(-50%); }
+  .ann-top::after { border-bottom-color: rgba(212,175,55,0.9); bottom: 100%; left: 50%; transform: translateX(-50%); }
+
+  #ann-eyebrow { top: 102px; right: calc(50% + 220px); }
+  #ann-headline { top: 150px; right: calc(50% + 320px); }
+  #ann-tagline { top: 260px; right: calc(50% + 280px); }
+  #ann-input { top: 320px; right: calc(50% + 340px); }
+  #ann-pills { top: 430px; left: calc(50% + 260px); }
+  #ann-aurora { top: 30px; left: calc(50% + 280px); }
+
+  .toggle-ann {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.35);
+    color: #d4af37;
+    font-family: -apple-system, sans-serif;
+    font-size: 11px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 30;
+    letter-spacing: 0.05em;
+  }
+  .toggle-ann:hover { background: rgba(212,175,55,0.25); }
+</style>
+</head>
+<body>
+
+<div class="aurora-bg">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- ANNOTATIONS (toggle) -->
+<div class="annotations" id="annotations">
+  <div class="annotation ann-right" id="ann-aurora">Aurora blobs drift slowly</div>
+  <div class="annotation ann-right" id="ann-eyebrow">Brand anchor &amp; location</div>
+  <div class="annotation ann-right" id="ann-headline">Typewriter animation on load</div>
+  <div class="annotation ann-right" id="ann-tagline">Coffee hook + context line</div>
+  <div class="annotation ann-right" id="ann-input">Auto-growing textarea<br>send btn inside</div>
+  <div class="annotation ann-left" id="ann-pills">4 random pills from 50-item pool<br>click to append to textarea</div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav-brand">Apex Motus</div>
+  <div class="nav-links">
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Products</a>
+    <a href="#">Contact</a>
+  </div>
+  <a href="#" class="nav-cta">Talk to Us</a>
+</nav>
+
+<div class="hero-body">
+  <p class="eyebrow">Apex Motus &mdash; Business Growth Advisory &middot; South Africa</p>
+
+  <h1 class="headline" id="headline"><span class="tw-cursor" id="cursor"></span></h1>
+
+  <p class="tagline">
+    We help South African businesses remove what&rsquo;s slowing them down.<br>
+    <em>If none of our 5 problems are accurate &mdash; coffee&rsquo;s on us.</em>
+  </p>
+
+  <div class="input-box" id="inputBox">
+    <textarea
+      id="factsInput"
+      rows="2"
+      placeholder="Start with your first fact — e.g. We rely on referrals for most new clients…"
+      oninput="onInput(this)"
+    ></textarea>
+    <div class="input-footer">
+      <span class="fact-count" id="factCount">0 facts detected</span>
+      <button class="send-btn" id="sendBtn" disabled>Analyse &nbsp;&#8594;</button>
+    </div>
+  </div>
+
+  <div class="pills-wrap" id="pillsWrap"></div>
+</div>
+
+<div class="scroll-hint">
+  <span>Scroll to explore</span>
+  <div class="scroll-arrow"></div>
+</div>
+
+<button class="toggle-ann" onclick="toggleAnnotations()">Toggle annotations</button>
+
+<script>
+var ALL_SUGGESTIONS = [
+  "We rely on referrals",
+  "We are a consultancy firm",
+  "We stock in bulk and resell",
+  "We develop software solutions based on client requirements",
+  "We provide 24/7 personalised support",
+  "We offer white-glove delivery and installation",
+  "We provide on-site technical training",
+  "We act as an outsourced department",
+  "We offer emergency rapid-response times",
+  "We provide bespoke tailoring for specialised equipment",
+  "We facilitate networking and industry connections",
+  "We offer concierge-level project management",
+  "We manufacture in small batches for high quality",
+  "We source exclusively from local producers",
+  "We provide try-before-you-buy sample programs",
+  "We offer subscription-based inventory replenishment",
+  "We curate best-in-class product bundles",
+  "We use 100% eco-friendly and compostable packaging",
+  "We offer lifetime warranties on all craftsmanship",
+  "We refurbish and resell high-end electronics",
+  "We provide white-label manufacturing for other brands",
+  "We provide API integrations between disparate systems",
+  "We offer rapid prototyping and 3D modelling",
+  "We provide creative direction and brand strategy",
+  "We perform deep-dive technical security audits",
+  "We offer fractional C-suite leadership talent",
+  "We specialise in legacy system maintenance and repair",
+  "We provide interactive data visualisation and analytics",
+  "We offer UX/UI optimisation for digital platforms",
+  "We conduct hyper-local market research",
+  "We operate a low-overhead model to reduce client costs",
+  "We offer flexible pay-as-you-grow payment plans",
+  "We have no minimum order quantities",
+  "We offer geographic exclusivity to our partners",
+  "We provide turnkey solutions for retail franchises",
+  "We leverage family-owned heritage and stability",
+  "We offer risk-free performance-based trials",
+  "We pivot service offerings based on real-time trends",
+  "We provide navigation through complex regulatory red tape",
+  "We offer unbundled services to prevent overpaying",
+  "We specialise in sourcing hard-to-find or obsolete parts",
+  "We provide linguistic and cultural localisation",
+  "We cater to high-net-worth individuals requiring privacy",
+  "We operate as an artisan workshop for handmade goods",
+  "We provide 24-hour disaster recovery services",
+  "We offer pop-up retail and temporary storefront solutions",
+  "We focus on inclusive and accessible design standards",
+  "We provide just-in-time inventory management",
+  "We offer exclusive community membership access",
+  "We provide radical transparency in the supply chain"
+];
+
+function pickRandom(arr, n) {
+  var copy = arr.slice();
+  var result = [];
+  while (result.length < n && copy.length > 0) {
+    var idx = Math.floor(Math.random() * copy.length);
+    result.push(copy.splice(idx, 1)[0]);
+  }
+  return result;
+}
+
+function renderPills() {
+  var wrap = document.getElementById('pillsWrap');
+  var picks = pickRandom(ALL_SUGGESTIONS, 4);
+  picks.forEach(function(text) {
+    var btn = document.createElement('button');
+    btn.className = 'pill';
+    btn.textContent = text;
+    btn.addEventListener('click', function() {
+      var ta = document.getElementById('factsInput');
+      var current = ta.value.trim();
+      if (current.length > 0 && !current.endsWith('.') && !current.endsWith(',') && !current.endsWith('\n')) {
+        ta.value = current + '. ' + text;
+      } else if (current.length > 0) {
+        ta.value = current + ' ' + text;
+      } else {
+        ta.value = text;
+      }
+      onInput(ta);
+      ta.focus();
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+function onInput(ta) {
+  ta.style.height = 'auto';
+  ta.style.height = Math.min(ta.scrollHeight, 200) + 'px';
+  var val = ta.value.trim();
+  var count = val.length > 0 ? val.split(/[.\n,;!?]+/).filter(function(s){ return s.trim().length > 4; }).length : 0;
+  var countEl = document.getElementById('factCount');
+  var sendBtn = document.getElementById('sendBtn');
+  countEl.textContent = count === 0 ? '0 facts detected' : count + ' fact' + (count === 1 ? '' : 's') + ' detected';
+  countEl.className = 'fact-count' + (count > 0 ? ' active' : '');
+  sendBtn.disabled = val.length < 8;
+}
+
+/* Typewriter */
+var HEADLINE = "Give me 5 facts about your business, and I’ll give you 5 potential problems.";
+var hlEl = document.getElementById('headline');
+var cursorEl = document.getElementById('cursor');
+var twIdx = 0;
+var twTimer;
+
+function typeNext() {
+  if (twIdx < HEADLINE.length) {
+    var textNode = hlEl.childNodes[0];
+    if (!textNode || textNode.nodeType !== 3) {
+      textNode = document.createTextNode('');
+      hlEl.insertBefore(textNode, cursorEl);
+    }
+    textNode.textContent += HEADLINE[twIdx];
+    twIdx++;
+    twTimer = setTimeout(typeNext, twIdx < 20 ? 55 : 35);
+  }
+}
+setTimeout(typeNext, 600);
+
+/* Annotations toggle */
+function toggleAnnotations() {
+  var ann = document.getElementById('annotations');
+  ann.style.display = ann.style.display === 'none' ? '' : 'none';
+}
+
+renderPills();
+</script>
+</body>
+</html>

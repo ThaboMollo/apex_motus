@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Input Style</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f1117; color: #e8e8e8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 24px; }
+  h1 { text-align: center; font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .subtitle { text-align: center; color: #777; font-size: 13px; margin-bottom: 28px; }
+
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 860px; margin: 0 auto; }
+  .card { border: 2px solid #2a2a3a; border-radius: 12px; overflow: hidden; cursor: pointer; transition: border-color 0.2s, transform 0.15s; background: #16161e; }
+  .card:hover { border-color: #d4af37; transform: translateY(-2px); }
+  .card.selected { border-color: #d4af37; box-shadow: 0 0 0 3px rgba(212,175,55,0.2); }
+
+  .card-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #1a1a26; border-bottom: 1px solid #2a2a3a; }
+  .letter { width: 26px; height: 26px; border-radius: 50%; background: #d4af37; color: #000; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+  .name { font-weight: 600; font-size: 13px; color: #fff; }
+  .tag { font-size: 11px; color: #888; background: #2a2a3a; padding: 2px 7px; border-radius: 20px; margin-left: auto; }
+  .checkmark { width: 20px; height: 20px; background: #d4af37; border-radius: 50%; display: none; align-items: center; justify-content: center; color: #000; font-size: 11px; font-weight: 700; }
+  .card.selected .checkmark { display: flex; }
+
+  .hero-mini { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 18px; overflow: hidden; background: #050a18; }
+  .aurora { position: absolute; inset: 0; background: radial-gradient(ellipse 280px 150px at 20% 30%, rgba(28,44,163,0.38) 0%, transparent 70%), radial-gradient(ellipse 220px 120px at 80% 70%, rgba(100,40,160,0.28) 0%, transparent 70%); filter: blur(22px); pointer-events: none; }
+  .z { position: relative; z-index: 2; width: 100%; display: flex; flex-direction: column; align-items: center; }
+  .eyebrow { font-size: 8px; letter-spacing: 0.18em; color: rgba(212,175,55,0.7); text-transform: uppercase; margin-bottom: 8px; }
+  .hl { font-size: 14px; font-weight: 700; color: #fff; text-align: center; line-height: 1.3; max-width: 260px; margin-bottom: 14px; }
+  .sub { font-size: 10px; color: rgba(255,255,255,0.4); text-align: center; margin-bottom: 14px; margin-top: -10px; }
+
+  /* A: Pill / single line */
+  .input-pill-wrap { width: 100%; max-width: 300px; }
+  .input-pill { width: 100%; height: 44px; background: rgba(255,255,255,0.07); border: 1px solid rgba(212,175,55,0.3); border-radius: 22px; display: flex; align-items: center; padding: 0 7px 0 16px; }
+  .input-pill span { font-size: 10px; color: rgba(255,255,255,0.32); flex: 1; font-style: italic; }
+  .send-btn { width: 30px; height: 30px; border-radius: 50%; background: #d4af37; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #000; flex-shrink: 0; box-shadow: 0 0 10px rgba(212,175,55,0.4); }
+  .typed { color: rgba(255,255,255,0.85) !important; font-style: normal !important; }
+
+  /* B: Growing textarea (claude.ai style) */
+  .input-area-wrap { width: 100%; max-width: 300px; background: rgba(255,255,255,0.07); border: 1px solid rgba(212,175,55,0.3); border-radius: 14px; padding: 12px 14px 8px; }
+  .textarea-fake { font-size: 11px; color: rgba(255,255,255,0.8); line-height: 1.55; min-height: 48px; }
+  .textarea-placeholder { font-size: 11px; color: rgba(255,255,255,0.3); font-style: italic; }
+  .input-area-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.08); }
+  .char-count { font-size: 9px; color: rgba(255,255,255,0.25); }
+  .send-btn-sq { height: 28px; padding: 0 12px; border-radius: 6px; background: #d4af37; font-size: 10px; font-weight: 700; color: #000; display: flex; align-items: center; gap: 4px; box-shadow: 0 0 10px rgba(212,175,55,0.35); }
+
+  .pills-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; justify-content: center; max-width: 300px; }
+  .pill { font-size: 8px; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 2px 8px; color: rgba(255,255,255,0.5); }
+
+  .card-footer { padding: 14px 16px; border-top: 1px solid #2a2a3a; background: #13131d; }
+  .card-footer h4 { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .card-footer p { font-size: 12px; color: #888; line-height: 1.5; }
+
+  /* animation: pill types out */
+  @keyframes typeIn { from { width: 0 } to { width: 100% } }
+  .typing-demo { overflow: hidden; display: inline-block; white-space: nowrap; border-right: 1px solid rgba(212,175,55,0.8); animation: typeIn 2.5s steps(40) forwards, blink 0.7s step-end infinite 2.5s; }
+  @keyframes blink { 0%,100%{border-color:rgba(212,175,55,0.8)} 50%{border-color:transparent} }
+
+  .split-note { display: flex; gap: 8px; align-items: flex-start; margin-top: 6px; }
+  .split-note .dot { width: 6px; height: 6px; border-radius: 50%; background: #d4af37; flex-shrink: 0; margin-top: 4px; }
+  .split-note p { font-size: 11px; color: #aaa; line-height: 1.5; }
+
+  .hint { text-align: center; color: #555; font-size: 13px; margin-top: 24px; }
+  @media (max-width: 640px) { .cards { grid-template-columns: 1fr; max-width: 400px; } }
+</style>
+</head>
+<body>
+
+<h1>How should the input field work?</h1>
+<p class="subtitle">Users need to type multiple facts. How the input behaves shapes how much they write.</p>
+
+<div class="cards">
+
+  <!-- A: PILL / SINGLE LINE -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-label">
+      <div class="letter">A</div>
+      <div class="name">Single-line pill</div>
+      <div class="tag">Current</div>
+      <div class="checkmark">&#10003;</div>
+    </div>
+    <div class="hero-mini">
+      <div class="aurora"></div>
+      <div class="z">
+        <p class="eyebrow">Apex Motus &middot; Advisory</p>
+        <p class="hl">Give me 5 facts&hellip;</p>
+        <p class="sub">If none are accurate &mdash; coffee&apos;s on us.</p>
+        <div class="input-pill-wrap">
+          <div class="input-pill">
+            <span class="typed"><span class="typing-demo">We rely on referrals, sales cycles are longer&hellip;</span></span>
+            <div class="send-btn">&#8594;</div>
+          </div>
+        </div>
+        <div class="pills-row">
+          <span class="pill">We rely on referrals</span>
+          <span class="pill">Sales slowing</span>
+          <span class="pill">Manual ops</span>
+          <span class="pill">Churn rising</span>
+          <span class="pill">We are consultancy</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <h4>Compact, stays small</h4>
+      <p>Clean and familiar. But users typing 5 facts (often 2-4 sentences) quickly feel cramped — text scrolls out of view and they can&apos;t see what they&apos;ve written.</p>
+      <div class="split-note" style="margin-top:8px">
+        <div class="dot"></div>
+        <p>Works well if each fact is short (one phrase). Struggles with longer input.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- B: GROWING TEXTAREA -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-label">
+      <div class="letter">B</div>
+      <div class="name">Growing textarea</div>
+      <div class="tag">Like claude.ai</div>
+      <div class="checkmark">&#10003;</div>
+    </div>
+    <div class="hero-mini">
+      <div class="aurora"></div>
+      <div class="z">
+        <p class="eyebrow">Apex Motus &middot; Advisory</p>
+        <p class="hl">Give me 5 facts&hellip;</p>
+        <p class="sub">If none are accurate &mdash; coffee&apos;s on us.</p>
+        <div class="input-area-wrap">
+          <div class="textarea-fake">We rely on referrals for most new clients.<br>Sales cycles have been getting longer.<br>Our team spends too much time on manual ops.<br><span style="opacity:0.4">|</span></div>
+          <div class="input-area-footer">
+            <span class="char-count">3 facts added</span>
+            <div class="send-btn-sq">Analyse &#8594;</div>
+          </div>
+        </div>
+        <div class="pills-row">
+          <span class="pill">We rely on referrals</span>
+          <span class="pill">Sales slowing</span>
+          <span class="pill">Manual ops</span>
+          <span class="pill">Churn rising</span>
+          <span class="pill">We are consultancy</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <h4>Expands as you type</h4>
+      <p>Auto-grows from 1 line to ~6 lines. Users can see all their facts at once, edit freely, and add more. Send button is inside the box at the bottom right &mdash; like claude.ai.</p>
+      <div class="split-note" style="margin-top:8px">
+        <div class="dot"></div>
+        <p>Better for quality input. Users who can see what they&apos;ve written tend to add more &mdash; richer input = better diagnostic.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="hint">Click to select. Tell me in the terminal.</p>
+
+<script>
+function toggleSelect(el) {
+  var wasSelected = el.classList.contains('selected');
+  document.querySelectorAll('.card').forEach(function(c) { c.classList.remove('selected'); });
+  if (!wasSelected) {
+    el.classList.add('selected');
+    if (window.recordEvent) {
+      window.recordEvent({ type: 'click', choice: el.dataset.choice, text: el.querySelector('.name').textContent });
+    }
+  }
+}
+</script>
+</body>
+</html>

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Input, Textarea, Button, Select, Option } from "@material-tailwind/react";
 
+type SubmitState = "idle" | "success" | "error";
+
 export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -11,23 +13,60 @@ export default function ContactForm() {
     topic: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitState, setSubmitState] = useState<SubmitState>("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Form will be handled by Netlify Forms automatically
-    // The form element needs to have the data-netlify attribute
+
+    const send = async () => {
+      setIsSubmitting(true);
+      setSubmitState("idle");
+      setSubmitMessage("");
+
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        const result = (await response.json()) as { error?: string };
+
+        if (!response.ok) {
+          setSubmitState("error");
+          setSubmitMessage(
+            result.error ?? "We could not send your message. Please try again.",
+          );
+          return;
+        }
+
+        setSubmitState("success");
+        setSubmitMessage("Message sent. We will get back to you shortly.");
+        setFormData({
+          name: "",
+          email: "",
+          company: "",
+          topic: "",
+          message: "",
+        });
+      } catch {
+        setSubmitState("error");
+        setSubmitMessage("Network error. Please try again.");
+      } finally {
+        setIsSubmitting(false);
+      }
+    };
+
+    void send();
   };
 
   return (
     <form
-      name="contact"
-      method="POST"
-      data-netlify="true"
       onSubmit={handleSubmit}
       className="space-y-6 max-w-2xl mx-auto bg-ink/80 p-8 rounded-xl shadow-lg border border-slate/20"
     >
-      <input type="hidden" name="form-name" value="contact" />
-      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <Input
@@ -93,9 +132,30 @@ export default function ContactForm() {
         />
       </div>
 
-      <Button type="submit" color="amber" size="lg" fullWidth className="mt-4" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} onResize={undefined} onResizeCapture={undefined}>
-        Send Message
+      <Button
+        type="submit"
+        color="amber"
+        size="lg"
+        fullWidth
+        className="mt-4"
+        disabled={isSubmitting}
+        placeholder={undefined}
+        onPointerEnterCapture={undefined}
+        onPointerLeaveCapture={undefined}
+        onResize={undefined}
+        onResizeCapture={undefined}
+      >
+        {isSubmitting ? "Sending..." : "Send Message"}
       </Button>
+      {submitState !== "idle" ? (
+        <p
+          className={`text-sm ${
+            submitState === "success" ? "text-cyan" : "text-red-300"
+          }`}
+        >
+          {submitMessage}
+        </p>
+      ) : null}
     </form>
   );
 }

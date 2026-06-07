@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suggestion Chips Style</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f1117; color: #e8e8e8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 24px; }
+  h1 { text-align: center; font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .subtitle { text-align: center; color: #777; font-size: 13px; margin-bottom: 28px; }
+
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1100px; margin: 0 auto; }
+  .card { border: 2px solid #2a2a3a; border-radius: 12px; overflow: hidden; cursor: pointer; transition: border-color 0.2s, transform 0.15s; background: #16161e; }
+  .card:hover { border-color: #d4af37; transform: translateY(-2px); }
+  .card.selected { border-color: #d4af37; box-shadow: 0 0 0 3px rgba(212,175,55,0.2); }
+
+  .card-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #1a1a26; border-bottom: 1px solid #2a2a3a; }
+  .letter { width: 26px; height: 26px; border-radius: 50%; background: #d4af37; color: #000; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+  .name { font-weight: 600; font-size: 13px; color: #fff; }
+  .tag { font-size: 11px; color: #888; background: #2a2a3a; padding: 2px 7px; border-radius: 20px; margin-left: auto; }
+  .checkmark { width: 20px; height: 20px; background: #d4af37; border-radius: 50%; display: none; align-items: center; justify-content: center; color: #000; font-size: 11px; font-weight: 700; }
+  .card.selected .checkmark { display: flex; }
+
+  /* hero preview */
+  .hero-mini { height: 280px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 18px 16px; overflow: hidden; background: #050a18; gap: 0; }
+  .aurora { position: absolute; inset: 0; background: radial-gradient(ellipse 260px 140px at 20% 30%, rgba(28,44,163,0.38) 0%, transparent 70%), radial-gradient(ellipse 200px 120px at 80% 70%, rgba(100,40,160,0.28) 0%, transparent 70%); filter: blur(22px); pointer-events: none; }
+  .eyebrow { font-size: 8px; letter-spacing: 0.18em; color: rgba(212,175,55,0.7); text-transform: uppercase; margin-bottom: 8px; position: relative; z-index: 2; }
+  .hl { font-size: 14px; font-weight: 700; color: #fff; text-align: center; line-height: 1.3; max-width: 240px; position: relative; z-index: 2; margin-bottom: 12px; }
+  .input-row { width: 100%; max-width: 300px; height: 40px; background: rgba(255,255,255,0.07); border: 1px solid rgba(212,175,55,0.3); border-radius: 20px; display: flex; align-items: center; padding: 0 6px 0 14px; position: relative; z-index: 2; }
+  .input-row span { font-size: 10px; color: rgba(255,255,255,0.35); flex: 1; }
+  .send { width: 28px; height: 28px; border-radius: 50%; background: #d4af37; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #000; flex-shrink: 0; box-shadow: 0 0 10px rgba(212,175,55,0.4); }
+
+  /* ---- A: Tiny pills (current) ---- */
+  .chips-pills { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-top: 10px; position: relative; z-index: 2; }
+  .pill { font-size: 9px; border: 1px solid rgba(255,255,255,0.18); border-radius: 20px; padding: 3px 9px; color: rgba(255,255,255,0.55); cursor: pointer; transition: border-color 0.15s; }
+  .pill:hover { border-color: rgba(212,175,55,0.5); color: rgba(212,175,55,0.9); }
+
+  /* ---- B: Medium chips (prominent) ---- */
+  .chips-medium { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; width: 100%; max-width: 300px; position: relative; z-index: 2; }
+  .chip-med { font-size: 10px; border: 1px solid rgba(212,175,55,0.2); border-radius: 6px; padding: 6px 10px; color: rgba(255,255,255,0.65); background: rgba(255,255,255,0.04); cursor: pointer; transition: all 0.15s; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chip-med:hover { border-color: rgba(212,175,55,0.5); background: rgba(212,175,55,0.07); color: #fff; }
+
+  /* ---- C: Claude.ai-style cards ---- */
+  .chips-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 10px; width: 100%; max-width: 300px; position: relative; z-index: 2; }
+  .chip-card { font-size: 9px; border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 7px 8px; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.04); cursor: pointer; transition: all 0.15s; line-height: 1.4; }
+  .chip-card:hover { border-color: rgba(212,175,55,0.4); background: rgba(212,175,55,0.06); color: #fff; }
+  .chip-card .chip-icon { font-size: 12px; display: block; margin-bottom: 3px; }
+  .chip-card .chip-text { display: block; }
+
+  .card-footer { padding: 12px 14px; border-top: 1px solid #2a2a3a; background: #13131d; }
+  .card-footer h4 { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 3px; }
+  .card-footer p { font-size: 12px; color: #888; line-height: 1.5; }
+
+  .hint { text-align: center; color: #555; font-size: 13px; margin-top: 22px; }
+  @media (max-width: 800px) { .cards { grid-template-columns: 1fr; max-width: 400px; } }
+</style>
+</head>
+<body>
+
+<h1>How should the suggestion prompts look?</h1>
+<p class="subtitle">These appear below the input — they're the shortcut to getting someone to interact.</p>
+
+<div class="cards">
+
+  <!-- A: TINY PILLS -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-label">
+      <div class="letter">A</div>
+      <div class="name">Tiny pills</div>
+      <div class="tag">Current</div>
+      <div class="checkmark">&#10003;</div>
+    </div>
+    <div class="hero-mini">
+      <div class="aurora"></div>
+      <p class="eyebrow">Apex Motus &middot; Advisory</p>
+      <p class="hl">Give me 5 facts about your business&hellip;</p>
+      <div class="input-row"><span>Type your first fact&hellip;</span><div class="send">&#8594;</div></div>
+      <div class="chips-pills">
+        <span class="pill">We rely on referrals</span>
+        <span class="pill">Sales cycles slower</span>
+        <span class="pill">Too much manual work</span>
+        <span class="pill">Churn rising</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <h4>Minimal, secondary</h4>
+      <p>Low visual weight. Good if you want the input to dominate, but easy to miss. Users who aren't sure what to type may scroll past these.</p>
+    </div>
+  </div>
+
+  <!-- B: MEDIUM ROW CHIPS -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-label">
+      <div class="letter">B</div>
+      <div class="name">Medium rows</div>
+      <div class="tag">Clear &amp; scannable</div>
+      <div class="checkmark">&#10003;</div>
+    </div>
+    <div class="hero-mini">
+      <div class="aurora"></div>
+      <p class="eyebrow">Apex Motus &middot; Advisory</p>
+      <p class="hl">Give me 5 facts about your business&hellip;</p>
+      <div class="input-row"><span>Type your first fact&hellip;</span><div class="send">&#8594;</div></div>
+      <div class="chips-medium">
+        <div class="chip-med">&#8220;We rely on referrals for most new clients&#8221;</div>
+        <div class="chip-med">&#8220;Sales cycles are getting longer&#8221;</div>
+        <div class="chip-med">&#8220;Our team spends too much time on manual work&#8221;</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <h4>Readable, clickable rows</h4>
+      <p>Suggestions are shown as quoted facts in a stacked list. Much easier to read and click. Shows users exactly what kind of input works.</p>
+    </div>
+  </div>
+
+  <!-- C: 2x2 CARDS (claude.ai style) -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-label">
+      <div class="letter">C</div>
+      <div class="name">2&times;2 cards</div>
+      <div class="tag">Like claude.ai</div>
+      <div class="checkmark">&#10003;</div>
+    </div>
+    <div class="hero-mini">
+      <div class="aurora"></div>
+      <p class="eyebrow">Apex Motus &middot; Advisory</p>
+      <p class="hl">Give me 5 facts about your business&hellip;</p>
+      <div class="input-row"><span>Type your first fact&hellip;</span><div class="send">&#8594;</div></div>
+      <div class="chips-cards">
+        <div class="chip-card">
+          <span class="chip-icon">&#128202;</span>
+          <span class="chip-text">Sales cycles getting longer</span>
+        </div>
+        <div class="chip-card">
+          <span class="chip-icon">&#128101;</span>
+          <span class="chip-text">We rely on referrals mostly</span>
+        </div>
+        <div class="chip-card">
+          <span class="chip-icon">&#9881;&#65039;</span>
+          <span class="chip-text">Too much manual operations</span>
+        </div>
+        <div class="chip-card">
+          <span class="chip-icon">&#128200;</span>
+          <span class="chip-text">Churn rising in one segment</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <h4>Grid cards with icons</h4>
+      <p>Closest to claude.ai. Each card is a standalone conversation starter. Icons add visual anchoring. Higher interaction rate — easier to click than to type.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="hint">Click to select. Tell me your pick in the terminal.</p>
+
+<script>
+function toggleSelect(el) {
+  var wasSelected = el.classList.contains('selected');
+  document.querySelectorAll('.card').forEach(function(c) { c.classList.remove('selected'); });
+  if (!wasSelected) {
+    el.classList.add('selected');
+    if (window.recordEvent) {
+      window.recordEvent({ type: 'click', choice: el.dataset.choice, text: el.querySelector('.name').textContent });
+    }
+  }
+}
+</script>
+</body>
+</html>

@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 type ContactPayload = {
   name: string;
   email: string;
+  company?: string;
+  topic?: string;
   message: string;
 };
 
@@ -12,15 +14,6 @@ function isNonEmpty(value: unknown): value is string {
 
 function isEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
-function escapeHtml(input: string): string {
-  return input
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
 }
 
 function parsePayload(payload: unknown): ContactPayload | null {
@@ -40,6 +33,8 @@ function parsePayload(payload: unknown): ContactPayload | null {
   const normalized: ContactPayload = {
     name: cast.name.trim(),
     email: cast.email.trim(),
+    company: isNonEmpty(cast.company) ? cast.company.trim() : undefined,
+    topic: isNonEmpty(cast.topic) ? cast.topic.trim() : undefined,
     message: cast.message.trim(),
   };
 
@@ -54,6 +49,8 @@ function parsePayload(payload: unknown): ContactPayload | null {
   if (
     normalized.name.length > 120 ||
     normalized.email.length > 320 ||
+    (normalized.company?.length ?? 0) > 160 ||
+    (normalized.topic?.length ?? 0) > 120 ||
     normalized.message.length > 4000
   ) {
     return null;
@@ -85,58 +82,57 @@ export async function POST(request: Request) {
     );
   }
 
-  const resendApiKey = process.env.RESEND_API_KEY;
-  if (!resendApiKey) {
+  const serviceId = process.env.EMAILJS_SERVICE_ID;
+  const templateId = process.env.EMAILJS_TEMPLATE_ID;
+  const publicKey = process.env.EMAILJS_PUBLIC_KEY;
+  const privateKey = process.env.EMAILJS_PRIVATE_KEY;
+
+  if (!serviceId || !templateId || !publicKey || !privateKey) {
     return NextResponse.json(
       {
         error:
-          "RESEND_API_KEY is missing. Add it to your environment configuration.",
+          "EmailJS is not configured. Set EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY, and EMAILJS_PRIVATE_KEY.",
       },
       { status: 500 },
     );
   }
 
-  const to = process.env.CONTACT_TO_EMAIL ?? "apex.motus.inc@gmail.com";
-  const from =
-    process.env.CONTACT_FROM_EMAIL ?? "Apex Motus <onboarding@resend.dev>";
-  const safeName = escapeHtml(parsed.name);
-  const safeEmail = escapeHtml(parsed.email);
-  const safeMessage = escapeHtml(parsed.message).replace(/\n/g, "<br />");
+  // EmailJS auto-escapes dynamic template variables before inserting them into
+  // the HTML template, so we send raw (trimmed) values here — escaping them
+  // ourselves would double-escape and surface "&amp;" in the delivered email.
+  // Keys must match the {{placeholders}} in the EmailJS template. The template
+  // currently uses {{name}}, {{full_name}}, {{email_address}}, and {{message}};
+  // company and topic are sent too so you can add {{company}}/{{topic}} to the
+  // template later without touching this code.
+  const templateParams = {
+    name: parsed.name,
+    full_name: parsed.name,
+    email_address: parsed.email,
+    company: parsed.company ?? "Not provided",
+    topic: parsed.topic ?? "General",
+    message: parsed.message,
+  };
 
-  const resendResponse = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${resendApiKey}`,
-      "Content-Type": "application/json",
+  const emailjsResponse = await fetch(
+    "https://api.emailjs.com/api/v1.0/email/send",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        service_id: serviceId,
+        template_id: templateId,
+        user_id: publicKey,
+        accessToken: privateKey,
+        template_params: templateParams,
+      }),
     },
-    body: JSON.stringify({
-      from,
-      to: [to],
-      reply_to: parsed.email,
-      subject: `New Apex Motus contact request from ${parsed.name}`,
-      text: [
-        `Name: ${parsed.name}`,
-        `Email: ${parsed.email}`,
-        "",
-        "Message:",
-        parsed.message,
-      ].join("\n"),
-      html: `
-        <div>
-          <p><strong>Name:</strong> ${safeName}</p>
-          <p><strong>Email:</strong> ${safeEmail}</p>
-          <p><strong>Message:</strong></p>
-          <p>${safeMessage}</p>
-        </div>
-      `,
-    }),
-  });
+  );
 
-  if (!resendResponse.ok) {
-    const details = await resendResponse.text();
+  if (!emailjsResponse.ok) {
+    const details = await emailjsResponse.text();
     return NextResponse.json(
       { error: "Failed to send message.", details },
-      { status: resendResponse.status },
+      { status: emailjsResponse.status },
     );
   }
 

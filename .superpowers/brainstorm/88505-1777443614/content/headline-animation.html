@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Headline Animation Style</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f1117; color: #e8e8e8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 24px; }
+  h1 { text-align: center; font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .subtitle { text-align: center; color: #777; font-size: 13px; margin-bottom: 28px; }
+
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; max-width: 860px; margin: 0 auto; }
+
+  .card { border: 2px solid #2a2a3a; border-radius: 12px; overflow: hidden; cursor: pointer; transition: border-color 0.2s, transform 0.15s; background: #16161e; }
+  .card:hover { border-color: #d4af37; transform: translateY(-2px); }
+  .card.selected { border-color: #d4af37; box-shadow: 0 0 0 3px rgba(212,175,55,0.2); }
+
+  .card-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #1a1a26; border-bottom: 1px solid #2a2a3a; position: relative; }
+  .letter { width: 26px; height: 26px; border-radius: 50%; background: #d4af37; color: #000; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+  .card-label .name { font-weight: 600; font-size: 13px; color: #fff; }
+  .card-label .tag { font-size: 11px; color: #888; background: #2a2a3a; padding: 2px 7px; border-radius: 20px; margin-left: auto; }
+  .checkmark { width: 20px; height: 20px; background: #d4af37; border-radius: 50%; display: none; align-items: center; justify-content: center; color: #000; font-size: 11px; font-weight: 700; }
+  .card.selected .checkmark { display: flex; }
+
+  .hero-mini { height: 220px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 20px 16px; overflow: hidden; background: #050a18; }
+  .aurora { position: absolute; inset: 0; background: radial-gradient(ellipse 260px 140px at 20% 30%, rgba(28,44,163,0.4) 0%, transparent 70%), radial-gradient(ellipse 200px 120px at 80% 70%, rgba(100,40,160,0.3) 0%, transparent 70%); filter: blur(22px); pointer-events: none; }
+  .eyebrow { font-size: 9px; letter-spacing: 0.18em; color: rgba(212,175,55,0.75); text-transform: uppercase; margin-bottom: 10px; position: relative; z-index: 2; }
+  .hl { font-size: 15px; font-weight: 700; color: #fff; text-align: center; line-height: 1.35; max-width: 260px; position: relative; z-index: 2; min-height: 65px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0; }
+  .input-row { width: 100%; max-width: 280px; height: 40px; background: rgba(255,255,255,0.07); border: 1px solid rgba(212,175,55,0.3); border-radius: 20px; display: flex; align-items: center; padding: 0 6px 0 14px; margin-top: 14px; position: relative; z-index: 2; }
+  .input-row span { font-size: 10px; color: rgba(255,255,255,0.35); flex: 1; }
+  .send { width: 28px; height: 28px; border-radius: 50%; background: #d4af37; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #000; flex-shrink: 0; box-shadow: 0 0 10px rgba(212,175,55,0.4); }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  @keyframes wordIn { from { opacity:0; transform: translateY(5px); } to { opacity:1; transform: translateY(0); } }
+  @keyframes glowIn { from { opacity:0; color: #d4af37; } to { opacity:1; color: #ffffff; } }
+
+  .tw-cursor { display: inline-block; width: 2px; height: 17px; background: #d4af37; vertical-align: middle; margin-left: 1px; animation: blink 0.9s step-end infinite; }
+  .cursor-blink { display: inline-block; width: 2px; height: 17px; background: rgba(212,175,55,0.9); vertical-align: middle; margin-left: 2px; animation: blink 0.9s step-end infinite; }
+
+  .card-footer { padding: 12px 14px; border-top: 1px solid #2a2a3a; background: #13131d; }
+  .card-footer h4 { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 3px; }
+  .card-footer p { font-size: 12px; color: #888; line-height: 1.5; }
+
+  .hint { text-align: center; color: #555; font-size: 13px; margin-top: 22px; }
+  @media (max-width: 680px) { .cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<h1>How should the headline animate?</h1>
+<p class="subtitle">This is what makes the AI feel present. Each demo loops — watch them a few times.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-label">
+      <div class="letter">A</div>
+      <div class="name">Typewriter</div>
+      <div class="tag">Classic AI feel</div>
+      <div class="checkmark">&#10003;</div>
+    </div>
+    <div class="hero-mini">
+      <div class="aurora"></div>
+      <p class="eyebrow">Apex Motus &middot; Advisory</p>
+      <div class="hl" id="hl-a"></div>
+      <div class="input-row"><span>Type your first fact&hellip;</span><div class="send">&#8594;</div></div>
+    </div>
+    <div class="card-footer">
+      <h4>Characters appear one by one</h4>
+      <p>The classic LLM signature. Feels like the AI is composing the question for you in real time. Immediately signals "this is AI-powered."</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-label">
+      <div class="letter">B</div>
+      <div class="name">Word-by-word fade</div>
+      <div class="tag">Modern &amp; smooth</div>
+      <div class="checkmark">&#10003;</div>
+    </div>
+    <div class="hero-mini">
+      <div class="aurora"></div>
+      <p class="eyebrow">Apex Motus &middot; Advisory</p>
+      <div class="hl" id="hl-b"></div>
+      <div class="input-row"><span>Type your first fact&hellip;</span><div class="send">&#8594;</div></div>
+    </div>
+    <div class="card-footer">
+      <h4>Each word fades in sequentially</h4>
+      <p>More editorial than typewriter. Words drift up into place. Feels premium — less "terminal output", more "brand statement."</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-label">
+      <div class="letter">C</div>
+      <div class="name">Instant + cursor</div>
+      <div class="tag">Fastest, cleanest</div>
+      <div class="checkmark">&#10003;</div>
+    </div>
+    <div class="hero-mini">
+      <div class="aurora"></div>
+      <p class="eyebrow">Apex Motus &middot; Advisory</p>
+      <div class="hl" id="hl-c"></div>
+      <div class="input-row"><span>Type your first fact&hellip;</span><div class="send">&#8594;</div></div>
+    </div>
+    <div class="card-footer">
+      <h4>Headline instant, cursor blinks</h4>
+      <p>No wait time. Headline loads immediately, but the blinking gold cursor signals "I'm waiting for your reply." Like a chat message that just arrived.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="d" onclick="toggleSelect(this)">
+    <div class="card-label">
+      <div class="letter">D</div>
+      <div class="name">Stream + glow</div>
+      <div class="tag">Most dramatic</div>
+      <div class="checkmark">&#10003;</div>
+    </div>
+    <div class="hero-mini">
+      <div class="aurora"></div>
+      <p class="eyebrow">Apex Motus &middot; Advisory</p>
+      <div class="hl" id="hl-d"></div>
+      <div class="input-row"><span>Type your first fact&hellip;</span><div class="send">&#8594;</div></div>
+    </div>
+    <div class="card-footer">
+      <h4>Words stream in with a gold flash</h4>
+      <p>Like typewriter but each word flashes gold as it arrives then settles white. Makes it feel like the AI is "charging up" before asking you.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="hint">Click a card to select. Tell me your pick in the terminal.</p>
+
+<script>
+var TEXT = "Give me 5 facts about your business, and I'll give you 5 potential problems.";
+var WORDS = TEXT.split(' ');
+
+function clearEl(el) {
+  while (el.firstChild) el.removeChild(el.firstChild);
+}
+
+/* A: Typewriter */
+var twTimer = null;
+function runTypewriter() {
+  var el = document.getElementById('hl-a');
+  if (!el) return;
+  clearEl(el);
+  var textNode = document.createTextNode('');
+  el.appendChild(textNode);
+  var cursor = document.createElement('span');
+  cursor.className = 'tw-cursor';
+  el.appendChild(cursor);
+  var i = 0;
+  twTimer = setInterval(function() {
+    if (i < TEXT.length) {
+      textNode.textContent += TEXT[i++];
+    } else {
+      clearInterval(twTimer);
+      twTimer = setTimeout(runTypewriter, 1800);
+    }
+  }, 38);
+}
+
+/* B: Word fade */
+var wfTimer = null;
+function runWordFade() {
+  var el = document.getElementById('hl-b');
+  if (!el) return;
+  clearEl(el);
+  WORDS.forEach(function(w, i) {
+    var span = document.createElement('span');
+    span.textContent = (i < WORDS.length - 1) ? (w + ' ') : w;
+    span.style.cssText = 'opacity:0;display:inline;animation:wordIn 0.4s ease forwards;animation-delay:' + (i * 115) + 'ms';
+    el.appendChild(span);
+  });
+  wfTimer = setTimeout(runWordFade, WORDS.length * 115 + 2000);
+}
+
+/* C: Instant + cursor */
+function setupCursorOnly() {
+  var el = document.getElementById('hl-c');
+  if (!el) return;
+  var t = document.createTextNode(TEXT + ' ');
+  el.appendChild(t);
+  var cursor = document.createElement('span');
+  cursor.className = 'cursor-blink';
+  el.appendChild(cursor);
+}
+
+/* D: Stream glow */
+var sgTimer = null;
+function runStreamGlow() {
+  var el = document.getElementById('hl-d');
+  if (!el) return;
+  clearEl(el);
+  WORDS.forEach(function(w, i) {
+    var span = document.createElement('span');
+    span.textContent = (i < WORDS.length - 1) ? (w + ' ') : w;
+    span.style.cssText = 'opacity:0;display:inline;animation:glowIn 0.35s ease forwards;animation-delay:' + (i * 105) + 'ms';
+    el.appendChild(span);
+  });
+  sgTimer = setTimeout(runStreamGlow, WORDS.length * 105 + 2000);
+}
+
+runTypewriter();
+runWordFade();
+setupCursorOnly();
+runStreamGlow();
+
+function toggleSelect(el) {
+  var wasSelected = el.classList.contains('selected');
+  document.querySelectorAll('.card').forEach(function(c) { c.classList.remove('selected'); });
+  if (!wasSelected) {
+    el.classList.add('selected');
+    if (window.recordEvent) {
+      window.recordEvent({ type: 'click', choice: el.dataset.choice, text: el.querySelector('.name').textContent });
+    }
+  }
+}
+</script>
+</body>
+</html>
