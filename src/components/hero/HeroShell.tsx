@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { HeroCollapsedNav } from "./HeroCollapsedNav";
 import { HeroViewport } from "./HeroViewport";
-import { HeroPhase, DiagnosticResponse } from "./types";
+import { DiagnosisModal } from "./DiagnosisModal";
+import { HeroPhase } from "./types";
 
 const COLLAPSE_DELAY_MS = 100;
 const COLLAPSE_TRIGGER_PX = 10;
@@ -14,7 +15,9 @@ export function HeroShell() {
   const [composerText, setComposerText] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisError, setAnalysisError] = useState("");
-  const [diagnosticResult, setDiagnosticResult] = useState<DiagnosticResponse | null>(null);
+  const [diagnosticContent, setDiagnosticContent] = useState("");
+  const [diagnosticTitle, setDiagnosticTitle] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const timerRef = useRef<number | null>(null);
   const phaseRef = useRef<HeroPhase>("expanded");
 
@@ -114,15 +117,16 @@ Here's the facts about the company: ${facts}`;
     const facts = composerText.trim();
     if (facts.length < MIN_TEXT_CHARS) {
       setAnalysisError("Please describe your business a bit more before analysing.");
-      setDiagnosticResult(null);
       return;
     }
 
     const text = buildDiagnosticPrompt(facts);
 
+    const FALLBACK_MESSAGE =
+      "We hit a snag generating your instant diagnostic, but Apex Motus has received your enquiry and will be in touch shortly.";
+
     setAnalysisError("");
     setIsAnalyzing(true);
-    setDiagnosticResult(null);
 
     try {
       const response = await fetch("/api/diagnostic", {
@@ -132,21 +136,27 @@ Here's the facts about the company: ${facts}`;
       });
 
       const payload = (await response.json()) as
-        | DiagnosticResponse
-        | { error?: string; details?: unknown };
+        | { markdown?: string }
+        | { error?: string };
 
-      if (!response.ok) {
-        setAnalysisError(
+      if (!response.ok || !("markdown" in payload) || typeof payload.markdown !== "string") {
+        const message =
           "error" in payload && typeof payload.error === "string"
             ? payload.error
-            : "Unable to analyse the business right now.",
-        );
+            : FALLBACK_MESSAGE;
+        setDiagnosticTitle("Enquiry Received");
+        setDiagnosticContent(message);
+        setIsModalOpen(true);
         return;
       }
 
-      setDiagnosticResult(payload as DiagnosticResponse);
+      setDiagnosticTitle("Strategic Audit Diagnosis");
+      setDiagnosticContent(payload.markdown);
+      setIsModalOpen(true);
     } catch {
-      setAnalysisError("Network error while analysing your business.");
+      setDiagnosticTitle("Enquiry Received");
+      setDiagnosticContent(FALLBACK_MESSAGE);
+      setIsModalOpen(true);
     } finally {
       setIsAnalyzing(false);
     }
@@ -166,8 +176,13 @@ Here's the facts about the company: ${facts}`;
         onAnalyze={handleAnalyzeBusiness}
         isAnalyzing={isAnalyzing}
         analysisError={analysisError}
-        diagnosticResult={diagnosticResult}
         onViewCompanyDetails={handleViewCompanyDetails}
+      />
+      <DiagnosisModal
+        isOpen={isModalOpen}
+        title={diagnosticTitle}
+        content={diagnosticContent}
+        onClose={() => setIsModalOpen(false)}
       />
     </section>
   );

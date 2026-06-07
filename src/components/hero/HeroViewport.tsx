@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { FactsTextarea } from "./FactsTextarea";
 import { SuggestionPills } from "./SuggestionPills";
-import { CriticalProblem, DiagnosticResponse } from "./types";
 
 const HEADLINE = "Give me 5 facts about your business, and I'll give you 5 potential problems.";
 const TYPEWRITER_INTERVAL_MS = 38;
@@ -14,64 +13,8 @@ type HeroViewportProps = {
   onAnalyze: () => void;
   isAnalyzing: boolean;
   analysisError: string;
-  diagnosticResult: DiagnosticResponse | null;
   onViewCompanyDetails: () => void;
 };
-
-function levelBadgeClass(level: "low" | "medium" | "high") {
-  if (level === "high") return "border-red-300/40 bg-red-300/20 text-red-100";
-  if (level === "medium") return "border-yellow-300/40 bg-yellow-300/20 text-yellow-100";
-  return "border-emerald-300/40 bg-emerald-300/20 text-emerald-100";
-}
-
-function riskTypeBadgeClass(riskType: "execution" | "structural") {
-  if (riskType === "structural") return "border-purple-300/40 bg-purple-300/10 text-purple-200";
-  return "border-sky-300/40 bg-sky-300/10 text-sky-200";
-}
-
-function ProblemCard({ problem }: { problem: CriticalProblem }) {
-  return (
-    <article className="rounded-[4px] border border-white/20 bg-white/5 p-4">
-      <div className="flex flex-wrap items-center gap-2">
-        <h4 className="font-heading text-[22px] text-white">{problem.title}</h4>
-        <span className="rounded-[4px] border border-white/25 px-2 py-0.5 font-caption text-[10px] uppercase tracking-[0.14em] text-white/75">
-          {problem.category.replace("_", " ")}
-        </span>
-        <span
-          className={`rounded-[4px] border px-2 py-0.5 font-caption text-[10px] uppercase tracking-[0.14em] ${levelBadgeClass(problem.severity)}`}
-        >
-          {problem.severity} severity
-        </span>
-        <span
-          className={`rounded-[4px] border px-2 py-0.5 font-caption text-[10px] uppercase tracking-[0.14em] ${riskTypeBadgeClass(problem.risk_type)}`}
-        >
-          {problem.risk_type === "execution" ? "Execution Risk" : "Structural Risk"}
-        </span>
-      </div>
-
-      <p className="mt-3 font-caption text-[11px] uppercase tracking-[0.15em] text-gold">
-        The Exposure
-      </p>
-      <p className="mt-1 font-body text-[15px] leading-relaxed text-white/85">
-        {problem.the_exposure}
-      </p>
-
-      <p className="mt-3 font-caption text-[11px] uppercase tracking-[0.15em] text-gold">
-        CEO Perspective
-      </p>
-      <p className="mt-1 font-body text-[15px] italic leading-relaxed text-white/85">
-        &ldquo;{problem.ceo_perspective}&rdquo;
-      </p>
-
-      <p className="mt-3 font-caption text-[11px] uppercase tracking-[0.15em] text-gold">
-        Mitigating Move
-      </p>
-      <p className="mt-1 font-body text-[15px] leading-relaxed text-white/85">
-        {problem.mitigating_move}
-      </p>
-    </article>
-  );
-}
 
 export function HeroViewport({
   composerText,
@@ -79,7 +22,6 @@ export function HeroViewport({
   onAnalyze,
   isAnalyzing,
   analysisError,
-  diagnosticResult,
   onViewCompanyDetails,
 }: HeroViewportProps) {
   const [displayedHeadline, setDisplayedHeadline] = useState("");
@@ -141,48 +83,6 @@ export function HeroViewport({
           <p className="mt-3 max-w-3xl text-center font-body text-[15px] text-red-200">
             {analysisError}
           </p>
-        ) : null}
-
-        {diagnosticResult ? (
-          <section className="mt-6 w-full max-w-4xl space-y-4 rounded-[4px] border border-gold/30 bg-navy/55 p-4 sm:p-6">
-            <div>
-              <h3 className="font-caption text-[11px] uppercase tracking-[0.15em] text-gold">
-                Business Context
-              </h3>
-              <p className="mt-2 font-body text-[16px] text-white/85">
-                {diagnosticResult.business_context}
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-caption text-[11px] uppercase tracking-[0.15em] text-gold">
-                Strategic Posture
-              </h3>
-              <p className="mt-2 font-body text-[16px] text-white/85">
-                {diagnosticResult.strategic_posture}
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <h3 className="font-caption text-[11px] uppercase tracking-[0.15em] text-gold">
-                5 Critical Problems
-              </h3>
-              <div className="space-y-3">
-                {diagnosticResult.critical_problems.map((problem, index) => (
-                  <ProblemCard key={`${problem.title}-${index}`} problem={problem} />
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-caption text-[11px] uppercase tracking-[0.15em] text-gold">
-                Closing Directive
-              </h3>
-              <p className="mt-2 font-body text-[15px] text-white/85">
-                {diagnosticResult.closing_directive}
-              </p>
-            </div>
-          </section>
         ) : null}
 
         <button

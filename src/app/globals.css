@@ -57,7 +57,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-heading), Georgia, serif;
+  font-family: "Space Grotesk", system-ui, sans-serif;
   letter-spacing: 0;
 }
 
@@ -108,7 +108,7 @@ h6 {
 }
 
 .monumental-heading {
-  font-family: var(--font-heading), Georgia, serif;
+  font-family: "Space Grotesk", system-ui, sans-serif;
   font-size: var(--text-display);
   font-weight: 700;
   line-height: 1;
@@ -215,4 +215,52 @@ h6 {
 
 @media (prefers-reduced-motion: reduce) {
   .blob { animation: none; }
+}
+
+/* ── Diagnosis modal markdown ─────────────────────────── */
+.diagnosis-md {
+  color: rgba(255, 255, 255, 0.85);
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.diagnosis-md h2 {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  color: #ffffff;
+  font-size: 22px;
+  margin: 22px 0 10px;
+}
+.diagnosis-md h2:first-child,
+.diagnosis-md h3:first-child {
+  margin-top: 0;
+}
+.diagnosis-md h3 {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  color: #ffffff;
+  font-size: 18px;
+  margin: 18px 0 8px;
+}
+.diagnosis-md p {
+  margin: 0 0 12px;
+}
+.diagnosis-md strong {
+  color: #d4af37;
+  font-weight: 600;
+}
+.diagnosis-md ul,
+.diagnosis-md ol {
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+.diagnosis-md li {
+  margin: 0 0 6px;
+}
+.diagnosis-md hr {
+  border: none;
+  border-top: 1px dashed rgba(212, 175, 55, 0.4);
+  margin: 18px 0;
+}
+.diagnosis-md a {
+  color: #22d3ee;
+  text-decoration: underline;
 }

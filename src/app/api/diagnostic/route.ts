@@ -1,58 +1,7 @@
 import { NextResponse } from "next/server";
-import type { CriticalProblem, DiagnosticResponse, RiskCategory, SeverityLevel, RiskType } from "@/components/hero/types";
 
 const MIN_TEXT_CHARS = 20;
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
-
-const diagnosticResponseJsonSchema = {
-  type: "object",
-  additionalProperties: false,
-  required: ["business_context", "strategic_posture", "critical_problems", "closing_directive"],
-  properties: {
-    business_context: { type: "string" },
-    strategic_posture: { type: "string" },
-    closing_directive: { type: "string" },
-    critical_problems: {
-      type: "array",
-      minItems: 5,
-      maxItems: 5,
-      items: {
-        type: "object",
-        additionalProperties: false,
-        required: [
-          "title",
-          "category",
-          "severity",
-          "risk_type",
-          "the_exposure",
-          "ceo_perspective",
-          "mitigating_move",
-        ],
-        properties: {
-          title: { type: "string" },
-          category: {
-            type: "string",
-            enum: [
-              "operations",
-              "sales",
-              "team",
-              "finance",
-              "technology",
-              "customer_experience",
-              "strategy",
-              "compliance",
-            ],
-          },
-          severity: { type: "string", enum: ["low", "medium", "high"] },
-          risk_type: { type: "string", enum: ["execution", "structural"] },
-          the_exposure: { type: "string" },
-          ceo_perspective: { type: "string" },
-          mitigating_move: { type: "string" },
-        },
-      },
-    },
-  },
-} as const;
 
 function extractText(payload: unknown): string | null {
   if (typeof payload !== "object" || payload === null || !("text" in payload)) {
@@ -65,55 +14,7 @@ function extractText(payload: unknown): string | null {
   return text.trim();
 }
 
-function isSeverity(v: unknown): v is SeverityLevel {
-  return v === "low" || v === "medium" || v === "high";
-}
-
-function isRiskType(v: unknown): v is RiskType {
-  return v === "execution" || v === "structural";
-}
-
-function isRiskCategory(v: unknown): v is RiskCategory {
-  return (
-    v === "operations" ||
-    v === "sales" ||
-    v === "team" ||
-    v === "finance" ||
-    v === "technology" ||
-    v === "customer_experience" ||
-    v === "strategy" ||
-    v === "compliance"
-  );
-}
-
-function isDiagnosticResponse(data: unknown): data is DiagnosticResponse {
-  if (typeof data !== "object" || data === null) return false;
-  const d = data as Partial<DiagnosticResponse>;
-  if (
-    typeof d.business_context !== "string" ||
-    typeof d.strategic_posture !== "string" ||
-    typeof d.closing_directive !== "string" ||
-    !Array.isArray(d.critical_problems) ||
-    d.critical_problems.length !== 5
-  ) {
-    return false;
-  }
-  return d.critical_problems.every((p) => {
-    if (typeof p !== "object" || p === null) return false;
-    const c = p as Partial<CriticalProblem>;
-    return (
-      typeof c.title === "string" &&
-      isRiskCategory(c.category) &&
-      isSeverity(c.severity) &&
-      isRiskType(c.risk_type) &&
-      typeof c.the_exposure === "string" &&
-      typeof c.ceo_perspective === "string" &&
-      typeof c.mitigating_move === "string"
-    );
-  });
-}
-
-const SYSTEM_PROMPT = `Return valid JSON matching the provided schema exactly. No markdown, no prose outside the JSON.`;
+const SYSTEM_PROMPT = `You are a veteran Fortune 500 CEO and strategic consultant. Respond ONLY in clean GitHub-flavored Markdown — never HTML, and do NOT wrap the whole response in a code fence. Use "##" headings for sections (including one per numbered problem), "**bold**" for inline labels such as **The Exposure:**, and "---" horizontal rules between major sections. Keep it well structured and easy to read.`;
 
 const EMAILJS_SEND_URL = "https://api.emailjs.com/api/v1.0/email/send";
 
@@ -123,38 +24,10 @@ const EMAILJS_SEND_URL = "https://api.emailjs.com/api/v1.0/email/send";
 const ENQUIRY_FALLBACK_MESSAGE =
   "We hit a snag generating your instant diagnostic, but Apex Motus has received your enquiry and will be in touch shortly.";
 
-// Formats the structured AI diagnosis into a readable plain-text block for the
-// {{message}} field. EmailJS escapes template variables, so this must stay
-// plain text (no HTML); line breaks render only if the template's {{message}}
-// container uses `white-space: pre-wrap`. This is the main place to shape what
-// lands in the inbox — adjust labels/ordering here to taste.
-function formatDiagnosticResponse(response: DiagnosticResponse): string {
-  const problems = response.critical_problems
-    .map((p, i) =>
-      [
-        `${i + 1}. ${p.title}  [${p.category.replace(/_/g, " ")} | ${p.severity} severity | ${p.risk_type} risk]`,
-        `   Exposure: ${p.the_exposure}`,
-        `   CEO Perspective: "${p.ceo_perspective}"`,
-        `   Mitigating Move: ${p.mitigating_move}`,
-      ].join("\n"),
-    )
-    .join("\n\n");
-
-  return [
-    `Business Context: ${response.business_context}`,
-    "",
-    `Strategic Posture: ${response.strategic_posture}`,
-    "",
-    "5 Critical Problems:",
-    problems,
-    "",
-    `Closing Directive: ${response.closing_directive}`,
-  ].join("\n");
-}
-
-// Builds the {{message}} body for an enquiry whose AI diagnostic could NOT be
-// generated (quota, outage, malformed response, etc.). The full prompt is still
-// in {{facts}}, so the lead is fully actionable for manual follow-up.
+// Builds the "RESULT" portion of the email for an enquiry whose AI diagnostic
+// could NOT be generated (quota, outage, malformed response, etc.). The full
+// prompt is still included above it, so the lead is fully actionable for manual
+// follow-up.
 function buildUnavailableMessage(reason: string): string {
   return [
     "The AI diagnostic could not be generated for this enquiry, so no problems",
@@ -166,11 +39,12 @@ function buildUnavailableMessage(reason: string): string {
 }
 
 // Best-effort lead email to the inbox configured in the EmailJS template's
-// "To Email" field. Sends the full prompt that was sent to the AI in {{facts}}
-// and `message` in {{message}} (the diagnosis on success, or a failure note
-// when the AI step fails). NEVER throws — a notification problem must not change
-// what the visitor sees, and it is called from both the success and failure paths.
-async function notifyLead(prompt: string, message: string): Promise<void> {
+// "To Email" field. The enquiry template only has a {{message}} placeholder, so
+// the full prompt sent to the AI AND the `result` (the diagnosis on success, or
+// a failure note when the AI step fails) are combined into that single field.
+// NEVER throws — a notification problem must not change what the visitor sees,
+// and it is called from both the success and failure paths.
+async function notifyLead(prompt: string, result: string): Promise<void> {
   const serviceId = process.env.EMAILJS_SERVICE_ID;
   const templateId = process.env.EMAILJS_DIAGNOSTIC_TEMPLATE_ID;
   const publicKey = process.env.EMAILJS_PUBLIC_KEY;
@@ -180,6 +54,15 @@ async function notifyLead(prompt: string, message: string): Promise<void> {
     console.warn("Diagnostic email skipped: EmailJS env vars are not fully configured.");
     return;
   }
+
+  const message = [
+    "=== PROMPT SENT TO THE AI ===",
+    prompt,
+    "",
+    "=== RESULT ===",
+    "",
+    result,
+  ].join("\n");
 
   try {
     const res = await fetch(EMAILJS_SEND_URL, {
@@ -192,7 +75,6 @@ async function notifyLead(prompt: string, message: string): Promise<void> {
         accessToken: privateKey,
         template_params: {
           name: "a Hero Diagnostic visitor",
-          facts: prompt,
           message,
         },
       }),
@@ -268,7 +150,7 @@ export async function POST(request: Request) {
 
   // A readable transcript of the full prompt (system + user), captured up front
   // so we can forward it on EVERY exit path below — even when the AI call fails.
-  // This populates the email's {{facts}} field.
+  // notifyLead combines this with the result into the email's {{message}} field.
   const prompt = messages.map((m) => `[${m.role}]\n${m.content}`).join("\n\n");
 
   const apiKey = getOpenAiApiKey();
@@ -291,15 +173,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         model,
         input: messages,
-        text: {
-          format: {
-            type: "json_schema",
-            name: "diagnostic_response",
-            strict: true,
-            schema: diagnosticResponseJsonSchema,
-          },
-        },
-        max_output_tokens: 4096,
+        max_output_tokens: 6000,
       }),
     });
 
@@ -317,32 +191,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: ENQUIRY_FALLBACK_MESSAGE }, { status: 502 });
   }
 
-  const content = extractOutputText(openAiResponse);
+  const markdown = extractOutputText(openAiResponse);
 
-  if (typeof content !== "string") {
-    console.error("Diagnostic failed: AI returned an unexpected response format.");
-    await notifyLead(prompt, buildUnavailableMessage("AI returned an unexpected response format."));
-    return NextResponse.json({ error: ENQUIRY_FALLBACK_MESSAGE }, { status: 502 });
-  }
-
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(content);
-  } catch {
-    console.error("Diagnostic failed: AI response was not valid JSON.");
-    await notifyLead(prompt, buildUnavailableMessage("AI response was not valid JSON."));
-    return NextResponse.json({ error: ENQUIRY_FALLBACK_MESSAGE }, { status: 502 });
-  }
-
-  if (!isDiagnosticResponse(parsed)) {
-    console.error("Diagnostic failed: AI response did not match the required schema.");
-    await notifyLead(prompt, buildUnavailableMessage("AI response did not match the required diagnostic format."));
+  if (typeof markdown !== "string" || markdown.trim().length === 0) {
+    console.error("Diagnostic failed: AI returned an empty or non-text response.");
+    await notifyLead(prompt, buildUnavailableMessage("AI returned an empty or non-text response."));
     return NextResponse.json({ error: ENQUIRY_FALLBACK_MESSAGE }, { status: 502 });
   }
 
   // Success: forward the enquiry with the full diagnosis. notifyLead is
   // best-effort and never throws, so an email problem can't break the result.
-  await notifyLead(prompt, formatDiagnosticResponse(parsed));
+  await notifyLead(prompt, markdown.trim());
 
-  return NextResponse.json(parsed);
+  return NextResponse.json({ markdown: markdown.trim() });
 }
