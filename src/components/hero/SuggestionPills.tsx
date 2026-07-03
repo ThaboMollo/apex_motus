@@ -18,10 +18,11 @@ function sampleFour(pool: string[]): string[] {
 }
 
 export function SuggestionPills({ currentValue, onSelect }: SuggestionPillsProps) {
-  const [pills, setPills] = useState<string[]>([]);
+  // Render a deterministic set on the server (avoids hydration mismatch and
+  // layout shift), then swap in a random sample once mounted.
+  const [pills, setPills] = useState<string[]>(() => HERO_SUGGESTIONS.slice(0, 4));
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // Defer random selection to the client to avoid SSR/hydration mismatch
   useEffect(() => {
     setPills(sampleFour(HERO_SUGGESTIONS));
   }, []);

@@ -27,8 +27,9 @@ module.exports = withMT({
         silver: "#c5c6ca",
       },
       fontFamily: {
-        heading: ['"Space Grotesk"', "sans-serif"],
-        body: ['"Inter"', "sans-serif"],
+        heading: ["var(--font-heading)", "Georgia", "serif"],
+        body: ["var(--font-body)", "Georgia", "serif"],
+        caption: ["var(--font-caption)", "system-ui", "sans-serif"],
       },
       letterSpacing: {
         widest2: "0.2em",

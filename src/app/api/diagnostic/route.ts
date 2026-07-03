@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 const MIN_TEXT_CHARS = 20;
+const MAX_TEXT_CHARS = 4000;
 const OPENAI_COMPLETIONS_URL = "https://api.openai.com/v1/chat/completions";
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models";
 
@@ -12,7 +13,32 @@ function extractText(payload: unknown): string | null {
   if (typeof text !== "string" || text.trim().length < MIN_TEXT_CHARS) {
     return null;
   }
-  return text.trim();
+  return text.trim().slice(0, MAX_TEXT_CHARS);
+}
+
+// The full diagnostic prompt is assembled here, server-side, from the raw
+// business facts the visitor typed. The client never sends a prompt — that
+// would let anyone use this endpoint as a free proxy to our AI providers.
+function buildDiagnosticPrompt(facts: string): string {
+  return `You are acting as a veteran Fortune 500 CEO and Strategic Consultant with 30 years of experience in scaling companies and navigating market disruptions. Your tone is clinical, decisive, and focused on long-term enterprise value.
+
+Task: I am going to provide you with 5 specific facts about my business. Based on these inputs, perform a high-level strategic audit.
+
+Analysis Framework:
+1. Identify the Friction: Where do these facts create immediate operational or financial bottlenecks?
+2. Predict the Blind Spots: What "second-order" consequences are invisible to most founders but obvious to an enterprise leader?
+3. Risk Mapping: Classify threats as either "Execution Risks" (internal) or "Structural Risks" (external).
+
+Output Requirements:
+Provide a summary of 5 Critical Problems (Current or Predicted). For each problem, include:
+
+The Exposure: Why this specific combination of my business facts creates a vulnerability.
+
+The CEO Perspective: A one-sentence "hard truth" regarding this problem.
+
+The Mitigating Move: One high-level strategic action to neutralize the threat.
+
+Here's the facts about the company: ${facts}`;
 }
 
 const SYSTEM_PROMPT = `You are a veteran Fortune 500 CEO and strategic consultant. Respond ONLY in clean GitHub-flavored Markdown — never HTML, and do NOT wrap the whole response in a code fence. Use "##" headings for sections (including one per numbered problem), "**bold**" for inline labels such as **The Exposure:**, and "---" horizontal rules between major sections. Keep it well structured and easy to read.`;
@@ -145,11 +171,13 @@ export async function POST(request: Request) {
     );
   }
 
+  const userPrompt = buildDiagnosticPrompt(text);
+
   // The exact messages sent to OpenAI — defined once and reused for both the
   // real API call and the email transcript, so the two can never drift apart.
   const messages = [
     { role: "system", content: SYSTEM_PROMPT },
-    { role: "user", content: text },
+    { role: "user", content: userPrompt },
   ];
 
   // A readable transcript of the full prompt (system + user), captured up front
@@ -219,7 +247,7 @@ export async function POST(request: Request) {
                 role: "user",
                 parts: [
                   {
-                    text: text,
+                    text: userPrompt,
                   },
                 ],
               },

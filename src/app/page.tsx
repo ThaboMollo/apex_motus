@@ -107,7 +107,10 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <HeroFlowSection />
-      <div className="h-screen" />
+      {/* Spacer matching the collapsed hero nav height; the expanded hero is
+          fixed and simply covers the content beneath it, so scrolling reveals
+          the first section immediately after collapse instead of a blank screen. */}
+      <div className="h-[72px]" />
       <main>
         <AboutSection />
         <FeaturesSection />

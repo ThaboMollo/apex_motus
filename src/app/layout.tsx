@@ -18,6 +18,7 @@ const newsreader = Newsreader({
   fallback: ["Georgia", "Times New Roman", "serif"],
 });
 
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -95,6 +96,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${newsreader.variable}`}>
+      <head>
+        {/* Funnel Sans (--font-caption) is not available via next/font in Next 14,
+            so it is loaded directly from Google Fonts. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@400;600;700&display=swap"
+        />
+      </head>
       <body className="font-body" data-theme="dark">
         <Providers>
           <div id="top">{children}</div>

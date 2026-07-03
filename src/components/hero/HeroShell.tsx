@@ -91,36 +91,12 @@ export function HeroShell() {
     collapseToSection("about");
   };
 
-  const buildDiagnosticPrompt = (facts: string): string => {
-    return `You are acting as a veteran Fortune 500 CEO and Strategic Consultant with 30 years of experience in scaling companies and navigating market disruptions. Your tone is clinical, decisive, and focused on long-term enterprise value.
-
-Task: I am going to provide you with 5 specific facts about my business. Based on these inputs, perform a high-level strategic audit.
-
-Analysis Framework:
-1. Identify the Friction: Where do these facts create immediate operational or financial bottlenecks?
-2. Predict the Blind Spots: What "second-order" consequences are invisible to most founders but obvious to an enterprise leader?
-3. Risk Mapping: Classify threats as either "Execution Risks" (internal) or "Structural Risks" (external).
-
-Output Requirements:
-Provide a summary of 5 Critical Problems (Current or Predicted). For each problem, include:
-
-The Exposure: Why this specific combination of my business facts creates a vulnerability.
-
-The CEO Perspective: A one-sentence "hard truth" regarding this problem.
-
-The Mitigating Move: One high-level strategic action to neutralize the threat.
-
-Here's the facts about the company: ${facts}`;
-  };
-
   const handleAnalyzeBusiness = async () => {
     const facts = composerText.trim();
     if (facts.length < MIN_TEXT_CHARS) {
       setAnalysisError("Please describe your business a bit more before analysing.");
       return;
     }
-
-    const text = buildDiagnosticPrompt(facts);
 
     const FALLBACK_MESSAGE =
       "We hit a snag generating your instant diagnostic, but Apex Motus has received your enquiry and will be in touch shortly.";
@@ -132,7 +108,7 @@ Here's the facts about the company: ${facts}`;
       const response = await fetch("/api/diagnostic", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text: facts }),
       });
 
       const payload = (await response.json()) as

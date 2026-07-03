@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 :root {
+  /* Loaded via <link> in layout.tsx; next/font handles --font-heading/--font-body. */
+  --font-caption: "Funnel Sans";
+
   --surface-primary: #f4f2ef;
   --surface-dark: #0a1028;
 
@@ -57,7 +60,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-family: var(--font-heading), Georgia, serif;
   letter-spacing: 0;
 }
 
@@ -108,7 +111,7 @@ h6 {
 }
 
 .monumental-heading {
-  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-family: var(--font-heading), Georgia, serif;
   font-size: var(--text-display);
   font-weight: 700;
   line-height: 1;
@@ -182,6 +185,30 @@ h6 {
   50%     { opacity: 0; }
 }
 
+/* ── Hero headline typewriter (CSS-only, SSR-visible) ── */
+.headline-char {
+  opacity: 0;
+  animation: char-in 260ms ease-out forwards;
+}
+@keyframes char-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .headline-char {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Keep anchored sections clear of the 72px collapsed hero nav */
+#about,
+#features,
+#products,
+#contact {
+  scroll-margin-top: 72px;
+}
+
 .blob {
   position: absolute;
   border-radius: 50%;
@@ -220,12 +247,12 @@ h6 {
 /* ── Diagnosis modal markdown ─────────────────────────── */
 .diagnosis-md {
   color: rgba(255, 255, 255, 0.85);
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: var(--font-body), Georgia, serif;
   font-size: 15px;
   line-height: 1.7;
 }
 .diagnosis-md h2 {
-  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-family: var(--font-heading), Georgia, serif;
   color: #ffffff;
   font-size: 22px;
   margin: 22px 0 10px;
@@ -235,7 +262,7 @@ h6 {
   margin-top: 0;
 }
 .diagnosis-md h3 {
-  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-family: var(--font-heading), Georgia, serif;
   color: #ffffff;
   font-size: 18px;
   margin: 18px 0 8px;
