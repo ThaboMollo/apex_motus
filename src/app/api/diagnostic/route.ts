@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 const MIN_TEXT_CHARS = 20;
-const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
+const OPENAI_COMPLETIONS_URL = "https://api.openai.com/v1/chat/completions";
+const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models";
 
 function extractText(payload: unknown): string | null {
   if (typeof payload !== "object" || payload === null || !("text" in payload)) {
@@ -92,8 +93,8 @@ function getOpenAiApiKey(): string | undefined {
   return process.env.OPEN_AI_API ?? process.env.OPENAI_API_KEY;
 }
 
-// Pulls a short, human-readable reason out of an OpenAI error payload (or any
-// value) for the failure-notification email.
+// Pulls a short, human-readable reason out of an AI error payload (or any
+// value) for the failure-notification email. Works for both OpenAI and Gemini error formats.
 function describeError(detail: unknown): string {
   if (typeof detail === "string") return detail;
   if (detail && typeof detail === "object") {
@@ -103,31 +104,34 @@ function describeError(detail: unknown): string {
   return "Unknown error.";
 }
 
-function extractOutputText(response: unknown): string | undefined {
+function extractOpenAiText(response: unknown): string | undefined {
   if (typeof response !== "object" || response === null) return undefined;
-
-  const maybeOutputText = (response as { output_text?: unknown }).output_text;
-  if (typeof maybeOutputText === "string") {
-    return maybeOutputText;
+  const choices = (response as { choices?: unknown }).choices;
+  if (!Array.isArray(choices) || choices.length === 0) return undefined;
+  const message = choices[0]?.message;
+  if (message && typeof message === "object" && "content" in message) {
+    const content = message.content;
+    if (typeof content === "string") {
+      return content;
+    }
   }
+  return undefined;
+}
 
-  const output = (response as { output?: unknown }).output;
-  if (!Array.isArray(output)) return undefined;
-
-  for (const item of output) {
-    if (typeof item !== "object" || item === null) continue;
-    const content = (item as { content?: unknown }).content;
-    if (!Array.isArray(content)) continue;
-
-    for (const contentItem of content) {
-      if (typeof contentItem !== "object" || contentItem === null) continue;
-      const text = (contentItem as { text?: unknown }).text;
+function extractGeminiText(response: unknown): string | undefined {
+  if (typeof response !== "object" || response === null) return undefined;
+  const candidates = (response as { candidates?: unknown }).candidates;
+  if (!Array.isArray(candidates) || candidates.length === 0) return undefined;
+  const content = candidates[0]?.content;
+  if (content && typeof content === "object" && "parts" in content) {
+    const parts = content.parts;
+    if (Array.isArray(parts) && parts.length > 0) {
+      const text = parts[0]?.text;
       if (typeof text === "string") {
         return text;
       }
     }
   }
-
   return undefined;
 }
 
@@ -153,55 +157,115 @@ export async function POST(request: Request) {
   // notifyLead combines this with the result into the email's {{message}} field.
   const prompt = messages.map((m) => `[${m.role}]\n${m.content}`).join("\n\n");
 
-  const apiKey = getOpenAiApiKey();
-  if (!apiKey) {
-    console.error("Diagnostic failed: OPEN_AI_API / OPENAI_API_KEY is not set.");
-    await notifyLead(prompt, buildUnavailableMessage("Diagnostic service is not configured (missing API key)."));
-    return NextResponse.json({ error: ENQUIRY_FALLBACK_MESSAGE }, { status: 502 });
-  }
+  let markdown: string | undefined;
+  let openAiError: string | undefined;
+  let geminiError: string | undefined;
 
-  const model = process.env.OPENAI_MODEL ?? "gpt-5.4-mini";
+  // 1. Attempt OpenAI
+  const openAiApiKey = getOpenAiApiKey();
+  if (!openAiApiKey) {
+    openAiError = "OpenAI API key is not configured.";
+  } else {
+    const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
+    try {
+      const response = await fetch(OPENAI_COMPLETIONS_URL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${openAiApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model,
+          messages,
+          max_tokens: 4000,
+        }),
+      });
 
-  let openAiResponse: unknown;
-  try {
-    const response = await fetch(OPENAI_RESPONSES_URL, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model,
-        input: messages,
-        max_output_tokens: 6000,
-      }),
-    });
+      const openAiResponse = await response.json().catch(() => null);
 
-    openAiResponse = await response.json().catch(() => null);
-
-    if (!response.ok) {
-      console.error("Diagnostic failed (AI request):", describeError(openAiResponse));
-      await notifyLead(prompt, buildUnavailableMessage(describeError(openAiResponse)));
-      return NextResponse.json({ error: ENQUIRY_FALLBACK_MESSAGE }, { status: 502 });
+      if (!response.ok) {
+        openAiError = `OpenAI API returned status ${response.status}: ${describeError(openAiResponse)}`;
+      } else {
+        const textResult = extractOpenAiText(openAiResponse);
+        if (typeof textResult === "string" && textResult.trim().length > 0) {
+          markdown = textResult.trim();
+        } else {
+          openAiError = "OpenAI returned an empty or malformed completion response.";
+        }
+      }
+    } catch (err) {
+      openAiError = err instanceof Error ? err.message : String(err);
     }
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error("Diagnostic failed (network/exception):", message);
-    await notifyLead(prompt, buildUnavailableMessage(message));
+  }
+
+  // 2. Attempt Gemini Fallback if OpenAI failed
+  if (!markdown) {
+    console.warn(`OpenAI diagnostic attempt failed. Falling back to Gemini. Error details: ${openAiError}`);
+    
+    const geminiApiKey = process.env.GEMINI_API_KEY;
+    if (!geminiApiKey) {
+      geminiError = "Gemini API key is not configured.";
+    } else {
+      const geminiModel = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+      try {
+        const response = await fetch(`${GEMINI_BASE_URL}/${geminiModel}:generateContent?key=${geminiApiKey}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: "user",
+                parts: [
+                  {
+                    text: text,
+                  },
+                ],
+              },
+            ],
+            systemInstruction: {
+              parts: [
+                {
+                  text: SYSTEM_PROMPT,
+                },
+              ],
+            },
+            generationConfig: {
+              maxOutputTokens: 4000,
+            },
+          }),
+        });
+
+        const geminiResponse = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          geminiError = `Gemini API returned status ${response.status}: ${describeError(geminiResponse)}`;
+        } else {
+          const textResult = extractGeminiText(geminiResponse);
+          if (typeof textResult === "string" && textResult.trim().length > 0) {
+            markdown = textResult.trim();
+          } else {
+            geminiError = "Gemini returned an empty or malformed completion response.";
+          }
+        }
+      } catch (err) {
+        geminiError = err instanceof Error ? err.message : String(err);
+      }
+    }
+  }
+
+  // 3. Handle outcome
+  if (!markdown) {
+    // Both failed
+    const combinedReason = `OpenAI Error: [${openAiError || "unknown"}]. Gemini Error: [${geminiError || "unknown"}].`;
+    console.error("Diagnostic generation failed for all configured AI providers:", combinedReason);
+    
+    await notifyLead(prompt, buildUnavailableMessage(combinedReason));
     return NextResponse.json({ error: ENQUIRY_FALLBACK_MESSAGE }, { status: 502 });
   }
 
-  const markdown = extractOutputText(openAiResponse);
-
-  if (typeof markdown !== "string" || markdown.trim().length === 0) {
-    console.error("Diagnostic failed: AI returned an empty or non-text response.");
-    await notifyLead(prompt, buildUnavailableMessage("AI returned an empty or non-text response."));
-    return NextResponse.json({ error: ENQUIRY_FALLBACK_MESSAGE }, { status: 502 });
-  }
-
-  // Success: forward the enquiry with the full diagnosis. notifyLead is
-  // best-effort and never throws, so an email problem can't break the result.
-  await notifyLead(prompt, markdown.trim());
-
-  return NextResponse.json({ markdown: markdown.trim() });
+  // Success (either OpenAI or Gemini)
+  await notifyLead(prompt, markdown);
+  return NextResponse.json({ markdown });
 }
