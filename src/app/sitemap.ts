@@ -1,24 +1,23 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/lib/site";
+import { SITE } from "@/content/site";
 
-const routePriorities: Array<{ path: string; priority: number }> = [
-  { path: "/", priority: 1 },
-  { path: "/services", priority: 0.85 },
-  { path: "/portfolio", priority: 0.85 },
-  { path: "/contact", priority: 0.8 },
-  { path: "/subsidiary-tseboiq", priority: 0.7 },
-  { path: "/privacy", priority: 0.4 },
-  { path: "/terms", priority: 0.4 },
-];
-
-const SITE_LAST_MODIFIED = new Date("2025-04-01");
+/*
+ * Only routes with real content belong here. Every other route is still a
+ * PlannedPage holding page, so each one sets `robots: { index: false }`
+ * itself — list a route here as soon as it carries its own content.
+ */
+/* Bump when the homepage content changes. A literal keeps the route static —
+ * `new Date()` is dynamic IO under `cacheComponents` and would make it
+ * server-rendered on every request. */
+const LAST_MODIFIED = new Date("2026-10-22");
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return routePriorities.map(({ path, priority }) => ({
-    url: `${SITE_URL}${path}`,
-    lastModified: SITE_LAST_MODIFIED,
-    changeFrequency: path === "/" ? "weekly" : "monthly",
-    priority,
-  }));
+  return [
+    {
+      url: SITE.url,
+      lastModified: LAST_MODIFIED,
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+  ];
 }
-

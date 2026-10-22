@@ -1,293 +1,329 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  /* Loaded via <link> in layout.tsx; next/font handles --font-heading/--font-body. */
-  --font-caption: "Funnel Sans";
+/* ==========================================================================
+   APEX MOTUS — design tokens
+   Source of truth for colour, type, space, motion. Components reference
+   these tokens; nothing downstream hard-codes brand values.
+   ========================================================================== */
 
-  --surface-primary: #f4f2ef;
-  --surface-dark: #0a1028;
+@theme {
+  /* Brand palette — exact values from the approved colour system */
+  --color-paper: #f5f5ed; /* Off-white  · 60% · canvas            */
+  --color-ink: #0b0b0b; /* Charcoal   · 25% · text + structure  */
+  --color-grey: #c6c6c6; /* Soft grey  · 10% · rules + surfaces  */
+  --color-lime: #e6ff19; /* Acid lime  ·  5% · signal            */
 
-  --fg-primary: #1a1a1a;
-  --fg-secondary: #4a4a4a;
-  --fg-inverse: #ffffff;
+  /* Derived (accessibility) — grey and lime are NOT text colours on paper */
+  --color-ink-soft: #4f4f4a; /* secondary text, ≥ 7:1 on paper */
+  --color-rule: #c6c6c6; /* hairlines */
+  --color-paper-deep: #ececdf; /* quiet surface, one step below paper */
+  --color-lime-deep: #cfe600; /* lime pressed state */
 
-  --navy: #0a1028;
-  --royal: #1c2ca3;
-  --gold: #d4af37;
+  /* Typography */
+  --font-display: var(--font-manrope), ui-sans-serif, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
-  --radius-none: 0px;
-  --radius-sm: 4px;
+  /* Fluid type scale (7 steps, 375 → 1440) */
+  --text-display: clamp(2.75rem, 1.5rem + 5.6vw, 6.25rem);
+  --text-display--line-height: 0.96;
+  --text-h2: clamp(2.125rem, 1.4rem + 3.2vw, 4.75rem);
+  --text-h2--line-height: 1;
+  --text-h3: clamp(1.375rem, 1.15rem + 0.9vw, 2rem);
+  --text-h3--line-height: 1.12;
+  --text-lead: clamp(1.0625rem, 0.98rem + 0.4vw, 1.3125rem);
+  --text-lead--line-height: 1.55;
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.55;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.4;
 
-  --space-xs: 8px;
-  --space-sm: 16px;
-  --space-md: 24px;
-  --space-lg: 48px;
-  --space-xl: 80px;
-  --space-2xl: 120px;
+  /* Layout */
+  --container-page: 90rem;
+  --spacing-gutter: clamp(1.25rem, 0.5rem + 3vw, 3.5rem);
+  --spacing-section: clamp(5rem, 3rem + 8vw, 11rem);
 
-  --text-caption: 11px;
-  --text-body-sm: 14px;
-  --text-body: 16px;
-  --text-body-lg: 18px;
-  --text-subhead: 20px;
-  --text-h3: 26px;
-  --text-h2: 42px;
-  --text-display: clamp(72px, 13vw, 190px);
+  /* Motion */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 160ms;
+  --duration-base: 260ms;
+  --duration-slow: 700ms;
 }
 
-* {
-  box-sizing: border-box;
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  -webkit-text-size-adjust: 100%;
 }
 
-html,
 body {
-  margin: 0;
-  min-height: 100%;
+  background: var(--color-paper);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
-body {
-  background: var(--surface-primary);
-  color: var(--fg-primary);
-  font-family: var(--font-body), Georgia, serif;
-  line-height: 1.6;
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading), Georgia, serif;
-  letter-spacing: 0;
+/* One focus language everywhere: 2px ink ring, lime halo for separation */
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 5px var(--color-lime);
 }
 
-.hero-shell {
-  position: fixed;
-  inset: 0 0 auto 0;
-  width: 100%;
-  z-index: 50;
-  overflow: hidden;
-  transition: height 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.on-ink :focus-visible {
+  outline-color: var(--color-paper);
+  box-shadow: 0 0 0 5px var(--color-ink);
 }
 
-.hero-shell.hero-expanded,
-.hero-shell.hero-precollapse {
-  height: 100svh;
+/* ==========================================================================
+   Brand utilities
+   ========================================================================== */
+
+/* Mono section identifier / metadata */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-.hero-shell.hero-precollapse {
-  animation: hero-clunk 180ms ease-out;
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
 }
 
-.hero-shell.hero-collapsed {
-  height: 72px;
-  backdrop-filter: blur(12px);
-  background: rgba(10, 16, 40, 0.92);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+.h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+  letter-spacing: -0.045em;
+  text-wrap: balance;
 }
 
-.hero-body {
-  transition: opacity 250ms ease-out;
-}
-
-.hero-shell.hero-collapsed .hero-body {
-  opacity: 0;
-  pointer-events: none;
-}
-
-@keyframes hero-clunk {
-  0% {
-    transform: translateY(0) scale(1);
-  }
-  35% {
-    transform: translateY(10px) scale(1.01);
-  }
-  100% {
-    transform: translateY(-8px) scale(0.985);
-  }
-}
-
-.monumental-heading {
-  font-family: var(--font-heading), Georgia, serif;
-  font-size: var(--text-display);
+.h3 {
+  font-family: var(--font-display);
   font-weight: 700;
-  line-height: 1;
-  color: var(--fg-primary);
-  text-align: center;
-  width: calc(100% + 100px);
-  margin-left: -50px;
-  white-space: nowrap;
-  overflow: visible;
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+.lead {
+  font-size: var(--text-lead);
+  line-height: var(--text-lead--line-height);
+  color: var(--color-ink-soft);
+  text-wrap: pretty;
+}
+
+/* The signature full stop: a lime square at the baseline */
+.period {
+  display: inline-block;
+  width: 0.15em;
+  height: 0.15em;
+  margin-left: 0.04em;
+  background: var(--color-lime);
+  vertical-align: baseline;
+}
+
+/* Text underline that draws in on hover */
+.link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size var(--duration-base) var(--ease-out-quart);
+}
+.link-draw:hover,
+.link-draw:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* ==========================================================================
+   Motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
-}
 
-@media (max-width: 1024px) {
-  .monumental-heading {
-    width: 100%;
-    margin-left: 0;
-    white-space: normal;
-    overflow-wrap: anywhere;
+  @keyframes lift {
+    from {
+      transform: translateY(1rem);
+    }
+    to {
+      transform: none;
+    }
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-shell,
-  .hero-body,
-  .hero-shell.hero-precollapse {
-    animation: none;
-    transition: none;
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(-3.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
-}
 
-::-webkit-scrollbar {
-  width: 10px;
-}
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
 
-::-webkit-scrollbar-track {
-  background: #e7e3de;
-}
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
-::-webkit-scrollbar-thumb {
-  background: #a6a098;
-  border-radius: 5px;
-}
+  .anim-rise {
+    animation: rise var(--duration-slow) var(--ease-out-quart) both;
+    animation-delay: calc(var(--i, 0) * 90ms);
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #8d8780;
-}
+  /* Transform-only entrance for the LCP headline: never starts invisible */
+  .anim-lift {
+    animation: lift var(--duration-slow) var(--ease-out-quart) both;
+  }
 
-/* ── Aurora background blobs ─────────────────────────── */
-@keyframes drift1 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  33%      { transform: translate(40px,-30px) scale(1.08); }
-  66%      { transform: translate(-25px,45px) scale(0.95); }
-}
-@keyframes drift2 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  33%      { transform: translate(-50px,35px) scale(1.12); }
-  66%      { transform: translate(30px,-20px) scale(0.93); }
-}
-@keyframes drift3 {
-  0%,100% { transform: translate(0,0) scale(1); }
-  33%      { transform: translate(20px,50px) scale(0.97); }
-  66%      { transform: translate(-40px,-30px) scale(1.06); }
-}
-@keyframes blink {
-  0%,100% { opacity: 1; }
-  50%     { opacity: 0; }
-}
+  .anim-fade {
+    animation: fade var(--duration-slow) var(--ease-standard) both;
+    animation-delay: calc(var(--i, 0) * 90ms);
+  }
 
-/* ── Hero headline typewriter (CSS-only, SSR-visible) ── */
-.headline-char {
-  opacity: 0;
-  animation: char-in 260ms ease-out forwards;
-}
-@keyframes char-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .headline-char {
-    animation: none;
+  .anim-slide {
+    animation: slide-in 900ms var(--ease-out-quart) both;
+    animation-delay: calc(250ms + var(--i, 0) * 110ms);
+  }
+
+  .anim-draw {
+    stroke-dasharray: var(--len, 1200);
+    stroke-dashoffset: var(--len, 1200);
+    animation: draw 1400ms var(--ease-out-quart) forwards;
+    animation-delay: calc(var(--i, 0) * 120ms);
+  }
+
+  /* Scroll reveal — state applied by <Reveal/> only to below-the-fold nodes */
+  [data-reveal="pending"] {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  [data-reveal="in"] {
     opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--duration-slow) var(--ease-out-quart),
+      transform var(--duration-slow) var(--ease-out-quart);
+    transition-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  /* Capsule meters fill when revealed */
+  .capsule-fill {
+    transform-origin: left center;
+    transition: transform 1100ms var(--ease-out-quart);
+    transition-delay: calc(200ms + var(--i, 0) * 140ms);
+  }
+  [data-reveal="pending"] .capsule-fill {
+    transform: scaleX(0);
   }
 }
 
-/* Keep anchored sections clear of the 72px collapsed hero nav */
-#about,
-#features,
-#products,
-#contact {
-  scroll-margin-top: 72px;
-}
-
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(70px);
-  pointer-events: none;
-}
-.blob-1 {
-  width: 520px;
-  height: 380px;
-  background: radial-gradient(ellipse, rgba(28,44,163,0.55) 0%, transparent 70%);
-  top: -10%;
-  left: -8%;
-  animation: drift1 14s ease-in-out infinite;
-}
-.blob-2 {
-  width: 460px;
-  height: 340px;
-  background: radial-gradient(ellipse, rgba(100,40,160,0.45) 0%, transparent 70%);
-  bottom: -5%;
-  right: -6%;
-  animation: drift2 18s ease-in-out infinite;
-}
-.blob-3 {
-  width: 340px;
-  height: 300px;
-  background: radial-gradient(ellipse, rgba(212,175,55,0.12) 0%, transparent 70%);
-  top: 30%;
-  right: 10%;
-  animation: drift3 22s ease-in-out infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .blob { animation: none; }
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-/* ── Diagnosis modal markdown ─────────────────────────── */
-.diagnosis-md {
-  color: rgba(255, 255, 255, 0.85);
-  font-family: var(--font-body), Georgia, serif;
-  font-size: 15px;
-  line-height: 1.7;
+/* Problem section — hovering a challenge lights its node in the diagram.
+   Pure CSS via :has(); the diagram degrades to static where unsupported. */
+.problem-node {
+  transition: opacity var(--duration-base) var(--ease-standard);
 }
-.diagnosis-md h2 {
-  font-family: var(--font-heading), Georgia, serif;
-  color: #ffffff;
-  font-size: 22px;
-  margin: 22px 0 10px;
+.problem:has([data-row]:hover) .problem-node,
+.problem:has([data-row]:focus-within) .problem-node {
+  opacity: 0.35;
 }
-.diagnosis-md h2:first-child,
-.diagnosis-md h3:first-child {
-  margin-top: 0;
+.problem:has([data-row="1"]:hover) [data-node="1"],
+.problem:has([data-row="2"]:hover) [data-node="2"],
+.problem:has([data-row="3"]:hover) [data-node="3"],
+.problem:has([data-row="4"]:hover) [data-node="4"],
+.problem:has([data-row="5"]:hover) [data-node="5"],
+.problem:has([data-row="6"]:hover) [data-node="6"],
+.problem:has([data-row="1"]:focus-within) [data-node="1"],
+.problem:has([data-row="2"]:focus-within) [data-node="2"],
+.problem:has([data-row="3"]:focus-within) [data-node="3"],
+.problem:has([data-row="4"]:focus-within) [data-node="4"],
+.problem:has([data-row="5"]:focus-within) [data-node="5"],
+.problem:has([data-row="6"]:focus-within) [data-node="6"] {
+  opacity: 1;
 }
-.diagnosis-md h3 {
-  font-family: var(--font-heading), Georgia, serif;
-  color: #ffffff;
-  font-size: 18px;
-  margin: 18px 0 8px;
+.problem:has([data-row="1"]:hover) [data-node="1"] .node-body,
+.problem:has([data-row="2"]:hover) [data-node="2"] .node-body,
+.problem:has([data-row="3"]:hover) [data-node="3"] .node-body,
+.problem:has([data-row="4"]:hover) [data-node="4"] .node-body,
+.problem:has([data-row="5"]:hover) [data-node="5"] .node-body,
+.problem:has([data-row="6"]:hover) [data-node="6"] .node-body {
+  fill: var(--color-lime);
+  stroke: var(--color-lime);
 }
-.diagnosis-md p {
-  margin: 0 0 12px;
+
+.node-num {
+  fill: var(--color-paper);
+  transition: fill var(--duration-base) var(--ease-standard);
 }
-.diagnosis-md strong {
-  color: #d4af37;
-  font-weight: 600;
+.problem:has([data-row="1"]:hover) [data-node="1"] .node-num,
+.problem:has([data-row="2"]:hover) [data-node="2"] .node-num,
+.problem:has([data-row="3"]:hover) [data-node="3"] .node-num,
+.problem:has([data-row="4"]:hover) [data-node="4"] .node-num,
+.problem:has([data-row="5"]:hover) [data-node="5"] .node-num,
+.problem:has([data-row="6"]:hover) [data-node="6"] .node-num {
+  fill: var(--color-ink);
 }
-.diagnosis-md ul,
-.diagnosis-md ol {
-  margin: 0 0 12px;
-  padding-left: 20px;
-}
-.diagnosis-md li {
-  margin: 0 0 6px;
-}
-.diagnosis-md hr {
-  border: none;
-  border-top: 1px dashed rgba(212, 175, 55, 0.4);
-  margin: 18px 0;
-}
-.diagnosis-md a {
-  color: #22d3ee;
-  text-decoration: underline;
+.problem-node .node-body {
+  transition:
+    fill var(--duration-base) var(--ease-standard),
+    stroke var(--duration-base) var(--ease-standard);
 }

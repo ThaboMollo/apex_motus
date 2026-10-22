@@ -1,20 +1,16 @@
-"use client";
+import type { Metadata } from "next";
+import { PlannedPage } from "@/components/ui/PlannedPage";
+import { PLANNED_ROUTES } from "@/content/site";
 
-import ContactForm from "@/components/ContactForm";
+const route = PLANNED_ROUTES.contact;
 
-export default function Contact() {
-  return (
-    <section className="py-20">
-      <div className="container mx-auto px-5 max-w-7xl">
-        <div className="mb-12 text-center">
-          <h1 className="font-heading font-bold text-4xl md:text-5xl mb-4">Contact</h1>
-          <p className="text-slate text-lg max-w-2xl mx-auto">
-            Use the form below. We respond to relevant partnership and portfolio conversations.
-          </p>
-        </div>
+// Holding page: real content lands in a later phase, so keep it out of the index.
+export const metadata: Metadata = {
+  title: route.title,
+  description: route.summary,
+  robots: { index: false, follow: true },
+};
 
-        <ContactForm />
-      </div>
-    </section>
-  );
+export default function Page() {
+  return <PlannedPage title={route.title} summary={route.summary} />;
 }

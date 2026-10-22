@@ -1,50 +1,50 @@
 import type { Metadata, Viewport } from "next";
-import { Newsreader, Playfair_Display } from "next/font/google";
+import { Inter, IBM_Plex_Mono, Manrope } from "next/font/google";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { SiteJsonLd } from "@/components/seo/JsonLd";
+import { SITE } from "@/content/site";
 import "./globals.css";
-import { Providers } from "./providers";
-import { DEFAULT_OG_IMAGE_PATH, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
-const playfair = Playfair_Display({
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
-  variable: "--font-heading",
+  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
-const newsreader = Newsreader({
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  variable: "--font-body",
   display: "swap",
-  adjustFontFallback: false,
-  fallback: ["Georgia", "Times New Roman", "serif"],
 });
 
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+});
+
+const TITLE = "Apex Motus — Turning ambition into motion";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: "Apex Motus | Business Growth Advisory — South Africa",
-    template: "%s | Apex Motus",
+  metadataBase: new URL(SITE.url),
+  title: { default: TITLE, template: "%s — Apex Motus" },
+  description: SITE.description,
+  applicationName: SITE.name,
+  creator: SITE.name,
+  publisher: SITE.name,
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    title: TITLE,
+    description: SITE.description,
+    locale: "en_ZA",
+    url: SITE.url,
   },
-  description: SITE_DESCRIPTION,
-  applicationName: SITE_NAME,
-  authors: [{ name: SITE_NAME }],
-  creator: SITE_NAME,
-  publisher: SITE_NAME,
-  category: "business",
-  keywords: [
-    "Apex Motus",
-    "business growth South Africa",
-    "business restructuring South Africa",
-    "operations consulting",
-    "business advisory South Africa",
-    "strategic advisory",
-    "SME growth",
-    "business bottleneck removal",
-    "execution advisory",
-  ],
-  alternates: {
-    canonical: "/",
-  },
+  twitter: { card: "summary_large_image", title: TITLE, description: SITE.description },
+  // Holding pages override this with `index: false` — see their own metadata.
   robots: {
     index: true,
     follow: true,
@@ -56,60 +56,29 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  openGraph: {
-    title: "Apex Motus | Business Growth Advisory — South Africa",
-    description: SITE_DESCRIPTION,
-    type: "website",
-    siteName: SITE_NAME,
-    locale: "en_ZA",
-    url: SITE_URL,
-    images: [
-      {
-        url: DEFAULT_OG_IMAGE_PATH,
-        width: 1200,
-        height: 630,
-        alt: "Apex Motus — Business Growth Advisory, South Africa",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Apex Motus | Business Growth Advisory — South Africa",
-    description: SITE_DESCRIPTION,
-    images: [DEFAULT_OG_IMAGE_PATH],
-  },
-  icons: {
-    icon: [{ url: "/apex_motus_icon.ico" }],
-    shortcut: ["/apex_motus_icon.ico"],
-    apple: [{ url: "/apex_motus_icon_no_bg.png" }],
-  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a1028",
+  themeColor: "#F5F5ED",
+  colorScheme: "light",
+  width: "device-width",
+  initialScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${playfair.variable} ${newsreader.variable}`}>
-      <head>
-        {/* Funnel Sans (--font-caption) is not available via next/font in Next 14,
-            so it is loaded directly from Google Fonts. */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@400;600;700&display=swap"
-        />
-      </head>
-      <body className="font-body" data-theme="dark">
-        <Providers>
-          <div id="top">{children}</div>
-        </Providers>
+    <html lang="en-ZA" className={`${manrope.variable} ${inter.variable} ${plexMono.variable}`}>
+      <body>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:border focus:border-ink focus:bg-lime focus:px-4 focus:py-3 focus:text-sm focus:font-semibold"
+        >
+          Skip to content
+        </a>
+        <Header />
+        <main id="main">{children}</main>
+        <Footer />
+        <SiteJsonLd />
       </body>
     </html>
   );
