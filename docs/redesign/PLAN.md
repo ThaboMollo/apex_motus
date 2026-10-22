@@ -8,7 +8,7 @@ Status: implemented on `dev`. This document records the plan that the build foll
 |---|---|
 | Supplied brand boards (10 images) | Wordmark, PX monogram, palette, type system, logo usage rules, pillars, website direction, stationery. Boards are **visual references**; only images 1 and 2 are logo artwork. |
 | Logo files | Raster only (PNG on a ~#FBFBFB canvas, 1145×1374). **No vector or transparent masters were supplied.** |
-| Live site (apexmotus.co.za) | Describes itself as a growth advisory firm / holding company. Lists ClinicOS, ScanYa, tseboIQ. Only public contact: `apex.motus.inc@gmail.com`. No phone, address, leadership or legal pages. |
+| Live site (apexmotus.co.za) | Describes itself as a growth advisory firm / holding company. Lists ClinicOS, ScanYa, tseboIQ. Only public contact: `products@apexmotus.co.za`. No phone, address, leadership or legal pages. |
 | Nental proposal + plan preview | Confirms Apex Motus builds working operational products; copy and front-end direction owned by Nental. No client names or outcomes disclosed. |
 | ClinicOS build spec (`02_Research`) | MVP modules: scheduling, patient records, billing. Single pilot clinic. |
 | Product URLs | `scanya.vercel.app` renders only the title "scanYa". `clinic-os-ui…/c/bahaleng-health-center` returned 404 to a server fetch. `tseboiq` returns only a `<title>`. **No product claim beyond the live-site one-liners could be verified.** |

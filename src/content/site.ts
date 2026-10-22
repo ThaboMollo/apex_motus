@@ -16,7 +16,7 @@ export const SITE = {
   description:
     "Apex Motus is a South African business transformation and execution partner. We help growing businesses overcome operational complexity through strategic redesign, intelligent systems and hands-on implementation.",
   /** Only contact detail published on the current apexmotus.co.za (verified). */
-  email: "apex.motus.inc@gmail.com",
+  email: "products@apexmotus.co.za",
   /** Where "Discuss your challenge" enquiries are delivered. */
   enquiryEmail: "products@apexmotus.co.za",
 } as const;

@@ -701,10 +701,10 @@ export default function ContactSection() {
             existing programme, we align technology with your ambitions.
           </p>
           <a
-            href="mailto:apex.motus.inc@gmail.com"
+            href="mailto:products@apexmotus.co.za"
             className="font-caption text-[13px] tracking-[.1em] text-navy hover:text-royal transition-colors"
           >
-            apex.motus.inc@gmail.com
+            products@apexmotus.co.za
           </a>
         </div>
 
@@ -755,7 +755,7 @@ export async function POST(req: Request) {
   const { name, email } = await req.json();
   await resend.emails.send({
     from: "contact@apexmotus.com",
-    to: "apex.motus.inc@gmail.com",
+    to: "products@apexmotus.co.za",
     subject: `New enquiry from ${name}`,
     html: `<p><strong>${name}</strong> (${email}) sent an enquiry via the website.</p>`,
   });
